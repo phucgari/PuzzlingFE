@@ -11,7 +11,7 @@ function Categories(props) {
                 >
                     <div className="box-part text-center shadow">
                         <img
-                            src="images/category/sports.png"
+                            src="/images/category/sports.png"
                             className="img-fluid mx-auto d-block animated wow jello slow infinite"
                             alt="..."
                         />
@@ -27,7 +27,7 @@ function Categories(props) {
                 >
                     <div className="box-part text-center shadow">
                         <img
-                            src="images/category/music.png"
+                            src="/images/category/music.png"
                             className="img-fluid mx-auto d-block animated wow tada slow infinite"
                             alt="..."
                         />
@@ -43,7 +43,7 @@ function Categories(props) {
                 >
                     <div className="box-part text-center shadow">
                         <img
-                            src="images/category/history.png"
+                            src="/images/category/history.png"
                             className="img-fluid mx-auto d-block animated wow rotateIn slower infinite"
                             alt="..."
                         />
@@ -59,7 +59,7 @@ function Categories(props) {
                 >
                     <div className="box-part text-center shadow">
                         <img
-                            src="images/category/agriculture.png"
+                            src="/images/category/agriculture.png"
                             className="img-fluid mx-auto d-block animated wow jello slower infinite"
                             alt="..."
                         />
@@ -75,7 +75,7 @@ function Categories(props) {
                 >
                     <div className="box-part text-center shadow">
                         <img
-                            src="images/category/science.png"
+                            src="/images/category/science.png"
                             className="img-fluid mx-auto d-block animated wow rotateIn slow infinite"
                             alt="..."
                         />
@@ -91,7 +91,7 @@ function Categories(props) {
                 >
                     <div className="box-part text-center shadow">
                         <img
-                            src="images/category/agriculture.png"
+                            src="/images/category/agriculture.png"
                             className="img-fluid mx-auto d-block animated wow jello slower infinite"
                             alt="..."
                         />
@@ -107,7 +107,7 @@ function Categories(props) {
                 >
                     <div className="box-part text-center shadow">
                         <img
-                            src="images/category/science.png"
+                            src="/images/category/science.png"
                             className="img-fluid mx-auto d-block animated wow rotateIn slower infinite"
                             alt="..."
                         />
@@ -123,7 +123,7 @@ function Categories(props) {
                 >
                     <div className="box-part text-center shadow">
                         <img
-                            src="images/category/sports.png"
+                            src="/images/category/sports.png"
                             className="img-fluid mx-auto d-block animated wow jello slow infinite"
                             alt="..."
                         />
@@ -139,7 +139,7 @@ function Categories(props) {
                 >
                     <div className="box-part text-center shadow">
                         <img
-                            src="images/category/music.png"
+                            src="/images/category/music.png"
                             className="img-fluid mx-auto d-block animated wow tada slow infinite"
                             alt="..."
                         />
@@ -155,7 +155,7 @@ function Categories(props) {
                 >
                     <div className="box-part text-center shadow">
                         <img
-                            src="images/category/history.png"
+                            src="/images/category/history.png"
                             className="img-fluid mx-auto d-block animated wow rotateIn slower infinite"
                             alt="..."
                         />
