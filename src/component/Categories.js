@@ -11,7 +11,7 @@ function Categories(props) {
                 >
                     <div className="box-part text-center shadow">
                         <img
-                            src="images/category/sports.png"
+                            src="/images/category/sports.png"
                             className="img-fluid mx-auto d-block animated wow jello slow infinite"
                             alt="..."
                         />
@@ -27,7 +27,7 @@ function Categories(props) {
                 >
                     <div className="box-part text-center shadow">
                         <img
-                            src="images/category/music.png"
+                            src="/images/category/music.png"
                             className="img-fluid mx-auto d-block animated wow tada slow infinite"
                             alt="..."
                         />
