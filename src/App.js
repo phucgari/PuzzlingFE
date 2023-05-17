@@ -1,8 +1,15 @@
+import SideNavBar from "./component/SideNavBar";
+import {Route, Routes} from "react-router-dom";
+import HomePage from "./component/HomePage";
 
 function App() {
+
   return (
-    <div>
-      hello
+    <div className="home-bg" >
+        <SideNavBar/>
+        <Routes>
+            <Route path="/" element={<HomePage/>} />
+        </Routes>
     </div>
   );
 }
