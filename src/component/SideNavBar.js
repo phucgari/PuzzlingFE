@@ -20,7 +20,7 @@ function SideNavBar(props) {
                 </a>
                 <a href="profile.html" className="">
                     <img
-                        src="images/user.png"
+                        src="/images/user.png"
                         className="user-profile shadow img-fluid rounded-circle ml-3"
                     />
                 </a>
