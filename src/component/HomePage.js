@@ -27,14 +27,14 @@ function HomePage(props) {
                     <div className="col-lg-1" />
                     <div className="col-lg-5">
                         <img
-                            src="images/right-img.png"
+                            src="/images/right-img.png"
                             className="img-fluid animated wow pulse slow infinite"
                         />
                     </div>
                 </div>
                 <div className="float-left ml-5">
                     <img
-                        src="images/bottom-img.png"
+                        src="/images/bottom-img.png"
                         className="img-fluid animated wow swing slower infinite"
                     />
                 </div>

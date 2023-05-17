@@ -62,11 +62,11 @@ function SideNavBar(props) {
             <nav className="navbar navbar-expand-lg">
                 <div className="container">
                     <span className="menu" onClick={openNav}>
-                        <img src="images/menu.png"/>
+                        <img src="/images/menu.png"/>
                     </span>
                     <a className="zIndex-1 ml-n5 mr-5" href="#">
                         <img
-                            src="images/logo.png"
+                            src="/images/logo.png"
                             className="d-none d-sm-none d-md-block ml-n5 mr-5"
                         />
                     </a>
@@ -147,7 +147,7 @@ function SideNavBar(props) {
                                             />
                                             <div className="input-group-append z-Index-2">
                                             <span>
-                                                <img src="images/right-icon.png" className="ml-n6"/>
+                                                <img src="/images/right-icon.png" className="ml-n6"/>
                                                 <i className="fa fa-user-o ml-n4-1 text-white"/>
                                             </span>
                                             </div>
@@ -155,7 +155,7 @@ function SideNavBar(props) {
                                         <div className="form-group input-group w-75 animated wow fadeInDown delay-0-2s">
                                             <div className="input-group-prepend z-Index-2">
                                             <span>
-                                                <img src="images/left-icon.png"/>
+                                                <img src="/images/left-icon.png"/>
                                                 <i className="fa fa-key ml-n4-2 text-white"/>
                                             </span>
                                             </div>
@@ -264,7 +264,7 @@ function SideNavBar(props) {
                                                 className="col-lg-6 form-group input-group w-75 animated wow fadeInDown delay-0-1s">
                                                 <div className="input-group-prepend z-Index-2">
                                                 <span>
-                                                    <img src="images/left-icon.png"/>
+                                                    <img src="/images/left-icon.png"/>
                                                     <i className="fa fa-user-o zIndex-2 ml-n4-2 text-white"/>
                                                 </span>
                                                 </div>
@@ -280,7 +280,7 @@ function SideNavBar(props) {
                                                 className="col-lg-6 form-group input-group w-75 animated wow fadeInDown delay-0-2s">
                                                 <div className="input-group-prepend z-Index-2">
                                                 <span>
-                                                    <img src="images/right-icon.png" className="rotate-180"/>
+                                                    <img src="/images/right-icon.png" className="rotate-180"/>
                                                     <i className="fa fa-envelope zIndex-2 ml-n4-2 text-white rotate-n0"/>
                                                 </span>
                                                 </div>
@@ -296,7 +296,7 @@ function SideNavBar(props) {
                                                 className="col-lg-6 form-group input-group w-75 animated wow fadeInDown delay-0-3s">
                                                 <div className="input-group-prepend z-Index-2">
                                                 <span>
-                                                    <img src="images/right-icon.png" className="rotate-180"/>
+                                                    <img src="/images/right-icon.png" className="rotate-180"/>
                                                     <i className="fa fa-key rotate-n0 zIndex-2 ml-n4-2 text-white"/>
                                                 </span>
                                                 </div>
@@ -312,7 +312,7 @@ function SideNavBar(props) {
                                                 className="col-lg-6 form-group input-group w-75 animated wow fadeInDown delay-0-4s">
                                                 <div className="input-group-prepend z-Index-2">
                                                 <span>
-                                                    <img src="images/left-icon.png"/>
+                                                    <img src="/images/left-icon.png"/>
                                                     <i className="fa fa-key zIndex-2 ml-n4-2 text-white"/>
                                                 </span>
                                                 </div>
