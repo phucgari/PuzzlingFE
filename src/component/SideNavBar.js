@@ -247,14 +247,14 @@ function SideNavBar(props) {
                         </div>
                         <div className="modal-body">
                             <Formik initialValues={{
-                                username:"",
-                                password:"",
-                                confirmPassword:"",
-                                user:{
-                                    email:""
+                                username: "",
+                                password: "",
+                                confirmPassword: "",
+                                user: {
+                                    email: ""
                                 },
-                                role:{
-                                    id:2
+                                role: {
+                                    id: 2
                                 }
                             }}>
                                 <Form>
