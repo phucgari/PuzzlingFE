@@ -67,7 +67,7 @@ function SideNavBar(props) {
                     <i className="fa fa-user-o text-white mr-3"/>
                     My Profile
                 </a>
-                <a href="#">
+                <a href="#" onClick={logout}>
                     <i className="fa fa-power-off text-white mr-3"/>
                     Logout
                 </a>
@@ -111,7 +111,7 @@ function SideNavBar(props) {
                             </div>
                         </li>
                     </ul>}
-                    {account !== null && <p>Hello </p>}
+                    {account !== null}
                 </div>
             </nav>
             {/*Login Modal*/}
@@ -136,7 +136,7 @@ function SideNavBar(props) {
                             </span>
                         </center>
                         <div className="modal-header border-0 p-0">
-                            <button
+                            <button onClick={closeLogin}
                                 type="submit"
                                 className="close"
                                 data-dismiss="modal"
@@ -217,8 +217,7 @@ function SideNavBar(props) {
                                 </button>
                                 <p className="text-center color-dark mt-3 animated wow fadeInUp delay-0-3s">
                                     Don't have an account?{" "}
-                                    <a
-                                        href=""
+                                    <a onClick={openSignUp}
                                         // data-dismiss="modal"
                                         className="color-blue"
                                         // data-toggle="modal"
@@ -257,6 +256,7 @@ function SideNavBar(props) {
                         </center>
                         <div className="modal-header border-0 p-0">
                             <button
+                                onClick={closeSignUp}
                                 type="button"
                                 className="close"
                                 data-dismiss="modal"
@@ -387,15 +387,14 @@ function SideNavBar(props) {
                                     </button>
                                     <p className="text-center color-dark mt-3 animated wow fadeInUp delay-0-6s">
                                         Already have an account?{" "}
-                                        <a
-                                            href=""
-                                            data-dismiss="modal"
-                                            className="color-purple"
-                                            data-toggle="modal"
-                                            data-target="#loginModal"
-                                            data-whatever=""
+                                        <a onClick={openLogin}
+                                            // data-dismiss="modal"
+                                           className="color-blue"
+                                            // data-toggle="modal"
+                                            // data-target="#signUpModal"
+                                            // data-whatever=""
                                         >
-                                            Login
+                                            LogIn
                                         </a>{" "}
                                     </p>
                                 </center>
@@ -439,6 +438,8 @@ function SideNavBar(props) {
         localStorage.removeItem('account');
         setIsLoggedIn(false);
         alert('Đăng xuất thành công.');
+        openLogin()
+        // openSignUp()
     }
 
     function openSignUp(){
