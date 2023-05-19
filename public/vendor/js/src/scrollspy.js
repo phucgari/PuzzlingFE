@@ -89,6 +89,25 @@ class ScrollSpy {
 
     // Public
 
+    static _jQueryInterface(config) {
+        return this.each(function () {
+            let data = $(this).data(DATA_KEY)
+            const _config = typeof config === 'object' && config
+
+            if (!data) {
+                data = new ScrollSpy(this, _config)
+                $(this).data(DATA_KEY, data)
+            }
+
+            if (typeof config === 'string') {
+                if (typeof data[config] === 'undefined') {
+                    throw new TypeError(`No method named "${config}"`)
+                }
+                data[config]()
+            }
+        })
+    }
+
     refresh() {
         const autoMethod = this._scrollElement === this._scrollElement.window ?
             METHOD_OFFSET : METHOD_POSITION
@@ -135,6 +154,8 @@ class ScrollSpy {
             })
     }
 
+    // Private
+
     dispose() {
         $.removeData(this._element, DATA_KEY)
         $(this._scrollElement).off(EVENT_KEY)
@@ -148,8 +169,6 @@ class ScrollSpy {
         this._activeTarget = null
         this._scrollHeight = null
     }
-
-    // Private
 
     _getConfig(config) {
         config = {
@@ -260,31 +279,12 @@ class ScrollSpy {
         })
     }
 
+    // Static
+
     _clear() {
         [].slice.call(document.querySelectorAll(this._selector))
             .filter((node) => node.classList.contains(CLASS_NAME_ACTIVE))
             .forEach((node) => node.classList.remove(CLASS_NAME_ACTIVE))
-    }
-
-    // Static
-
-    static _jQueryInterface(config) {
-        return this.each(function() {
-            let data = $(this).data(DATA_KEY)
-            const _config = typeof config === 'object' && config
-
-            if (!data) {
-                data = new ScrollSpy(this, _config)
-                $(this).data(DATA_KEY, data)
-            }
-
-            if (typeof config === 'string') {
-                if (typeof data[config] === 'undefined') {
-                    throw new TypeError(`No method named "${config}"`)
-                }
-                data[config]()
-            }
-        })
     }
 }
 

@@ -110,244 +110,8 @@ class Dropdown {
 
     // Public
 
-    toggle() {
-        if (this._element.disabled || $(this._element).hasClass(CLASS_NAME_DISABLED)) {
-            return
-        }
-
-        const isActive = $(this._menu).hasClass(CLASS_NAME_SHOW)
-
-        Dropdown._clearMenus()
-
-        if (isActive) {
-            return
-        }
-
-        this.show(true)
-    }
-
-    show(usePopper = false) {
-        if (this._element.disabled || $(this._element).hasClass(CLASS_NAME_DISABLED) || $(this._menu).hasClass(CLASS_NAME_SHOW)) {
-            return
-        }
-
-        const relatedTarget = {
-            relatedTarget: this._element
-        }
-        const showEvent = $.Event(EVENT_SHOW, relatedTarget)
-        const parent = Dropdown._getParentFromElement(this._element)
-
-        $(parent).trigger(showEvent)
-
-        if (showEvent.isDefaultPrevented()) {
-            return
-        }
-
-        // Disable totally Popper.js for Dropdown in Navbar
-        if (!this._inNavbar && usePopper) {
-            /**
-             * Check for Popper dependency
-             * Popper - https://popper.js.org
-             */
-            if (typeof Popper === 'undefined') {
-                throw new TypeError('Bootstrap\'s dropdowns require Popper.js (https://popper.js.org/)')
-            }
-
-            let referenceElement = this._element
-
-            if (this._config.reference === 'parent') {
-                referenceElement = parent
-            } else if (Util.isElement(this._config.reference)) {
-                referenceElement = this._config.reference
-
-                // Check if it's jQuery element
-                if (typeof this._config.reference.jquery !== 'undefined') {
-                    referenceElement = this._config.reference[0]
-                }
-            }
-
-            // If boundary is not `scrollParent`, then set position to `static`
-            // to allow the menu to "escape" the scroll parent's boundaries
-            // https://github.com/twbs/bootstrap/issues/24251
-            if (this._config.boundary !== 'scrollParent') {
-                $(parent).addClass(CLASS_NAME_POSITION_STATIC)
-            }
-            this._popper = new Popper(referenceElement, this._menu, this._getPopperConfig())
-        }
-
-        // If this is a touch-enabled device we add extra
-        // empty mouseover listeners to the body's immediate children;
-        // only needed because of broken event delegation on iOS
-        // https://www.quirksmode.org/blog/archives/2014/02/mouse_event_bub.html
-        if ('ontouchstart' in document.documentElement &&
-            $(parent).closest(SELECTOR_NAVBAR_NAV).length === 0) {
-            $(document.body).children().on('mouseover', null, $.noop)
-        }
-
-        this._element.focus()
-        this._element.setAttribute('aria-expanded', true)
-
-        $(this._menu).toggleClass(CLASS_NAME_SHOW)
-        $(parent)
-            .toggleClass(CLASS_NAME_SHOW)
-            .trigger($.Event(EVENT_SHOWN, relatedTarget))
-    }
-
-    hide() {
-        if (this._element.disabled || $(this._element).hasClass(CLASS_NAME_DISABLED) || !$(this._menu).hasClass(CLASS_NAME_SHOW)) {
-            return
-        }
-
-        const relatedTarget = {
-            relatedTarget: this._element
-        }
-        const hideEvent = $.Event(EVENT_HIDE, relatedTarget)
-        const parent = Dropdown._getParentFromElement(this._element)
-
-        $(parent).trigger(hideEvent)
-
-        if (hideEvent.isDefaultPrevented()) {
-            return
-        }
-
-        if (this._popper) {
-            this._popper.destroy()
-        }
-
-        $(this._menu).toggleClass(CLASS_NAME_SHOW)
-        $(parent)
-            .toggleClass(CLASS_NAME_SHOW)
-            .trigger($.Event(EVENT_HIDDEN, relatedTarget))
-    }
-
-    dispose() {
-        $.removeData(this._element, DATA_KEY)
-        $(this._element).off(EVENT_KEY)
-        this._element = null
-        this._menu = null
-        if (this._popper !== null) {
-            this._popper.destroy()
-            this._popper = null
-        }
-    }
-
-    update() {
-        this._inNavbar = this._detectNavbar()
-        if (this._popper !== null) {
-            this._popper.scheduleUpdate()
-        }
-    }
-
-    // Private
-
-    _addEventListeners() {
-        $(this._element).on(EVENT_CLICK, (event) => {
-            event.preventDefault()
-            event.stopPropagation()
-            this.toggle()
-        })
-    }
-
-    _getConfig(config) {
-        config = {
-            ...this.constructor.Default,
-            ...$(this._element).data(),
-            ...config
-        }
-
-        Util.typeCheckConfig(
-            NAME,
-            config,
-            this.constructor.DefaultType
-        )
-
-        return config
-    }
-
-    _getMenuElement() {
-        if (!this._menu) {
-            const parent = Dropdown._getParentFromElement(this._element)
-
-            if (parent) {
-                this._menu = parent.querySelector(SELECTOR_MENU)
-            }
-        }
-        return this._menu
-    }
-
-    _getPlacement() {
-        const $parentDropdown = $(this._element.parentNode)
-        let placement = PLACEMENT_BOTTOM
-
-        // Handle dropup
-        if ($parentDropdown.hasClass(CLASS_NAME_DROPUP)) {
-            placement = $(this._menu).hasClass(CLASS_NAME_MENURIGHT) ?
-                PLACEMENT_TOPEND :
-                PLACEMENT_TOP
-        } else if ($parentDropdown.hasClass(CLASS_NAME_DROPRIGHT)) {
-            placement = PLACEMENT_RIGHT
-        } else if ($parentDropdown.hasClass(CLASS_NAME_DROPLEFT)) {
-            placement = PLACEMENT_LEFT
-        } else if ($(this._menu).hasClass(CLASS_NAME_MENURIGHT)) {
-            placement = PLACEMENT_BOTTOMEND
-        }
-        return placement
-    }
-
-    _detectNavbar() {
-        return $(this._element).closest('.navbar').length > 0
-    }
-
-    _getOffset() {
-        const offset = {}
-
-        if (typeof this._config.offset === 'function') {
-            offset.fn = (data) => {
-                data.offsets = {
-                    ...data.offsets,
-                    ...this._config.offset(data.offsets, this._element) || {}
-                }
-
-                return data
-            }
-        } else {
-            offset.offset = this._config.offset
-        }
-
-        return offset
-    }
-
-    _getPopperConfig() {
-        const popperConfig = {
-            placement: this._getPlacement(),
-            modifiers: {
-                offset: this._getOffset(),
-                flip: {
-                    enabled: this._config.flip
-                },
-                preventOverflow: {
-                    boundariesElement: this._config.boundary
-                }
-            }
-        }
-
-        // Disable Popper.js if we have a static display
-        if (this._config.display === 'static') {
-            popperConfig.modifiers.applyStyle = {
-                enabled: false
-            }
-        }
-
-        return {
-            ...popperConfig,
-            ...this._config.popperConfig
-        }
-    }
-
-    // Static
-
     static _jQueryInterface(config) {
-        return this.each(function() {
+        return this.each(function () {
             let data = $(this).data(DATA_KEY)
             const _config = typeof config === 'object' ? config : null
 
@@ -367,7 +131,7 @@ class Dropdown {
 
     static _clearMenus(event) {
         if (event && (event.which === RIGHT_MOUSE_BUTTON_WHICH ||
-                event.type === 'keyup' && event.which !== TAB_KEYCODE)) {
+            event.type === 'keyup' && event.which !== TAB_KEYCODE)) {
             return
         }
 
@@ -497,6 +261,242 @@ class Dropdown {
 
         items[index].focus()
     }
+
+    toggle() {
+        if (this._element.disabled || $(this._element).hasClass(CLASS_NAME_DISABLED)) {
+            return
+        }
+
+        const isActive = $(this._menu).hasClass(CLASS_NAME_SHOW)
+
+        Dropdown._clearMenus()
+
+        if (isActive) {
+            return
+        }
+
+        this.show(true)
+    }
+
+    // Private
+
+    show(usePopper = false) {
+        if (this._element.disabled || $(this._element).hasClass(CLASS_NAME_DISABLED) || $(this._menu).hasClass(CLASS_NAME_SHOW)) {
+            return
+        }
+
+        const relatedTarget = {
+            relatedTarget: this._element
+        }
+        const showEvent = $.Event(EVENT_SHOW, relatedTarget)
+        const parent = Dropdown._getParentFromElement(this._element)
+
+        $(parent).trigger(showEvent)
+
+        if (showEvent.isDefaultPrevented()) {
+            return
+        }
+
+        // Disable totally Popper.js for Dropdown in Navbar
+        if (!this._inNavbar && usePopper) {
+            /**
+             * Check for Popper dependency
+             * Popper - https://popper.js.org
+             */
+            if (typeof Popper === 'undefined') {
+                throw new TypeError('Bootstrap\'s dropdowns require Popper.js (https://popper.js.org/)')
+            }
+
+            let referenceElement = this._element
+
+            if (this._config.reference === 'parent') {
+                referenceElement = parent
+            } else if (Util.isElement(this._config.reference)) {
+                referenceElement = this._config.reference
+
+                // Check if it's jQuery element
+                if (typeof this._config.reference.jquery !== 'undefined') {
+                    referenceElement = this._config.reference[0]
+                }
+            }
+
+            // If boundary is not `scrollParent`, then set position to `static`
+            // to allow the menu to "escape" the scroll parent's boundaries
+            // https://github.com/twbs/bootstrap/issues/24251
+            if (this._config.boundary !== 'scrollParent') {
+                $(parent).addClass(CLASS_NAME_POSITION_STATIC)
+            }
+            this._popper = new Popper(referenceElement, this._menu, this._getPopperConfig())
+        }
+
+        // If this is a touch-enabled device we add extra
+        // empty mouseover listeners to the body's immediate children;
+        // only needed because of broken event delegation on iOS
+        // https://www.quirksmode.org/blog/archives/2014/02/mouse_event_bub.html
+        if ('ontouchstart' in document.documentElement &&
+            $(parent).closest(SELECTOR_NAVBAR_NAV).length === 0) {
+            $(document.body).children().on('mouseover', null, $.noop)
+        }
+
+        this._element.focus()
+        this._element.setAttribute('aria-expanded', true)
+
+        $(this._menu).toggleClass(CLASS_NAME_SHOW)
+        $(parent)
+            .toggleClass(CLASS_NAME_SHOW)
+            .trigger($.Event(EVENT_SHOWN, relatedTarget))
+    }
+
+    hide() {
+        if (this._element.disabled || $(this._element).hasClass(CLASS_NAME_DISABLED) || !$(this._menu).hasClass(CLASS_NAME_SHOW)) {
+            return
+        }
+
+        const relatedTarget = {
+            relatedTarget: this._element
+        }
+        const hideEvent = $.Event(EVENT_HIDE, relatedTarget)
+        const parent = Dropdown._getParentFromElement(this._element)
+
+        $(parent).trigger(hideEvent)
+
+        if (hideEvent.isDefaultPrevented()) {
+            return
+        }
+
+        if (this._popper) {
+            this._popper.destroy()
+        }
+
+        $(this._menu).toggleClass(CLASS_NAME_SHOW)
+        $(parent)
+            .toggleClass(CLASS_NAME_SHOW)
+            .trigger($.Event(EVENT_HIDDEN, relatedTarget))
+    }
+
+    dispose() {
+        $.removeData(this._element, DATA_KEY)
+        $(this._element).off(EVENT_KEY)
+        this._element = null
+        this._menu = null
+        if (this._popper !== null) {
+            this._popper.destroy()
+            this._popper = null
+        }
+    }
+
+    update() {
+        this._inNavbar = this._detectNavbar()
+        if (this._popper !== null) {
+            this._popper.scheduleUpdate()
+        }
+    }
+
+    _addEventListeners() {
+        $(this._element).on(EVENT_CLICK, (event) => {
+            event.preventDefault()
+            event.stopPropagation()
+            this.toggle()
+        })
+    }
+
+    _getConfig(config) {
+        config = {
+            ...this.constructor.Default,
+            ...$(this._element).data(),
+            ...config
+        }
+
+        Util.typeCheckConfig(
+            NAME,
+            config,
+            this.constructor.DefaultType
+        )
+
+        return config
+    }
+
+    _getMenuElement() {
+        if (!this._menu) {
+            const parent = Dropdown._getParentFromElement(this._element)
+
+            if (parent) {
+                this._menu = parent.querySelector(SELECTOR_MENU)
+            }
+        }
+        return this._menu
+    }
+
+    // Static
+
+    _getPlacement() {
+        const $parentDropdown = $(this._element.parentNode)
+        let placement = PLACEMENT_BOTTOM
+
+        // Handle dropup
+        if ($parentDropdown.hasClass(CLASS_NAME_DROPUP)) {
+            placement = $(this._menu).hasClass(CLASS_NAME_MENURIGHT) ?
+                PLACEMENT_TOPEND :
+                PLACEMENT_TOP
+        } else if ($parentDropdown.hasClass(CLASS_NAME_DROPRIGHT)) {
+            placement = PLACEMENT_RIGHT
+        } else if ($parentDropdown.hasClass(CLASS_NAME_DROPLEFT)) {
+            placement = PLACEMENT_LEFT
+        } else if ($(this._menu).hasClass(CLASS_NAME_MENURIGHT)) {
+            placement = PLACEMENT_BOTTOMEND
+        }
+        return placement
+    }
+
+    _detectNavbar() {
+        return $(this._element).closest('.navbar').length > 0
+    }
+
+    _getOffset() {
+        const offset = {}
+
+        if (typeof this._config.offset === 'function') {
+            offset.fn = (data) => {
+                data.offsets = {
+                    ...data.offsets,
+                    ...this._config.offset(data.offsets, this._element) || {}
+                }
+
+                return data
+            }
+        } else {
+            offset.offset = this._config.offset
+        }
+
+        return offset
+    }
+
+    _getPopperConfig() {
+        const popperConfig = {
+            placement: this._getPlacement(),
+            modifiers: {
+                offset: this._getOffset(),
+                flip: {
+                    enabled: this._config.flip
+                },
+                preventOverflow: {
+                    boundariesElement: this._config.boundary
+                }
+            }
+        }
+
+        // Disable Popper.js if we have a static display
+        if (this._config.display === 'static') {
+            popperConfig.modifiers.applyStyle = {
+                enabled: false
+            }
+        }
+
+        return {
+            ...popperConfig,
+            ...this._config.popperConfig
+        }
+    }
 }
 
 /**
@@ -509,7 +509,7 @@ $(document)
     .on(EVENT_KEYDOWN_DATA_API, SELECTOR_DATA_TOGGLE, Dropdown._dataApiKeydownHandler)
     .on(EVENT_KEYDOWN_DATA_API, SELECTOR_MENU, Dropdown._dataApiKeydownHandler)
     .on(`${EVENT_CLICK_DATA_API} ${EVENT_KEYUP_DATA_API}`, Dropdown._clearMenus)
-    .on(EVENT_CLICK_DATA_API, SELECTOR_DATA_TOGGLE, function(event) {
+    .on(EVENT_CLICK_DATA_API, SELECTOR_DATA_TOGGLE, function (event) {
         event.preventDefault()
         event.stopPropagation()
         Dropdown._jQueryInterface.call($(this), 'toggle')

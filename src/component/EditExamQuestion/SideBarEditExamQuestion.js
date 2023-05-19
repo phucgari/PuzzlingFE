@@ -1,25 +1,33 @@
 import React from 'react';
 
 function SideBarEditExamQuestion(props) {
-    const {setQuestions, questions} = props
+    const {setExam, exam} = props
 
     function addOneChoiceQuestion() {
-        setQuestions([...questions, {
-            level: "",
-            name: "",
-            questionType: "ONE_CHOICE",
-            options: [],
-            correctOption: {}
-        }])
+        setExam(
+            {
+                ...exam,
+                questions: [...exam.questions, {
+                    level: "",
+                    name: "",
+                    questionType: "ONE_CHOICE",
+                    options: []
+                }]
+            })
     }
 
     function addMultiChoiceQuestion() {
-        setQuestions([...questions, {
-            level: "",
-            name: "",
-            questionType: "MULTI_CHOICE",
-            options: [],
-        }])
+        setExam(
+            {
+                ...exam,
+                questions: [...exam.questions, {
+                    level: "",
+                    name: "",
+                    questionType: "MULTI_CHOICE",
+                    options: [],
+                }]
+            }
+        )
     }
 
     return (

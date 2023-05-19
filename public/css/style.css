@@ -133,6 +133,7 @@ body {
     .sidenav {
         padding-top: 15px;
     }
+
     .sidenav a {
         font-size: 18px;
     }
@@ -143,24 +144,30 @@ body {
         text-align: center !important;
         background-color: rgba(255, 255, 255, 0.6);
     }
+
     .sidenav {
         overflow-y: scroll;
     }
+
     .modal-lg {
         max-width: 100% !important;
     }
+
     .box-part {
         border-radius: 10px;
         padding: 10px 0 !important;
         margin: 20px 0px;
         width: 120px !important;
     }
+
     .box-part h4 {
         font-size: 15px !important;
     }
+
     .square h5 {
         font-size: 14px !important;
     }
+
     /*leaderboard*/
     .topperSquare {
         border-radius: 20px;
@@ -168,6 +175,7 @@ body {
         height: 70px !important;
         box-shadow: 1px .4rem 1rem rgba(0, 0, 0, 0.1);
     }
+
     .topperInner {
         left: 3px;
         top: 5px;
@@ -175,6 +183,7 @@ body {
         width: 60px !important;
         height: 60px !important;
     }
+
     .topperInner img {
         height: 60px;
         width: auto;
@@ -425,14 +434,14 @@ input {
 
 /* card selection */
 
-.card-input-element:checked+.box-part {
+.card-input-element:checked + .box-part {
     /*border: 2px solid var(--primary);
   -webkit-transition: border .3s;
   -o-transition: border .3s;
   transition: border .3s;*/
 }
 
-.card-input-element:checked+.box-part::after {
+.card-input-element:checked + .box-part::after {
     content: '\f00c';
     color: #49159b;
     font-family: 'FontAwesome';
