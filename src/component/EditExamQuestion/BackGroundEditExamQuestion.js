@@ -4,7 +4,6 @@ import RenderQuestionForm from "./BackGroundEditExamQuestion/RenderQuestionForm"
 
 function BackGroundEditExamQuestion(props) {
     const {exam, setExam} = props
-    console.log(exam)
     useEffect(
         () => {
 

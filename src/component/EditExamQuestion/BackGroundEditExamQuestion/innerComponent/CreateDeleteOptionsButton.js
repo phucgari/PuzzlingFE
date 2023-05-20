@@ -11,7 +11,7 @@ function CreateDeleteOptionsButton(props) {
                         ...question.options,
                         {
                             name: "",
-                            status: "false"
+                            status: false
                         }
                     ]
                 }

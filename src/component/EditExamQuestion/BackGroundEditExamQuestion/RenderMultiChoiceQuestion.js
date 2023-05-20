@@ -30,15 +30,10 @@ function RenderMultiChoiceQuestion(props) {
                         <div className="input-group">
                             <div className="input-group-prepend">
                                 <div className="input-group-text">
-                                    <Field type="hidden"
-                                           name={`questions.${index}.options.${optionIndex}.status`}
-                                           id={`questions.${index}.options.${optionIndex}.status`}
-                                           value={`false`}
-                                    />
                                     <Field type="checkbox"
                                            name={`questions.${index}.options.${optionIndex}.status`}
                                            id={`questions.${index}.options.${optionIndex}.status`}
-                                           value={`true`}
+                                           checked={option.status}
                                     />
                                 </div>
                             </div>

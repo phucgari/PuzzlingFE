@@ -14,7 +14,6 @@ function RenderOnceChoiceQuestion(props) {
         }))
         newOpt[trueIndex].status = "true";
         question.options = newOpt;
-        console.log(newOpt)
         setExam({...exam})
     }
 
