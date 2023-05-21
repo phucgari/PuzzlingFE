@@ -421,7 +421,6 @@ function SideNavBar(props) {
     }
 
     function login(values) {
-        alert("ok")
         axios.post('http://localhost:8080/puzzling/login', values).then(() => {
             setIsLoggedIn(true);
             alert('Đăng nhập thành công.');
@@ -438,8 +437,8 @@ function SideNavBar(props) {
         localStorage.removeItem('account');
         setIsLoggedIn(false);
         alert('Đăng xuất thành công.');
-        openLogin()
         // openSignUp()
+        window.location.reload()
     }
 
     function openSignUp(){
