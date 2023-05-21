@@ -197,7 +197,9 @@ body {
 .z-Index-2 {
     z-index: 1 !important;
 }
-
+.swal2-container {
+    z-index: 99999; /* Giá trị z-index cao hơn giá trị của modal */
+}
 .gradientBtn {
     font-weight: bolder;
     background-color: #fff;

@@ -1,5 +1,10 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Field, Form, Formik} from "formik";
+import axios from "axios";
+import {useNavigate} from "react-router-dom";
+import Swal from 'sweetalert2/src/sweetalert2.js'
+import * as Yup from 'yup'
+
 
 function closeNav() {
     document.getElementById("mySidenav").style.cssText = "width:0; border:none; box-shadow: none;";
@@ -10,7 +15,16 @@ function openNav() {
 }
 
 function SideNavBar(props) {
-    const [isSideNavOpen, setIsSideNavOpen] = React.useState(false)
+    const account = localStorage.getItem("account")
+    const navigate = useNavigate()
+    const [isSideNavOpen, setIsSideNavOpen] = useState(false)
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const Validation = Yup.object().shape({
+        username: Yup.string().required("Không được để trống!").min(6, "Tối thiểu là 6 ký tự!!").max(32,"Tối đa 32 ký tự!"),
+        password: Yup.number().required("Không được để trống!").min(6, "Tối thiểu là 6 ký tự!"),
+        confirmPassword:Yup.number().required("Không được để trống!").min(6, "Tối thiểu là 6 ký tự!").max(32,"Tối đa 32 ký tự!").oneOf([Yup.ref('password'), null], 'Mật khẩu không trùng nhau!')
+    })
+    console.log(account)
     return (
         <div>
             {/*Side Bar*/}
@@ -53,7 +67,7 @@ function SideNavBar(props) {
                     <i className="fa fa-user-o text-white mr-3"/>
                     My Profile
                 </a>
-                <a href="#">
+                <a href="#" onClick={logout}>
                     <i className="fa fa-power-off text-white mr-3"/>
                     Logout
                 </a>
@@ -70,13 +84,13 @@ function SideNavBar(props) {
                             className="d-none d-sm-none d-md-block ml-n5 mr-5"
                         />
                     </a>
-                    <ul className="nav">
-                        <li className="nav-item">
+                    {account === null && <ul className="nav">
+                        <li className="nav-item" onClick={openLogin}>
                             <a
                                 className="nav-link text-white cursor-pointer"
-                                data-toggle="modal"
-                                data-target="#loginModal"
-                                data-whatever=""
+                                // data-toggle="modal"
+                                // data-target="#loginModal"
+                                // data-whatever=""
                             >
                                 Login
                             </a>
@@ -86,27 +100,28 @@ function SideNavBar(props) {
                                 |
                             </span>
                         </li>
-                        <li className="nav-item">
-                            <a
+                        <li className="nav-item" onClick={openSignUp}>
+                            <div
                                 className="nav-link text-white cursor-pointer"
-                                data-toggle="modal"
-                                data-target="#signUpModal"
-                                data-whatever=""
+                                // data-toggle="modal"
+                                // data-target="#signUpModal"
+                                // data-whatever=""
                             >
                                 SignUP
-                            </a>
+                            </div>
                         </li>
-                    </ul>
+                    </ul>}
+                    {account !== null}
                 </div>
             </nav>
             {/*Login Modal*/}
             <div
-                className="modal fade mt-5"
+                className="modal mt-5"
                 id="loginModal"
-                tabIndex={-1}
-                role="dialog"
-                aria-labelledby="exampleModalLabel"
-                aria-hidden="true"
+                // tabIndex={-1}
+                // role="dialog"
+                // aria-labelledby="exampleModalLabel"
+                // aria-hidden="true"
             >
                 <div className="modal-dialog mt-5" role="document">
                     <div
@@ -121,7 +136,7 @@ function SideNavBar(props) {
                             </span>
                         </center>
                         <div className="modal-header border-0 p-0">
-                            <button
+                            <button onClick={closeLogin}
                                 type="submit"
                                 className="close"
                                 data-dismiss="modal"
@@ -134,7 +149,11 @@ function SideNavBar(props) {
                             <Formik initialValues={{
                                 username: "",
                                 password: ""
-                            }}>
+                            }}
+                                    onSubmit={(values) => {
+                                        login(values)
+                                    }}
+                            >
                                 <Form>
                                     <center>
                                         <div className="form-group input-group w-75 animated wow fadeInDown delay-0-1s">
@@ -170,7 +189,7 @@ function SideNavBar(props) {
                                     </center>
                                     <center>
                                         <button
-                                            type="button"
+                                            type="submit"
                                             className="gradientBtn w-75 animated wow fadeInDown delay-0-3s"
                                         >
                                             Login
@@ -198,13 +217,12 @@ function SideNavBar(props) {
                                 </button>
                                 <p className="text-center color-dark mt-3 animated wow fadeInUp delay-0-3s">
                                     Don't have an account?{" "}
-                                    <a
-                                        href=""
-                                        data-dismiss="modal"
+                                    <a onClick={openSignUp}
+                                        // data-dismiss="modal"
                                         className="color-blue"
-                                        data-toggle="modal"
-                                        data-target="#signUpModal"
-                                        data-whatever=""
+                                        // data-toggle="modal"
+                                        // data-target="#signUpModal"
+                                        // data-whatever=""
                                     >
                                         Sign UP
                                     </a>{" "}
@@ -216,12 +234,13 @@ function SideNavBar(props) {
             </div>
             {/*Signup modal*/}
             <div
-                className="modal fade mt-5"
+                className="modal mt-5"
                 id="signUpModal"
-                tabIndex={-1}
-                role="dialog"
-                aria-labelledby="exampleModalLabel"
-                aria-hidden="true"
+                // tabIndex={-1}
+                // role="dialog"
+                // aria-labelledby="exampleModalLabel"
+                // aria-hidden="true"
+                // style={{opacity: "1"}}
             >
                 <div className="modal-dialog modal-lg mt-5" role="document">
                     <div
@@ -237,6 +256,7 @@ function SideNavBar(props) {
                         </center>
                         <div className="modal-header border-0 p-0">
                             <button
+                                onClick={closeSignUp}
                                 type="button"
                                 className="close"
                                 data-dismiss="modal"
@@ -246,6 +266,7 @@ function SideNavBar(props) {
                             </button>
                         </div>
                         <div className="modal-body">
+
                             <Formik initialValues={{
                                 username: "",
                                 password: "",
@@ -256,7 +277,13 @@ function SideNavBar(props) {
                                 role: {
                                     id: 2
                                 }
-                            }}>
+                            }}
+                                onSubmit={(values) => {
+                                    signup(values)
+                                }}
+
+                                // validationSchema={Validation}
+                            >
                                 <Form>
                                     <center>
                                         <div className="row">
@@ -317,7 +344,7 @@ function SideNavBar(props) {
                                                 </span>
                                                 </div>
                                                 <Field
-                                                    type="text"
+                                                    type="password"
                                                     className="form-control textfield-rounded shadow-sm p-3 mb-4 zIndex-1"
                                                     id="confirmPassword"
                                                     placeholder="Confirm Password"
@@ -328,8 +355,13 @@ function SideNavBar(props) {
                                     </center>
                                     <center>
                                         <button
+                                            // id={"btn-signup"}
                                             type="submit"
                                             className="gradientBtn w-75 animated wow fadeInUp delay-0-5s"
+                                            // data-toggle="modal"
+                                            // data-target="#loginModal"
+                                            // data-dismiss="modal"
+                                            // aria-label="Close"
                                         >
                                             Sign UP
                                         </button>
@@ -355,15 +387,14 @@ function SideNavBar(props) {
                                     </button>
                                     <p className="text-center color-dark mt-3 animated wow fadeInUp delay-0-6s">
                                         Already have an account?{" "}
-                                        <a
-                                            href=""
-                                            data-dismiss="modal"
-                                            className="color-purple"
-                                            data-toggle="modal"
-                                            data-target="#loginModal"
-                                            data-whatever=""
+                                        <a onClick={openLogin}
+                                            // data-dismiss="modal"
+                                           className="color-blue"
+                                            // data-toggle="modal"
+                                            // data-target="#signUpModal"
+                                            // data-whatever=""
                                         >
-                                            Login
+                                            LogIn
                                         </a>{" "}
                                     </p>
                                 </center>
@@ -374,6 +405,58 @@ function SideNavBar(props) {
             </div>
         </div>
     );
+    function signup(values) {
+        // alert("ok")
+        axios.post('http://localhost:8080/puzzling/register', values).then(() => {
+            closeSignUp()
+        }).then(() => {
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Đăng ký thành công!',
+                showConfirmButton: false,
+                timer: 1500
+            })
+        })
+    }
+
+    function login(values) {
+        axios.post('http://localhost:8080/puzzling/login', values).then(() => {
+            setIsLoggedIn(true);
+            alert('Đăng nhập thành công.');
+            localStorage.setItem('account', JSON.stringify(values));
+        }).then(() => {
+            closeLogin()
+        })
+            .catch(() => {
+                alert('Đăng nhập không thành công! Vui lòng thử lại');
+            })
+    }
+
+    function logout() {
+        localStorage.removeItem('account');
+        setIsLoggedIn(false);
+        alert('Đăng xuất thành công.');
+        // openSignUp()
+        window.location.reload()
+    }
+
+    function openSignUp(){
+        document.getElementById("signUpModal").style.display = "block";
+    }
+
+    function closeSignUp() {
+        document.getElementById("signUpModal").style.display = "none";
+
+    }
+
+    function closeLogin() {
+        document.getElementById("loginModal").style.display = "none";
+    }
+
+    function openLogin() {
+        document.getElementById("loginModal").style.display = "block";
+    }
 }
 
 export default SideNavBar;
