@@ -100,6 +100,39 @@ class Collapse {
 
     // Public
 
+    static _getTargetFromElement(element) {
+        const selector = Util.getSelectorFromElement(element)
+        return selector ? document.querySelector(selector) : null
+    }
+
+    static _jQueryInterface(config) {
+        return this.each(function () {
+            const $this = $(this)
+            let data = $this.data(DATA_KEY)
+            const _config = {
+                ...Default,
+                ...$this.data(),
+                ...typeof config === 'object' && config ? config : {}
+            }
+
+            if (!data && _config.toggle && typeof config === 'string' && /show|hide/.test(config)) {
+                _config.toggle = false
+            }
+
+            if (!data) {
+                data = new Collapse(this, _config)
+                $this.data(DATA_KEY, data)
+            }
+
+            if (typeof config === 'string') {
+                if (typeof data[config] === 'undefined') {
+                    throw new TypeError(`No method named "${config}"`)
+                }
+                data[config]()
+            }
+        })
+    }
+
     toggle() {
         if ($(this._element).hasClass(CLASS_NAME_SHOW)) {
             this.hide()
@@ -247,6 +280,8 @@ class Collapse {
             .emulateTransitionEnd(transitionDuration)
     }
 
+    // Private
+
     setTransitioning(isTransitioning) {
         this._isTransitioning = isTransitioning
     }
@@ -260,8 +295,6 @@ class Collapse {
         this._triggerArray = null
         this._isTransitioning = null
     }
-
-    // Private
 
     _getConfig(config) {
         config = {
@@ -277,6 +310,8 @@ class Collapse {
         const hasWidth = $(this._element).hasClass(DIMENSION_WIDTH)
         return hasWidth ? DIMENSION_WIDTH : DIMENSION_HEIGHT
     }
+
+    // Static
 
     _getParent() {
         let parent
@@ -313,41 +348,6 @@ class Collapse {
                 .attr('aria-expanded', isOpen)
         }
     }
-
-    // Static
-
-    static _getTargetFromElement(element) {
-        const selector = Util.getSelectorFromElement(element)
-        return selector ? document.querySelector(selector) : null
-    }
-
-    static _jQueryInterface(config) {
-        return this.each(function() {
-            const $this = $(this)
-            let data = $this.data(DATA_KEY)
-            const _config = {
-                ...Default,
-                ...$this.data(),
-                ...typeof config === 'object' && config ? config : {}
-            }
-
-            if (!data && _config.toggle && typeof config === 'string' && /show|hide/.test(config)) {
-                _config.toggle = false
-            }
-
-            if (!data) {
-                data = new Collapse(this, _config)
-                $this.data(DATA_KEY, data)
-            }
-
-            if (typeof config === 'string') {
-                if (typeof data[config] === 'undefined') {
-                    throw new TypeError(`No method named "${config}"`)
-                }
-                data[config]()
-            }
-        })
-    }
 }
 
 /**
@@ -356,7 +356,7 @@ class Collapse {
  * ------------------------------------------------------------------------
  */
 
-$(document).on(EVENT_CLICK_DATA_API, SELECTOR_DATA_TOGGLE, function(event) {
+$(document).on(EVENT_CLICK_DATA_API, SELECTOR_DATA_TOGGLE, function (event) {
     // preventDefault only for <a> elements (which change the URL) not inside the collapsible element
     if (event.currentTarget.tagName === 'A') {
         event.preventDefault()
@@ -366,7 +366,7 @@ $(document).on(EVENT_CLICK_DATA_API, SELECTOR_DATA_TOGGLE, function(event) {
     const selector = Util.getSelectorFromElement(this)
     const selectors = [].slice.call(document.querySelectorAll(selector))
 
-    $(selectors).each(function() {
+    $(selectors).each(function () {
         const $target = $(this)
         const data = $target.data(DATA_KEY)
         const config = data ? 'toggle' : $trigger.data()

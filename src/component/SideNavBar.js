@@ -266,8 +266,8 @@ function SideNavBar(props) {
                             </button>
                         </div>
                         <div className="modal-body">
-                            <Formik
-                                initialValues={{
+
+                            <Formik initialValues={{
                                 username: "",
                                 password: "",
                                 confirmPassword: "",

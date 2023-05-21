@@ -5,10 +5,7 @@
  * --------------------------------------------------------------------------
  */
 
-import {
-    DefaultWhitelist,
-    sanitizeHtml
-} from './tools/sanitizer'
+import {DefaultWhitelist, sanitizeHtml} from './tools/sanitizer'
 import $ from 'jquery'
 import Popper from 'popper.js'
 import Util from './util'
@@ -161,6 +158,29 @@ class Tooltip {
     }
 
     // Public
+
+    static _jQueryInterface(config) {
+        return this.each(function () {
+            let data = $(this).data(DATA_KEY)
+            const _config = typeof config === 'object' && config
+
+            if (!data && /dispose|hide/.test(config)) {
+                return
+            }
+
+            if (!data) {
+                data = new Tooltip(this, _config)
+                $(this).data(DATA_KEY, data)
+            }
+
+            if (typeof config === 'string') {
+                if (typeof data[config] === 'undefined') {
+                    throw new TypeError(`No method named "${config}"`)
+                }
+                data[config]()
+            }
+        })
+    }
 
     enable() {
         this._isEnabled = true
@@ -370,13 +390,13 @@ class Tooltip {
         this._hoverState = ''
     }
 
+    // Protected
+
     update() {
         if (this._popper !== null) {
             this._popper.scheduleUpdate()
         }
     }
-
-    // Protected
 
     isWithContent() {
         return Boolean(this.getTitle())
@@ -422,6 +442,8 @@ class Tooltip {
         }
     }
 
+    // Private
+
     getTitle() {
         let title = this.element.getAttribute('data-original-title')
 
@@ -433,8 +455,6 @@ class Tooltip {
 
         return title
     }
-
-    // Private
 
     _getPopperConfig(attachment) {
         const defaultBsConfig = {
@@ -571,7 +591,7 @@ class Tooltip {
         if (event) {
             context._activeTrigger[
                 event.type === 'focusin' ? TRIGGER_FOCUS : TRIGGER_HOVER
-            ] = true
+                ] = true
         }
 
         if ($(context.getTipElement()).hasClass(CLASS_NAME_SHOW) || context._hoverState === HOVER_STATE_SHOW) {
@@ -610,7 +630,7 @@ class Tooltip {
         if (event) {
             context._activeTrigger[
                 event.type === 'focusout' ? TRIGGER_FOCUS : TRIGGER_HOVER
-            ] = false
+                ] = false
         }
 
         if (context._isWithActiveTrigger()) {
@@ -715,6 +735,8 @@ class Tooltip {
         this.addAttachmentClass(this._getAttachment(popperData.placement))
     }
 
+    // Static
+
     _fixTransition() {
         const tip = this.getTipElement()
         const initConfigAnimation = this.config.animation
@@ -728,31 +750,6 @@ class Tooltip {
         this.hide()
         this.show()
         this.config.animation = initConfigAnimation
-    }
-
-    // Static
-
-    static _jQueryInterface(config) {
-        return this.each(function() {
-            let data = $(this).data(DATA_KEY)
-            const _config = typeof config === 'object' && config
-
-            if (!data && /dispose|hide/.test(config)) {
-                return
-            }
-
-            if (!data) {
-                data = new Tooltip(this, _config)
-                $(this).data(DATA_KEY, data)
-            }
-
-            if (typeof config === 'string') {
-                if (typeof data[config] === 'undefined') {
-                    throw new TypeError(`No method named "${config}"`)
-                }
-                data[config]()
-            }
-        })
     }
 }
 

@@ -60,6 +60,25 @@ class Tab {
 
     // Public
 
+    static _jQueryInterface(config) {
+        return this.each(function () {
+            const $this = $(this)
+            let data = $this.data(DATA_KEY)
+
+            if (!data) {
+                data = new Tab(this)
+                $this.data(DATA_KEY, data)
+            }
+
+            if (typeof config === 'string') {
+                if (typeof data[config] === 'undefined') {
+                    throw new TypeError(`No method named "${config}"`)
+                }
+                data[config]()
+            }
+        })
+    }
+
     show() {
         if (this._element.parentNode &&
             this._element.parentNode.nodeType === Node.ELEMENT_NODE &&
@@ -127,12 +146,12 @@ class Tab {
         }
     }
 
+    // Private
+
     dispose() {
         $.removeData(this._element, DATA_KEY)
         this._element = null
     }
-
-    // Private
 
     _activate(element, container, callback) {
         const activeElements = container && (container.nodeName === 'UL' || container.nodeName === 'OL') ?
@@ -158,6 +177,8 @@ class Tab {
             complete()
         }
     }
+
+    // Static
 
     _transitionComplete(element, active, callback) {
         if (active) {
@@ -203,27 +224,6 @@ class Tab {
             callback()
         }
     }
-
-    // Static
-
-    static _jQueryInterface(config) {
-        return this.each(function() {
-            const $this = $(this)
-            let data = $this.data(DATA_KEY)
-
-            if (!data) {
-                data = new Tab(this)
-                $this.data(DATA_KEY, data)
-            }
-
-            if (typeof config === 'string') {
-                if (typeof data[config] === 'undefined') {
-                    throw new TypeError(`No method named "${config}"`)
-                }
-                data[config]()
-            }
-        })
-    }
 }
 
 /**
@@ -233,7 +233,7 @@ class Tab {
  */
 
 $(document)
-    .on(EVENT_CLICK_DATA_API, SELECTOR_DATA_TOGGLE, function(event) {
+    .on(EVENT_CLICK_DATA_API, SELECTOR_DATA_TOGGLE, function (event) {
         event.preventDefault()
         Tab._jQueryInterface.call($(this), 'show')
     })

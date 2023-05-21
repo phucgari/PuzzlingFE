@@ -95,6 +95,31 @@ class Modal {
 
     // Public
 
+    static _jQueryInterface(config, relatedTarget) {
+        return this.each(function () {
+            let data = $(this).data(DATA_KEY)
+            const _config = {
+                ...Default,
+                ...$(this).data(),
+                ...typeof config === 'object' && config ? config : {}
+            }
+
+            if (!data) {
+                data = new Modal(this, _config)
+                $(this).data(DATA_KEY, data)
+            }
+
+            if (typeof config === 'string') {
+                if (typeof data[config] === 'undefined') {
+                    throw new TypeError(`No method named "${config}"`)
+                }
+                data[config](relatedTarget)
+            } else if (_config.show) {
+                data.show(relatedTarget)
+            }
+        })
+    }
+
     toggle(relatedTarget) {
         return this._isShown ? this.hide() : this.show(relatedTarget)
     }
@@ -192,7 +217,7 @@ class Modal {
 
     dispose() {
         [window, this._element, this._dialog]
-        .forEach((htmlElement) => $(htmlElement).off(EVENT_KEY))
+            .forEach((htmlElement) => $(htmlElement).off(EVENT_KEY))
 
         /**
          * `document` has 2 events `EVENT_FOCUSIN` and `EVENT_CLICK_DATA_API`
@@ -214,11 +239,11 @@ class Modal {
         this._scrollbarWidth = null
     }
 
+    // Private
+
     handleUpdate() {
         this._adjustDialog()
     }
-
-    // Private
 
     _getConfig(config) {
         config = {
@@ -243,8 +268,8 @@ class Modal {
             const modalTransitionDuration = Util.getTransitionDurationFromElement(this._element)
 
             $(this._element).one(Util.TRANSITION_END, () => {
-                    this._element.classList.remove(CLASS_NAME_STATIC)
-                })
+                this._element.classList.remove(CLASS_NAME_STATIC)
+            })
                 .emulateTransitionEnd(modalTransitionDuration)
             this._element.focus()
         } else {
@@ -360,6 +385,11 @@ class Modal {
         }
     }
 
+    // ----------------------------------------------------------------------
+    // the following methods are used to handle overflowing modals
+    // todo (fat): these should probably be refactored out of modal.js
+    // ----------------------------------------------------------------------
+
     _showBackdrop(callback) {
         const animate = $(this._element).hasClass(CLASS_NAME_FADE) ?
             CLASS_NAME_FADE : ''
@@ -429,11 +459,6 @@ class Modal {
             callback()
         }
     }
-
-    // ----------------------------------------------------------------------
-    // the following methods are used to handle overflowing modals
-    // todo (fat): these should probably be refactored out of modal.js
-    // ----------------------------------------------------------------------
 
     _adjustDialog() {
         const isModalOverflowing =
@@ -519,6 +544,8 @@ class Modal {
         document.body.style.paddingRight = padding ? padding : ''
     }
 
+    // Static
+
     _getScrollbarWidth() { // thx d.walsh
         const scrollDiv = document.createElement('div')
         scrollDiv.className = CLASS_NAME_SCROLLBAR_MEASURER
@@ -526,33 +553,6 @@ class Modal {
         const scrollbarWidth = scrollDiv.getBoundingClientRect().width - scrollDiv.clientWidth
         document.body.removeChild(scrollDiv)
         return scrollbarWidth
-    }
-
-    // Static
-
-    static _jQueryInterface(config, relatedTarget) {
-        return this.each(function() {
-            let data = $(this).data(DATA_KEY)
-            const _config = {
-                ...Default,
-                ...$(this).data(),
-                ...typeof config === 'object' && config ? config : {}
-            }
-
-            if (!data) {
-                data = new Modal(this, _config)
-                $(this).data(DATA_KEY, data)
-            }
-
-            if (typeof config === 'string') {
-                if (typeof data[config] === 'undefined') {
-                    throw new TypeError(`No method named "${config}"`)
-                }
-                data[config](relatedTarget)
-            } else if (_config.show) {
-                data.show(relatedTarget)
-            }
-        })
     }
 }
 
@@ -562,7 +562,7 @@ class Modal {
  * ------------------------------------------------------------------------
  */
 
-$(document).on(EVENT_CLICK_DATA_API, SELECTOR_DATA_TOGGLE, function(event) {
+$(document).on(EVENT_CLICK_DATA_API, SELECTOR_DATA_TOGGLE, function (event) {
     let target
     const selector = Util.getSelectorFromElement(this)
 
