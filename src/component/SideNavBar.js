@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Field, Form, Formik} from "formik";
+import {ErrorMessage, Field, Form, Formik} from "formik";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import Swal from 'sweetalert2/src/sweetalert2.js'
@@ -19,12 +19,20 @@ function SideNavBar(props) {
     const navigate = useNavigate()
     const [isSideNavOpen, setIsSideNavOpen] = useState(false)
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const Validation = Yup.object().shape({
-        username: Yup.string().required("Không được để trống!").min(6, "Tối thiểu là 6 ký tự!!").max(32,"Tối đa 32 ký tự!"),
-        password: Yup.number().required("Không được để trống!").min(6, "Tối thiểu là 6 ký tự!"),
-        confirmPassword:Yup.number().required("Không được để trống!").min(6, "Tối thiểu là 6 ký tự!").max(32,"Tối đa 32 ký tự!").oneOf([Yup.ref('password'), null], 'Mật khẩu không trùng nhau!')
+    const validation = Yup.object().shape({
+        username: Yup.string().required("Không được để trống!").min(6, "Tối thiểu là 6 ký tự!!").max(32,"Tối đa 32 ký tự!")
+            .test("username","Tên người dùng đã tồn tại",async function (username) {
+                return axios.get("http://localhost:8080/puzzling/check/" + username).then(
+                    () => true
+                ).catch(
+                    () => false
+                )
+            })
+        ,
+        password: Yup.string().required("Không được để trống!").min(6, "Tối thiểu là 6 ký tự!"),
+        confirmPassword:Yup.string().required("Không được để trống!").min(6, "Tối thiểu là 6 ký tự!").max(32,"Tối đa 32 ký tự!").oneOf([Yup.ref('password'), null], 'Mật khẩu không trùng nhau!'),
+        email:Yup.string().required("Không được để trống!")
     })
-    console.log(account)
     return (
         <div>
             {/*Side Bar*/}
@@ -282,7 +290,7 @@ function SideNavBar(props) {
                                     signup(values)
                                 }}
 
-                                // validationSchema={Validation}
+                                validationSchema={validation}
                             >
                                 <Form>
                                     <center>
@@ -300,9 +308,10 @@ function SideNavBar(props) {
                                                     className="form-control textfield-rounded shadow-sm p-3 mb-4 zIndex-1"
                                                     id="username"
                                                     placeholder="Username"
-                                                    name="username"
-                                                />
+                                                    name="username"/>
+                                                < ErrorMessage name={'username'}/>
                                             </div>
+
                                             <div
                                                 className="col-lg-6 form-group input-group w-75 animated wow fadeInDown delay-0-2s">
                                                 <div className="input-group-prepend z-Index-2">
@@ -316,7 +325,8 @@ function SideNavBar(props) {
                                                     className="form-control textfield-rounded shadow-sm p-3 mb-4 zIndex-1"
                                                     id="user.email"
                                                     placeholder="Email"
-                                                    name="user.email"
+                                                    name="user.email"/>
+                                                < ErrorMessage name={'email'}
                                                 />
                                             </div>
                                             <div
@@ -332,7 +342,8 @@ function SideNavBar(props) {
                                                     className="form-control textfield-rounded shadow-sm p-3 mb-4 zIndex-1"
                                                     id="password"
                                                     placeholder="Password"
-                                                    name="password"
+                                                    name="password"/>
+                                                < ErrorMessage name={'password'}
                                                 />
                                             </div>
                                             <div
@@ -348,7 +359,8 @@ function SideNavBar(props) {
                                                     className="form-control textfield-rounded shadow-sm p-3 mb-4 zIndex-1"
                                                     id="confirmPassword"
                                                     placeholder="Confirm Password"
-                                                    name="confirmPassword"
+                                                    name="confirmPassword"/>
+                                                <ErrorMessage name={'confirmPassword'}
                                                 />
                                             </div>
                                         </div>
@@ -418,6 +430,9 @@ function SideNavBar(props) {
                 timer: 1500
             })
         })
+            .catch(()=>{
+                alert("Đăng ký không thành công!")
+            })
     }
 
     function login(values) {
@@ -429,7 +444,7 @@ function SideNavBar(props) {
             closeLogin()
         })
             .catch(() => {
-                alert('Đăng nhập không thành công! Vui lòng thử lại');
+                alert('Sai tài khoản hoặc mật khẩu! Vui lòng thử lại');
             })
     }
 
