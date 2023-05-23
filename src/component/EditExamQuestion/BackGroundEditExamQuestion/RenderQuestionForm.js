@@ -4,7 +4,7 @@ import RenderMultiChoiceQuestion from "./RenderMultiChoiceQuestion";
 
 function RenderQuestionForm(props) {
     const {question, index, setExam, exam} = props
-
+    console.log(question)
     switch (question.questionType) {
         case "ONE_CHOICE":
             return <RenderOnceChoiceQuestion

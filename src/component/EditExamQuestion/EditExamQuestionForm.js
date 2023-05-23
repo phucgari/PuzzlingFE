@@ -1,15 +1,21 @@
 import React from 'react';
 import SideBarEditExamQuestion from "./SideBarEditExamQuestion";
 import BackGroundEditExamQuestion from "./BackGroundEditExamQuestion";
+import axios from "axios";
 
-function EditExamQuestionForm(props) {
+function EditExamQuestionForm() {
     const [exam, setExam] = React.useState({
         questions: []
     })
-    React.useEffect(() => {
-        //call Exam here
-        setExam({questions: []})
-    }, [])
+    React.useEffect(
+        ()=>{axios.get(`http://localhost:8080/puzzling/exam/infoExam?examId=1`)
+                .then((response) => {
+                   setExam(response.data)
+                })
+                .catch((error) => {
+                    console.log(error);
+                })}
+    , [])
     return (
         <div className="container">
             <div className="row">
