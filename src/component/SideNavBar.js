@@ -15,7 +15,7 @@ function openNav() {
 }
 
 function SideNavBar(props) {
-    const account = localStorage.getItem("account")
+    const account = JSON.parse(localStorage.getItem("account"))
     const navigate = useNavigate()
     const [isSideNavOpen, setIsSideNavOpen] = useState(false)
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -48,7 +48,7 @@ function SideNavBar(props) {
                 </a>
                 <a href="" className="text-white text-left">
                     <small>
-                        <p>henna4@gmail.com</p>
+                        <p>Hello </p>
                     </small>
                 </a>
                 <a href="category.html">
@@ -436,16 +436,24 @@ function SideNavBar(props) {
     }
 
     function login(values) {
-        axios.post('http://localhost:8080/puzzling/login', values).then(() => {
-            setIsLoggedIn(true);
-            alert('Đăng nhập thành công.');
-            localStorage.setItem('account', JSON.stringify(values));
-        }).then(() => {
-            closeLogin()
-        })
+        axios.post('http://localhost:8080/puzzling/login', values)
+            .then(response => {
+                const { username, password, user } = response.data;
+                const account = {
+                    username: username,
+                    password: password,
+                    user: user
+                };
+                setIsLoggedIn(true);
+                alert('Đăng nhập thành công.');
+                localStorage.setItem('account', JSON.stringify(account));
+            })
+            .then(() => {
+                closeLogin();
+            })
             .catch(() => {
                 alert('Sai tài khoản hoặc mật khẩu! Vui lòng thử lại');
-            })
+            });
     }
 
     function logout() {
