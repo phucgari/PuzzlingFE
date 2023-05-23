@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {ErrorMessage, Field, Form, Formik} from "formik";
 import axios from "axios";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import Swal from 'sweetalert2/src/sweetalert2.js'
 import * as Yup from 'yup'
 
@@ -54,10 +54,10 @@ function SideNavBar(props) {
                         <p>Hello</p>
                     </small>
                 </a>
-                <a href="category.html">
+                <Link to="/categories">
                     <i className="fa fa-th-large text-white mr-3"/>
                     Category
-                </a>
+                </Link>
                 <a onClick={() => navigate("/exam/create")}>
                     <button className="gradientBtn animated wow fadeInUp delay-0-3s">
                        create exam
