@@ -31,7 +31,10 @@ function SideNavBar(props) {
         ,
         password: Yup.string().required("Không được để trống!").min(6, "Tối thiểu là 6 ký tự!"),
         confirmPassword:Yup.string().required("Không được để trống!").min(6, "Tối thiểu là 6 ký tự!").max(32,"Tối đa 32 ký tự!").oneOf([Yup.ref('password'), null], 'Mật khẩu không trùng nhau!'),
-        email:Yup.string().required("Không được để trống!")
+        user: Yup.object().shape({
+            email:Yup.string().required("Không được để trống!")
+        })
+
     })
     return (
         <div>
