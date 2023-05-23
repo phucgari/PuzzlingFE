@@ -48,7 +48,7 @@ function SideNavBar(props) {
                 </a>
                 <a href="" className="text-white text-left">
                     <small>
-                        <p>Hello </p>
+                        <p>Hello</p>
                     </small>
                 </a>
                 <a href="category.html">
