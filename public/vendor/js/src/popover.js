@@ -96,52 +96,8 @@ class Popover extends Tooltip {
 
     // Overrides
 
-    isWithContent() {
-        return this.getTitle() || this._getContent()
-    }
-
-    addAttachmentClass(attachment) {
-        $(this.getTipElement()).addClass(`${CLASS_PREFIX}-${attachment}`)
-    }
-
-    getTipElement() {
-        this.tip = this.tip || $(this.config.template)[0]
-        return this.tip
-    }
-
-    setContent() {
-        const $tip = $(this.getTipElement())
-
-        // We use append for html objects to maintain js events
-        this.setElementContent($tip.find(SELECTOR_TITLE), this.getTitle())
-        let content = this._getContent()
-        if (typeof content === 'function') {
-            content = content.call(this.element)
-        }
-        this.setElementContent($tip.find(SELECTOR_CONTENT), content)
-
-        $tip.removeClass(`${CLASS_NAME_FADE} ${CLASS_NAME_SHOW}`)
-    }
-
-    // Private
-
-    _getContent() {
-        return this.element.getAttribute('data-content') ||
-            this.config.content
-    }
-
-    _cleanTipClass() {
-        const $tip = $(this.getTipElement())
-        const tabClass = $tip.attr('class').match(BSCLS_PREFIX_REGEX)
-        if (tabClass !== null && tabClass.length > 0) {
-            $tip.removeClass(tabClass.join(''))
-        }
-    }
-
-    // Static
-
     static _jQueryInterface(config) {
-        return this.each(function() {
+        return this.each(function () {
             let data = $(this).data(DATA_KEY)
             const _config = typeof config === 'object' ? config : null
 
@@ -161,6 +117,50 @@ class Popover extends Tooltip {
                 data[config]()
             }
         })
+    }
+
+    isWithContent() {
+        return this.getTitle() || this._getContent()
+    }
+
+    addAttachmentClass(attachment) {
+        $(this.getTipElement()).addClass(`${CLASS_PREFIX}-${attachment}`)
+    }
+
+    getTipElement() {
+        this.tip = this.tip || $(this.config.template)[0]
+        return this.tip
+    }
+
+    // Private
+
+    setContent() {
+        const $tip = $(this.getTipElement())
+
+        // We use append for html objects to maintain js events
+        this.setElementContent($tip.find(SELECTOR_TITLE), this.getTitle())
+        let content = this._getContent()
+        if (typeof content === 'function') {
+            content = content.call(this.element)
+        }
+        this.setElementContent($tip.find(SELECTOR_CONTENT), content)
+
+        $tip.removeClass(`${CLASS_NAME_FADE} ${CLASS_NAME_SHOW}`)
+    }
+
+    _getContent() {
+        return this.element.getAttribute('data-content') ||
+            this.config.content
+    }
+
+    // Static
+
+    _cleanTipClass() {
+        const $tip = $(this.getTipElement())
+        const tabClass = $tip.attr('class').match(BSCLS_PREFIX_REGEX)
+        if (tabClass !== null && tabClass.length > 0) {
+            $tip.removeClass(tabClass.join(''))
+        }
     }
 }
 

@@ -139,10 +139,12 @@ svg circle {
         font-size: 14px !important;
         text-align: center;
     }
+
     .quiz ul li:nth-child(3),
     .quiz ul li:first-child {
         margin-right: 0 !important;
     }
+
     #remove-mr {
         margin-right: 0 !important;
     }
@@ -318,8 +320,8 @@ svg circle {
 
 /*score fireworks*/
 
-.pyro>.before,
-.pyro>.after {
+.pyro > .before,
+.pyro > .after {
     position: absolute;
     width: 5px;
     height: 5px;
@@ -332,7 +334,7 @@ svg circle {
     animation: 1s bang ease-out infinite backwards, 1s gravity ease-in infinite backwards, 5s position linear infinite backwards;
 }
 
-.pyro>.after {
+.pyro > .after {
     -moz-animation-delay: 1.25s, 1.25s, 1.25s;
     -webkit-animation-delay: 1.25s, 1.25s, 1.25s;
     -o-animation-delay: 1.25s, 1.25s, 1.25s;

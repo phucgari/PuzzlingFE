@@ -55,6 +55,11 @@ function SideNavBar(props) {
                     <i className="fa fa-th-large text-white mr-3"/>
                     Category
                 </a>
+                <a onClick={() => navigate("/exam/create")}>
+                    <button className="gradientBtn animated wow fadeInUp delay-0-3s">
+                       create exam
+                    </button>
+                </a>
                 <a href="category.html">
                     <i className="fa fa-question text-white mr-3"/>
                     Play Quiz
@@ -274,8 +279,8 @@ function SideNavBar(props) {
                             </button>
                         </div>
                         <div className="modal-body">
-                            <Formik
-                                initialValues={{
+
+                            <Formik initialValues={{
                                 username: "",
                                 password: "",
                                 confirmPassword: "",
