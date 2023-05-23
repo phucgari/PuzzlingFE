@@ -48,17 +48,12 @@ function SideNavBar(props) {
                 </a>
                 <a href="" className="text-white text-left">
                     <small>
-                        <p>Hello </p>
+                        <p>Hello {account.username} </p>
                     </small>
                 </a>
                 <a href="category.html">
                     <i className="fa fa-th-large text-white mr-3"/>
                     Category
-                </a>
-                <a onClick={() => navigate("/exam/create")}>
-                    <button className="gradientBtn animated wow fadeInUp delay-0-3s">
-                       create exam
-                    </button>
                 </a>
                 <a href="category.html">
                     <i className="fa fa-question text-white mr-3"/>
