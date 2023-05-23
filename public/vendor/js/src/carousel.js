@@ -122,6 +122,74 @@ class Carousel {
 
     // Public
 
+    static _jQueryInterface(config) {
+        return this.each(function () {
+            let data = $(this).data(DATA_KEY)
+            let _config = {
+                ...Default,
+                ...$(this).data()
+            }
+
+            if (typeof config === 'object') {
+                _config = {
+                    ..._config,
+                    ...config
+                }
+            }
+
+            const action = typeof config === 'string' ? config : _config.slide
+
+            if (!data) {
+                data = new Carousel(this, _config)
+                $(this).data(DATA_KEY, data)
+            }
+
+            if (typeof config === 'number') {
+                data.to(config)
+            } else if (typeof action === 'string') {
+                if (typeof data[action] === 'undefined') {
+                    throw new TypeError(`No method named "${action}"`)
+                }
+                data[action]()
+            } else if (_config.interval && _config.ride) {
+                data.pause()
+                data.cycle()
+            }
+        })
+    }
+
+    static _dataApiClickHandler(event) {
+        const selector = Util.getSelectorFromElement(this)
+
+        if (!selector) {
+            return
+        }
+
+        const target = $(selector)[0]
+
+        if (!target || !$(target).hasClass(CLASS_NAME_CAROUSEL)) {
+            return
+        }
+
+        const config = {
+            ...$(target).data(),
+            ...$(this).data()
+        }
+        const slideIndex = this.getAttribute('data-slide-to')
+
+        if (slideIndex) {
+            config.interval = false
+        }
+
+        Carousel._jQueryInterface.call($(target), config)
+
+        if (slideIndex) {
+            $(target).data(DATA_KEY).to(slideIndex)
+        }
+
+        event.preventDefault()
+    }
+
     next() {
         if (!this._isSliding) {
             this._slide(DIRECTION_NEXT)
@@ -175,6 +243,8 @@ class Carousel {
         }
     }
 
+    // Private
+
     to(index) {
         this._activeElement = this._element.querySelector(SELECTOR_ACTIVE_ITEM)
 
@@ -215,8 +285,6 @@ class Carousel {
         this._activeElement = null
         this._indicatorsElement = null
     }
-
-    // Private
 
     _getConfig(config) {
         config = {
@@ -384,6 +452,8 @@ class Carousel {
         return slideEvent
     }
 
+    // Static
+
     _setActiveIndicatorElement(element) {
         if (this._indicatorsElement) {
             const indicators = [].slice.call(this._indicatorsElement.querySelectorAll(SELECTOR_ACTIVE))
@@ -391,7 +461,7 @@ class Carousel {
 
             const nextIndicator = this._indicatorsElement.children[
                 this._getItemIndex(element)
-            ]
+                ]
 
             if (nextIndicator) {
                 $(nextIndicator).addClass(CLASS_NAME_ACTIVE)
@@ -493,76 +563,6 @@ class Carousel {
         if (isCycling) {
             this.cycle()
         }
-    }
-
-    // Static
-
-    static _jQueryInterface(config) {
-        return this.each(function() {
-            let data = $(this).data(DATA_KEY)
-            let _config = {
-                ...Default,
-                ...$(this).data()
-            }
-
-            if (typeof config === 'object') {
-                _config = {
-                    ..._config,
-                    ...config
-                }
-            }
-
-            const action = typeof config === 'string' ? config : _config.slide
-
-            if (!data) {
-                data = new Carousel(this, _config)
-                $(this).data(DATA_KEY, data)
-            }
-
-            if (typeof config === 'number') {
-                data.to(config)
-            } else if (typeof action === 'string') {
-                if (typeof data[action] === 'undefined') {
-                    throw new TypeError(`No method named "${action}"`)
-                }
-                data[action]()
-            } else if (_config.interval && _config.ride) {
-                data.pause()
-                data.cycle()
-            }
-        })
-    }
-
-    static _dataApiClickHandler(event) {
-        const selector = Util.getSelectorFromElement(this)
-
-        if (!selector) {
-            return
-        }
-
-        const target = $(selector)[0]
-
-        if (!target || !$(target).hasClass(CLASS_NAME_CAROUSEL)) {
-            return
-        }
-
-        const config = {
-            ...$(target).data(),
-            ...$(this).data()
-        }
-        const slideIndex = this.getAttribute('data-slide-to')
-
-        if (slideIndex) {
-            config.interval = false
-        }
-
-        Carousel._jQueryInterface.call($(target), config)
-
-        if (slideIndex) {
-            $(target).data(DATA_KEY).to(slideIndex)
-        }
-
-        event.preventDefault()
     }
 }
 

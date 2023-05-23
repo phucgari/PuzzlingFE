@@ -56,6 +56,21 @@ class Button {
 
     // Public
 
+    static _jQueryInterface(config) {
+        return this.each(function () {
+            let data = $(this).data(DATA_KEY)
+
+            if (!data) {
+                data = new Button(this)
+                $(this).data(DATA_KEY, data)
+            }
+
+            if (config === 'toggle') {
+                data[config]()
+            }
+        })
+    }
+
     toggle() {
         let triggerChangeEvent = true
         let addAriaPressed = true
@@ -104,26 +119,11 @@ class Button {
         }
     }
 
+    // Static
+
     dispose() {
         $.removeData(this._element, DATA_KEY)
         this._element = null
-    }
-
-    // Static
-
-    static _jQueryInterface(config) {
-        return this.each(function() {
-            let data = $(this).data(DATA_KEY)
-
-            if (!data) {
-                data = new Button(this)
-                $(this).data(DATA_KEY, data)
-            }
-
-            if (config === 'toggle') {
-                data[config]()
-            }
-        })
     }
 }
 

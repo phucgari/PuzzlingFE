@@ -75,6 +75,27 @@ class Toast {
 
     // Public
 
+    static _jQueryInterface(config) {
+        return this.each(function () {
+            const $element = $(this)
+            let data = $element.data(DATA_KEY)
+            const _config = typeof config === 'object' && config
+
+            if (!data) {
+                data = new Toast(this, _config)
+                $element.data(DATA_KEY, data)
+            }
+
+            if (typeof config === 'string') {
+                if (typeof data[config] === 'undefined') {
+                    throw new TypeError(`No method named "${config}"`)
+                }
+
+                data[config](this)
+            }
+        })
+    }
+
     show() {
         const showEvent = $.Event(EVENT_SHOW)
 
@@ -129,6 +150,8 @@ class Toast {
         this._close()
     }
 
+    // Private
+
     dispose() {
         clearTimeout(this._timeout)
         this._timeout = null
@@ -143,8 +166,6 @@ class Toast {
         this._element = null
         this._config = null
     }
-
-    // Private
 
     _getConfig(config) {
         config = {
@@ -166,6 +187,8 @@ class Toast {
         $(this._element).on(EVENT_CLICK_DISMISS, SELECTOR_DATA_DISMISS, () => this.hide())
     }
 
+    // Static
+
     _close() {
         const complete = () => {
             this._element.classList.add(CLASS_NAME_HIDE)
@@ -182,29 +205,6 @@ class Toast {
         } else {
             complete()
         }
-    }
-
-    // Static
-
-    static _jQueryInterface(config) {
-        return this.each(function() {
-            const $element = $(this)
-            let data = $element.data(DATA_KEY)
-            const _config = typeof config === 'object' && config
-
-            if (!data) {
-                data = new Toast(this, _config)
-                $element.data(DATA_KEY, data)
-            }
-
-            if (typeof config === 'string') {
-                if (typeof data[config] === 'undefined') {
-                    throw new TypeError(`No method named "${config}"`)
-                }
-
-                data[config](this)
-            }
-        })
     }
 }
 

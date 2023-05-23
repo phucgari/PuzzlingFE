@@ -1,5 +1,5 @@
 /*--------loader script-----------*/
-$(function() {
+$(function () {
     timer();
 
     function timer() {
@@ -43,8 +43,8 @@ $(function() {
     </g>
   </svg>
   <span id="base-timer-label" class="base-timer__label">${formatTime(
-                timeLeft
-                )}</span>
+            timeLeft
+        )}</span>
 </div>
 `;
         startTimer();
@@ -67,7 +67,7 @@ $(function() {
                 setRemainingPathColor(timeLeft);
                 //When the question changes, the timer resets.
                 if (check_click == 1) {
-                    setTimeout(function() {
+                    setTimeout(function () {
 
                         onTimesUp();
                         timer();
@@ -89,9 +89,9 @@ $(function() {
                         document.getElementById('quiz_web').innerHTML = "";
                         // alert("Quiz completed, Now click ok to get your answer");
                         $('label.element-animation').unbind('click');
-                        setTimeout(function() {
+                        setTimeout(function () {
                             var toAppend = '';
-                            $.each(q, function(i, a) {
+                            $.each(q, function (i, a) {
                                 toAppend += '<tr>'
                                 toAppend += '<td>' + (i + 1) + '</td>';
                                 toAppend += '<td>' + a.A + '</td>';
@@ -114,7 +114,7 @@ $(function() {
 
                         $('#qid').html(questionNo + 1);
                         $('input:radio').prop('checked', false);
-                        setTimeout(function() {
+                        setTimeout(function () {
 
                             $('#quiz').show();
                             $('#loadbar').fadeOut();
@@ -171,8 +171,8 @@ $(function() {
 
         function setCircleDasharray() {
             const circleDasharray = `${(
-                    calculateTimeFraction() * FULL_DASH_ARRAY
-                    ).toFixed(0)} 283`;
+                calculateTimeFraction() * FULL_DASH_ARRAY
+            ).toFixed(0)} 283`;
             document
                 .getElementById("base-timer-path-remaining")
                 .setAttribute("stroke-dasharray", circleDasharray);
@@ -180,19 +180,19 @@ $(function() {
     };
     var loading = $('#loadbar').hide();
     $(document)
-        .ajaxStart(function() {
+        .ajaxStart(function () {
             loading.show();
-        }).ajaxStop(function() {
-            loading.hide();
-        });
+        }).ajaxStop(function () {
+        loading.hide();
+    });
     var questionNo = 0;
     var correctCount = 0;
     var check_click = 0;
     var q = [{
-            'Q': 'Which is National game of India?',
-            'A': 2,
-            'C': ['Cricket;', 'Hockey;', 'Football', 'Kabaddi']
-        },
+        'Q': 'Which is National game of India?',
+        'A': 2,
+        'C': ['Cricket;', 'Hockey;', 'Football', 'Kabaddi']
+    },
         {
             'Q': 'Who was first individual Olympic medal winner from independent India?',
             'A': 3,
@@ -226,7 +226,8 @@ $(function() {
         progressPercentage = Math.round((questionNo / 5) * 100);
         progress.style.width = progressPercentage + '%';
     }
-    $(document.body).on('click', "label.element-animation", function(e) {
+
+    $(document.body).on('click', "label.element-animation", function (e) {
         check_click = 1;
         //ripple start
         var parent, ink, d, x, y;
@@ -263,7 +264,7 @@ $(function() {
             q[questionNo].result = "Incorrect";
         }
         console.log("CorrectCount:" + correctCount);
-        setTimeout(function() {
+        setTimeout(function () {
 
             $('#loadbar').show();
             $('#quiz').fadeOut();
@@ -274,9 +275,9 @@ $(function() {
                 document.getElementById('quiz_web').innerHTML = "";
                 // alert("Quiz completed, Now click ok to get your answer");
                 $('label.element-animation').unbind('click');
-                setTimeout(function() {
+                setTimeout(function () {
                     var toAppend = '';
-                    $.each(q, function(i, a) {
+                    $.each(q, function (i, a) {
                         toAppend += '<tr>'
                         toAppend += '<td>' + (i + 1) + '</td>';
                         toAppend += '<td>' + a.A + '</td>';
@@ -296,7 +297,7 @@ $(function() {
             } else {
                 $('#qid').html(questionNo + 1);
                 $('input:radio').prop('checked', false);
-                setTimeout(function() {
+                setTimeout(function () {
 
                     $('#quiz').show();
                     $('#loadbar').fadeOut();
@@ -309,13 +310,14 @@ $(function() {
             }
         }, 1000);
     });
-    $.fn.checking = function(qstn, ck) {
+    $.fn.checking = function (qstn, ck) {
         var ans = q[questionNo].A;
         if (ck != ans)
             return false;
         else
             return true;
     };
+
     // chartMake();
     function chartMake() {
 
