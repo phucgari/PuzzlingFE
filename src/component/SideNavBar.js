@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {ErrorMessage, Field, Form, Formik} from "formik";
 import axios from "axios";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import Swal from 'sweetalert2/src/sweetalert2.js'
 import * as Yup from 'yup'
 
@@ -31,15 +31,18 @@ function SideNavBar(props) {
         ,
         password: Yup.string().required("Không được để trống!").min(6, "Tối thiểu là 6 ký tự!"),
         confirmPassword:Yup.string().required("Không được để trống!").min(6, "Tối thiểu là 6 ký tự!").max(32,"Tối đa 32 ký tự!").oneOf([Yup.ref('password'), null], 'Mật khẩu không trùng nhau!'),
-        email:Yup.string().required("Không được để trống!")
+        user: Yup.object().shape({
+            email:Yup.string().required("Không được để trống!")
+        })
+
     })
     return (
         <div>
             {/*Side Bar*/}
             <div id="mySidenav" className="sidenav">
-                <a href="javascript:void(0)" className="closebtn " onClick={closeNav}>
-                    ×
-                </a>
+                <Link to={"javascript:void(0)"} className="closebtn " onClick={closeNav}>
+                    <i className="fa fa-arrow-left" style={{marginRight:10, fontSize:25}}/>
+                </Link>
                 <a href="profile.html" className="">
                     <img
                         src="/images/user.png"
@@ -51,33 +54,38 @@ function SideNavBar(props) {
                         <p>Hello</p>
                     </small>
                 </a>
-                <a href="category.html">
+                <Link to="/categories">
                     <i className="fa fa-th-large text-white mr-3"/>
-                    Category
+                    Danh mục
+                </Link>
+                <a onClick={() => navigate("/exam/create")}>
+                    <button className="gradientBtn animated wow fadeInUp delay-0-3s">
+                       Tạo bài Quiz
+                    </button>
                 </a>
                 <a href="category.html">
                     <i className="fa fa-question text-white mr-3"/>
-                    Play Quiz
+                    Giải câu đố
                 </a>
                 <a href="quiz.html">
                     <i className="fa fa-random text-white mr-3"/>
-                    Random Quiz
+                    Giải đố ngẫu nhiên
                 </a>
                 <a href="leaderboard.html">
                     <i className="fa fa-users text-white mr-3"/>
-                    Leaderboard
+                    Bảng xếp hạng
                 </a>
                 <a href="score-history.html">
                     <i className="fa fa-history text-white mr-3"/>
-                    Score History
+                    Lịch sử thi
                 </a>
                 <a href="profile.html">
                     <i className="fa fa-user-o text-white mr-3"/>
-                    My Profile
+                    Thông tin cá nhân
                 </a>
                 <a href="#" onClick={logout}>
                     <i className="fa fa-power-off text-white mr-3"/>
-                    Logout
+                    Đăng xuất
                 </a>
             </div>
             {/*Nav Bar*/}
@@ -96,11 +104,12 @@ function SideNavBar(props) {
                         <li className="nav-item" onClick={openLogin}>
                             <a
                                 className="nav-link text-white cursor-pointer"
+                                style={{fontWeight:"bold"}}
                                 // data-toggle="modal"
                                 // data-target="#loginModal"
                                 // data-whatever=""
                             >
-                                Login
+                                Đăng nhập
                             </a>
                         </li>
                         <li className="nav-item">
@@ -111,11 +120,12 @@ function SideNavBar(props) {
                         <li className="nav-item" onClick={openSignUp}>
                             <div
                                 className="nav-link text-white cursor-pointer"
+                                style={{fontWeight:"bold"}}
                                 // data-toggle="modal"
                                 // data-target="#signUpModal"
                                 // data-whatever=""
                             >
-                                SignUP
+                                Đăng ký
                             </div>
                         </li>
                     </ul>}
@@ -139,7 +149,7 @@ function SideNavBar(props) {
                         <center>
                             <span className="loginSquare mt-n5">
                                 <p className="text-white" id="exampleModalLabel">
-                                    Login
+                                    Đăng nhập
                                 </p>
                             </span>
                         </center>
@@ -200,11 +210,11 @@ function SideNavBar(props) {
                                             type="submit"
                                             className="gradientBtn w-75 animated wow fadeInDown delay-0-3s"
                                         >
-                                            Login
+                                            Đăng nhập
                                         </button>
                                     </center>
                                     <p className="text-center color-blue mt-3 animated wow fadeInDown delay-0-3s">
-                                        OR
+                                        Hoặc
                                     </p>
                                 </Form>
                             </Formik>
@@ -224,7 +234,7 @@ function SideNavBar(props) {
                                     <i className="fa fa-facebook fb-icon"/>
                                 </button>
                                 <p className="text-center color-dark mt-3 animated wow fadeInUp delay-0-3s">
-                                    Don't have an account?{" "}
+                                    Bạn chưa có tài khoản?{" "}
                                     <a onClick={openSignUp}
                                         // data-dismiss="modal"
                                         className="color-blue"
@@ -232,7 +242,7 @@ function SideNavBar(props) {
                                         // data-target="#signUpModal"
                                         // data-whatever=""
                                     >
-                                        Sign UP
+                                        Đăng ký
                                     </a>{" "}
                                 </p>
                             </center>
@@ -258,7 +268,7 @@ function SideNavBar(props) {
                         <center>
                             <span className="loginSquare mt-n5">
                                 <p className="text-white" id="exampleModalLabel">
-                                    SignUp
+                                    Đăng ký
                                 </p>
                             </span>
                         </center>
@@ -375,11 +385,11 @@ function SideNavBar(props) {
                                             // data-dismiss="modal"
                                             // aria-label="Close"
                                         >
-                                            Sign UP
+                                            Đăng ký
                                         </button>
                                     </center>
                                     <p className="text-center color-blue mt-3 animated wow fadeInUp delay-0-5s pb-5">
-                                        OR
+                                        Hoặc
                                     </p>
                                 </Form>
                             </Formik>
@@ -398,7 +408,7 @@ function SideNavBar(props) {
                                         <i className="fa fa-facebook fb-icon"/>
                                     </button>
                                     <p className="text-center color-dark mt-3 animated wow fadeInUp delay-0-6s">
-                                        Already have an account?{" "}
+                                        Bạn đã có tài khoản?{" "}
                                         <a onClick={openLogin}
                                             // data-dismiss="modal"
                                            className="color-blue"
@@ -406,7 +416,7 @@ function SideNavBar(props) {
                                             // data-target="#signUpModal"
                                             // data-whatever=""
                                         >
-                                            LogIn
+                                            Đăng nhập
                                         </a>{" "}
                                     </p>
                                 </center>

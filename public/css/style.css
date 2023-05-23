@@ -240,7 +240,12 @@ body {
 .loginSquare p {
     transform: rotate(-45deg);
     font-size: 19px;
-    /*width: 100px;*/
+    width: 100px;
+}
+
+p#exampleModalLabel {
+    padding-left: 14px;
+    padding-bottom: 70px;
 }
 
 .rounded-modal {
