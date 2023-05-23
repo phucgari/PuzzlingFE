@@ -2,6 +2,7 @@ import React from 'react';
 import {Field, Form, Formik} from "formik";
 import axios from "axios";
 import * as Yup from "yup";
+import {useNavigate} from "react-router-dom";
 const validationSchema=Yup.object().shape({
     name:Yup.string().required(),
     category:Yup.object().shape({
@@ -10,6 +11,7 @@ const validationSchema=Yup.object().shape({
     user:Yup.object().required()
 })
 function CreateExamForm(props) {
+    const navigate = useNavigate();
     const[exam,setExam]=React.useState({
         name:"",
         category:{
@@ -28,7 +30,15 @@ function CreateExamForm(props) {
             <Formik
                 initialValues={exam}
                 // validationSchema={validationSchema}
-                onSubmit={console.log}
+                onSubmit={(values) => {
+                    axios.post(`http://localhost:8080/puzzling/exam/createExam`, values)
+                        .then((response) => {
+                            navigate('/exam/edit',{state:{id:response.data.id}} );
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                        });
+                }}
             >
                 {({isValid})=>
                 (
