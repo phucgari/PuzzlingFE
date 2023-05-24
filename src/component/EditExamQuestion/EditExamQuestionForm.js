@@ -7,7 +7,7 @@ import SearchAddQuestion from "../searchAddQuestion/SearchAddQuestion";
 
 function EditExamQuestionForm() {
     const {state} = useLocation();
-    const id = 1;
+    const {id} = state;
     const [exam, setExam] = React.useState({
         questions: []
     })

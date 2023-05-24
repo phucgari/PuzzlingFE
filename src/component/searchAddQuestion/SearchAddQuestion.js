@@ -7,7 +7,6 @@ import {Field, Form, Formik} from "formik";
 function SearchAddQuestion(props) {
     const{exam,setExam}=props
     const [questionsSearched, setQuestionsSearched] = useState([]);
-    const [loading, setLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [questionsPerPage] = useState(10);
 
@@ -58,12 +57,12 @@ function SearchAddQuestion(props) {
                     </Form>
                 }
             </Formik>
-            {/*<MappingQuestionsSearched questions={currentQuestions} loading={loading} />*/}
-            {/*<Pagination*/}
-            {/*    questionsPerPage={questionsPerPage}*/}
-            {/*    totalQuestions={questionsSearched.length}*/}
-            {/*    paginate={paginate}*/}
-            {/*/>*/}
+            <MappingQuestionsSearched questions={currentQuestions} />
+            <Pagination
+                questionsPerPage={questionsPerPage}
+                totalQuestions={questionsSearched.length}
+                paginate={paginate}
+            />
         </div>
     );
 }

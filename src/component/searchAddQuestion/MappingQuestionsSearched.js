@@ -1,9 +1,6 @@
 import React from 'react';
 
-const MappingQuestionsSearched = ({ questions, loading }) => {
-    if (loading) {
-        return <h2>Loading...</h2>;
-    }
+const MappingQuestionsSearched = ({ questions }) => {
 
     return (
         <ul className='list-group mb-4'>
