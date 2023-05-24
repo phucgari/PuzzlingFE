@@ -48,20 +48,28 @@ function SideNavBar(props) {
                         className="user-profile shadow img-fluid rounded-circle ml-3"
                         alt={""}/>
                 </Link>
-                <a href="" className="text-white text-left">
-                    <small>
-                        <p>Hello</p>
-                    </small>
-                </a>
+                {
+                    account != null &&
+                    (
+                        <a href="" className="text-white text-left">
+                            <small>
+                                <p>{account.username}</p>
+                            </small>
+                        </a>
+                    )
+                }
                 <Link to="/categories">
                     <i className="fa fa-th-large text-white mr-3"/>
                     Danh mục
                 </Link>
-                <a onClick={() => navigate("/exam/all")}>
-                    <button className="gradientBtn animated wow fadeInUp delay-0-3s">
-                        Xem bài Quiz
-                    </button>
-                </a>
+                {
+                    account != null && (
+                        <Link to={"/exam/all"}>
+                            <i className="fa fa-question text-white mr-3"/>
+                            Xem bài Quiz
+                        </Link>
+                    )
+                }
                 <a href="category.html">
                     <i className="fa fa-question text-white mr-3"/>
                     Giải câu đố
@@ -78,14 +86,22 @@ function SideNavBar(props) {
                     <i className="fa fa-history text-white mr-3"/>
                     Lịch sử thi
                 </a>
-                <Link to={"/profile"}>
-                    <i className="fa fa-user-o text-white mr-3"/>
-                    Thông tin cá nhân
-                </Link>
-                <a href="#" onClick={logout}>
-                    <i className="fa fa-power-off text-white mr-3"/>
-                    Đăng xuất
-                </a>
+                {
+                    account != null && (
+                        <Link to={"/profile"}>
+                            <i className="fa fa-user-o text-white mr-3"/>
+                            Thông tin cá nhân
+                        </Link>
+                    )
+                }
+                {
+                    account != null && (
+                        <a href="#" onClick={logout}>
+                            <i className="fa fa-power-off text-white mr-3"/>
+                            Đăng xuất
+                        </a>
+                    )
+                }
             </div>
             {/*Nav Bar*/}
             <nav className="navbar navbar-expand-lg">
