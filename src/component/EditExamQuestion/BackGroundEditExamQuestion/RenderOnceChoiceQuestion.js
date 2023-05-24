@@ -18,7 +18,7 @@ function RenderOnceChoiceQuestion(props) {
     }
 
     return (
-        <div className={"form-group"}>
+        <div className={"form-group"} key={index}>
             <h3>Câu hỏi lựa chọn một đáp án</h3>
             <DeleteQuestionButton
                 exam={exam}

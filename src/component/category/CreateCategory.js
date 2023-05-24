@@ -21,7 +21,7 @@ export default function CreateCategory() {
                     onSubmit={(values) => {
                         values.picture = imgUrl;
                         axios
-                            .post("http://localhost:8080/puzzling/categories/create", values)
+                            .post("http://localhost:8080/puzzling/categories/", values)
                             .then(() => {
                                 navigate("/categories")
                             })

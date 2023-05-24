@@ -7,7 +7,7 @@ import CreateDeleteOptionsButton from "./innerComponent/CreateDeleteOptionsButto
 function RenderMultiChoiceQuestion(props) {
     const {question, index, setExam, exam} = props
     return (
-        <div>
+        <div className={"form-group"} key={index}>
             <h3>Câu hỏi lựa chọn nhiều đáp án</h3>
             <DeleteQuestionButton
                 exam={exam}
