@@ -1,68 +1,123 @@
-import {Link} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import ChangePassword from "./ChangePassword";
+import {Formik, Form, Field, ErrorMessage} from "formik";
+import axios from "axios";
+import {useEffect, useState} from "react";
+import {getDownloadURL, ref, uploadBytesResumable} from "firebase/storage";
+import {storage} from "../../firebase";
+import * as Yup from "yup";
 
 export default function Profile() {
+    const {id} = useParams();
+    const [user, setUser] = useState({})
+    const [imgUrl, setImgUrl] = useState(null);
+    const navigate = useNavigate();
+    const [progressPercent, setProgressPercent] = useState(0);
+    const initialValues = {
+        avatar: user.avatar || "/images/user.png",
+        name: user.name || "",
+        email: user.email || "",
+        phone: user.phone || "",
+        gender: user.gender || ""
+    }
+
+    const validationSchema = Yup.object().shape({
+        name: Yup.string().required("Không được để trống!"),
+        email:Yup.string().required("Không được để trống!"),
+        phone:Yup.string().required("Không được để trống!")
+    })
+
+    useEffect(() => {
+        axios
+            .get(`http://localhost:8080/puzzling/users/${id}`)
+            .then((response) => {
+                setUser(response.data);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }, [id]);
+
     return (
         <div className="container">
-            {/*<div className="modal fade" id="" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel"*/}
-            {/*     aria-hidden="true" style={{display: "contents !important"}}>*/}
-                <div className="modal-dialog modal-lg" role="document">
-                    <div className="modal-content rounded-modal shadow p-3 border-0" style={{marginTop: 6 + 'rem'}}>
-                            <img src="/images/user.png" id="profileImage" alt={""}
-                                 className="user-profile shadow mx-auto img-fluid rounded-circle mt-n5 mb-1 animated wow pulse"/>
-                            <input id="imageUpload" type="file" name="profile_photo" placeholder="Photo" required=""
-                                   capture/>
-                            {/*<h4 className="color-dark text-right mt-n4 animated wow fadeInUp">25,600</h4>*/}
-                            <h5 className="color-light text-center animated wow fadeInDown delay-0-3s">Henna Leo</h5>
-                            <h6 className="color-light text-center animated wow fadeInDown delay-0-4s">henna4@gmail.com</h6>
+            <div className="modal-dialog modal-lg" role="document">
+                <div className="modal-content rounded-modal shadow p-3 border-0" style={{marginTop: 6 + 'rem'}}>
+                    <Formik
+                        initialValues={initialValues}
+                        onSubmit={(values) => {
+                            values.avatar = imgUrl;
+                            axios.put(`http://localhost:8080/puzzling/users/${id}`, values)
+                                .then(() => {
+                                    alert("Sửa thông tin thành công!")
+                                })
+                                .catch(() => {
+                                    alert("Không thành công")
+                                })
+                        }}
+                        validationSchema={validationSchema}
+                    >
+                        <Form>
+                            <div className={"imageUpload"} style={{textAlign:"center"}}>
+                                <label htmlFor={"avatar"}>
+                                    <img src={initialValues.avatar} id="profileImage" alt={""}
+                                         className="user-profile shadow mx-auto img-fluid rounded-circle mt-n5 mb-1 animated wow pulse"/>
+                                </label>
+                                <input type="file" id="avatar" name="avatar"
+                                       className="user-profile shadow mx-auto img-fluid rounded-circle mt-n5 mb-1 animated wow pulse"
+                                       onChange={(event) => uploadAvatar(event)}/>
+                            </div>
                             <div className="modal-body">
-                                <form>
-                                    <div className="row">
-                                        <div className="col-lg-6">
-                                            <div
-                                                className="form-group input-group w-100 animated wow fadeInDown delay-0-1s">
-                                                <div className="input-group-prepend">
-                                                    <span><img src="/images/left-icon.png" alt={""}/></span>
-                                                </div>
-                                                <input type="text" id="recipient-user" placeholder="Username"
-                                                       className="form-control textfield-rounded shadow-sm mb-4 ml-n3"/>
+                                <div className="row">
+                                    <div className="col-lg-6">
+                                        <div className="form-group input-group w-100 animated wow fadeInDown delay-0-1s">
+                                            <div className="input-group-prepend">
+                                                <span><img src="/images/left-icon.png" alt={""}/></span>
                                             </div>
-                                        </div>
-                                        <div className="col-lg-6">
-                                            <div
-                                                className="form-group input-group w-100 animated wow fadeInDown delay-0-2s">
-                                                <div className="input-group-prepend">
-                                                    <span><img src="/images/right-icon.png" className="rotate-180" alt={""}/></span>
-                                                </div>
-                                                <input type="text" id="recipient-mobile" placeholder="Mobile Number"
-                                                       className="form-control textfield-rounded shadow-sm p-3 mb-4 ml-n3"/>
-                                            </div>
-                                        </div>
-                                        <div className="col-lg-6">
-                                            <div
-                                                className="form-group input-group w-100 animated wow fadeInDown delay-0-3s">
-                                                <div className="input-group-prepend">
-                                                    <span><img src="/images/right-icon.png" className="rotate-180" alt={""}/></span>
-                                                </div>
-                                                <input type="text" id="recipient-adress" placeholder="Address"
-                                                       className="form-control textfield-rounded shadow-sm p-3 mb-4 ml-n3"/>
-                                            </div>
-                                        </div>
-                                        <div className="col-lg-6">
-                                            <div
-                                                className="form-group input-group w-100 animated wow fadeInDown delay-0-4s">
-                                                <div className="input-group-prepend">
-                                                    <span><img src="/images/left-icon.png" alt={""}/></span>
-                                                </div>
-                                                <input type="text" id="recipient-country" placeholder="Country"
-                                                       className="form-control textfield-rounded shadow-sm p-3 mb-4 ml-n3"/>
-                                            </div>
+                                            <Field type="text" id="recipient-user"
+                                                   name={"name"} placeholder="Họ tên..."
+                                                   className="form-control textfield-rounded shadow-sm mb-4 ml-n3"/>
+                                            <ErrorMessage name={"name"} style={{color:"red"}}/>
                                         </div>
                                     </div>
-                                    <center>
-                                        <button type="button" className="gradientBtn w-50 animated wow fadeInUp">Lưu</button>
-                                    </center>
-                                </form>
+                                    <div className="col-lg-6">
+                                        <div className="form-group input-group w-100 animated wow fadeInDown delay-0-2s">
+                                            <div className="input-group-prepend">
+                                                <span><img src="/images/right-icon.png" className="rotate-180" alt={""}/></span>
+                                            </div>
+                                            <Field type="text" id="recipient-mobile"
+                                                   name={"email"} placeholder="Email..."
+                                                   className="form-control textfield-rounded shadow-sm p-3 mb-4 ml-n3"/>
+                                            <ErrorMessage name={"email"} style={{color:"red"}}/>
+                                        </div>
+                                    </div>
+                                    <div className="col-lg-6">
+                                        <div className="form-group input-group w-100 animated wow fadeInDown delay-0-3s">
+                                            <div className="input-group-prepend">
+                                                <span><img src="/images/right-icon.png" className="rotate-180" alt={""}/></span>
+                                            </div>
+                                            <Field type="text" id="recipient-adress"
+                                                   name={"phone"} placeholder="Số điện thoại..."
+                                                   className="form-control textfield-rounded shadow-sm p-3 mb-4 ml-n3"/>
+                                            <ErrorMessage name={"phone"} style={{color:"red"}}/>
+                                        </div>
+                                    </div>
+                                    <div className="col-lg-6">
+                                        <div className="form-group input-group w-100 animated wow fadeInDown delay-0-4s">
+                                            <div className="input-group-prepend">
+                                                <span><img src="/images/left-icon.png" alt={""}/></span>
+                                            </div>
+                                            <select name={"gender"}
+                                                    className="form-control textfield-rounded gender-value shadow-sm mb-4 ml-n3">
+                                                <option hidden>Giới tính</option>
+                                                <option value={"MALE"}>Nam</option>
+                                                <option value={"FEMALE"}>Nữ</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <center>
+                                    <button type="button" className="gradientBtn w-50 animated wow fadeInUp">Lưu thông tin</button>
+                                </center>
                             </div>
                             <div className="modal-footer border-0 mt-n4">
                                 <center>
@@ -74,11 +129,36 @@ export default function Profile() {
                                     </p>
                                 </center>
                             </div>
-                    </div>
+                        </Form>
+                    </Formik>
                 </div>
+            </div>
             {/*</div>*/}
             {/*Change Password Modal*/}
             <ChangePassword/>
         </div>
     )
+
+    function uploadAvatar(event) {
+        const file = event.target.files[0]
+        const storageRef = ref(storage, `files/${file.name}`);
+        const uploadTask = uploadBytesResumable(storageRef, file);
+
+        uploadTask.on("state_changed",
+            (snapshot) => {
+                const progress =
+                    Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+                setProgressPercent(progress);
+                console.log(progress)
+            },
+            (error) => {
+                alert(error);
+            },
+            () => {
+                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                    setImgUrl(downloadURL)
+                });
+            }
+        );
+    }
 }

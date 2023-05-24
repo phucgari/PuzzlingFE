@@ -28,7 +28,7 @@ export default function CreateCategory() {
                             .catch((error) => {
                                 console.log(error.message)
                             })
-                    }
+                        }
                     }>
                     <Form>
                         <h1>Thêm danh mục mới</h1>
