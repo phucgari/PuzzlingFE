@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {ErrorMessage, Field, Form, Formik} from "formik";
 import axios from "axios";
-import {Link, useNavigate} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import Swal from 'sweetalert2/src/sweetalert2.js'
 import * as Yup from 'yup'
 
@@ -18,6 +18,7 @@ function SideNavBar(props) {
     const account = JSON.parse(localStorage.getItem("account"))
     const navigate = useNavigate()
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+
     const validation = Yup.object().shape({
         username: Yup.string().required("Không được để trống!").min(6, "Tối thiểu là 6 ký tự!!").max(32,"Tối đa 32 ký tự!")
             .test("username","Tên người dùng đã tồn tại",async function (username) {

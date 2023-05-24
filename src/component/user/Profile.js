@@ -14,11 +14,11 @@ export default function Profile() {
     const navigate = useNavigate();
     const [progressPercent, setProgressPercent] = useState(0);
     const initialValues = {
-        avatar: avatar || "/images/user.png",
-        name: user.name || "",
-        email: user.email || "",
-        phone: user.phone || "",
-        gender: user.gender || ""
+        avatar: avatar || user.avatar,
+        name: user.name,
+        email: user.email,
+        phone: user.phone,
+        gender: user.gender
     }
 
     const validationSchema = Yup.object().shape({
@@ -116,7 +116,7 @@ export default function Profile() {
                                     </div>
                                 </div>
                                 <center>
-                                    <button type="button" className="gradientBtn w-50 animated wow fadeInUp">Lưu thông tin</button>
+                                    <button type="submit" className="gradientBtn w-50 animated wow fadeInUp">Lưu thông tin</button>
                                 </center>
                             </div>
                             <div className="modal-footer border-0 mt-n4">
