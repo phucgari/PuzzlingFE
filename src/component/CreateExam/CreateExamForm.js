@@ -31,7 +31,7 @@ function CreateExamForm(props) {
                 initialValues={exam}
                 // validationSchema={validationSchema}
                 onSubmit={(values) => {
-                    axios.post(`http://localhost:8080/puzzling/exam/createExam`, values)
+                    axios.post(`http://localhost:8080/puzzling/exam/create`, values)
                         .then((response) => {
                             navigate('/exam/edit',{state:{id:response.data.id}} );
                         })

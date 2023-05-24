@@ -58,9 +58,9 @@ function SideNavBar(props) {
                     <i className="fa fa-th-large text-white mr-3"/>
                     Danh mục
                 </Link>
-                <a onClick={() => navigate("/exam/create")}>
+                <a onClick={() => navigate("/exam/all")}>
                     <button className="gradientBtn animated wow fadeInUp delay-0-3s">
-                       Tạo bài Quiz
+                        Xem bài Quiz
                     </button>
                 </a>
                 <a href="category.html">
