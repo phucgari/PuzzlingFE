@@ -14,7 +14,7 @@ export default function Profile() {
     const navigate = useNavigate();
     const [progressPercent, setProgressPercent] = useState(0);
     const initialValues = {
-        avatar: user.avatar || "",
+        avatar: user.avatar || "/images/user.png",
         name: user.name || "",
         email: user.email || "",
         phone: user.phone || "",
@@ -29,7 +29,7 @@ export default function Profile() {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:3000/puzzling/users/${id}`)
+            .get(`http://localhost:8080/puzzling/users/${id}`)
             .then((response) => {
                 setUser(response.data);
             })
@@ -46,8 +46,7 @@ export default function Profile() {
                         initialValues={initialValues}
                         onSubmit={(values) => {
                             values.avatar = imgUrl;
-                            axios
-                                .put(`http://localhost:8080/puzzling/users/${id}`, values)
+                            axios.put(`http://localhost:8080/puzzling/users/${id}`, values)
                                 .then(() => {
                                     alert("Sửa thông tin thành công!")
                                 })
@@ -60,7 +59,7 @@ export default function Profile() {
                         <Form>
                             <div className={"imageUpload"} style={{textAlign:"center"}}>
                                 <label htmlFor={"avatar"}>
-                                    <img src="/images/user.png" id="profileImage" alt={""}
+                                    <img src={initialValues.avatar} id="profileImage" alt={""}
                                          className="user-profile shadow mx-auto img-fluid rounded-circle mt-n5 mb-1 animated wow pulse"/>
                                 </label>
                                 <input type="file" id="avatar" name="avatar"
@@ -117,8 +116,7 @@ export default function Profile() {
                                     </div>
                                 </div>
                                 <center>
-                                    <button type="button" className="gradientBtn w-50 animated wow fadeInUp">Lưu
-                                    </button>
+                                    <button type="button" className="gradientBtn w-50 animated wow fadeInUp">Lưu thông tin</button>
                                 </center>
                             </div>
                             <div className="modal-footer border-0 mt-n4">
