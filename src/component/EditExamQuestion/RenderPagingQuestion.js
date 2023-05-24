@@ -8,7 +8,7 @@ function RenderPagingQuestion(props) {
     const [currentPage, setCurrentPage] = React.useState(1);
     const [questionsPerPage] = React.useState(5);
 
-
+    console.log(values.questions)
     // Get current posts
     const indexOfLastQuestion = currentPage * questionsPerPage;
     const indexOfFirstQuestion = indexOfLastQuestion - questionsPerPage;
@@ -23,7 +23,7 @@ function RenderPagingQuestion(props) {
                         currentQuestions.map(((question, index) =>
                                 <RenderQuestionForm
                                     question={question}
-                                    index={index}
+                                    index={index+indexOfFirstQuestion}
                                     setExam={setExam}
                                     exam={values}
                                 />
