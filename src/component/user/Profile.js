@@ -10,11 +10,11 @@ import * as Yup from "yup";
 export default function Profile() {
     const {id} = useParams();
     const [user, setUser] = useState({})
-    const [imgUrl, setImgUrl] = useState(null);
+    const [avatar, setAvatar] = useState(null);
     const navigate = useNavigate();
     const [progressPercent, setProgressPercent] = useState(0);
     const initialValues = {
-        avatar: user.avatar || "/images/user.png",
+        avatar: avatar || "/images/user.png",
         name: user.name || "",
         email: user.email || "",
         phone: user.phone || "",
@@ -45,7 +45,7 @@ export default function Profile() {
                     <Formik
                         initialValues={initialValues}
                         onSubmit={(values) => {
-                            values.avatar = imgUrl;
+                            values.avatar = avatar;
                             axios.put(`http://localhost:8080/puzzling/users/${id}`, values)
                                 .then(() => {
                                     alert("Sửa thông tin thành công!")
@@ -156,7 +156,8 @@ export default function Profile() {
             },
             () => {
                 getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                    setImgUrl(downloadURL)
+                    setAvatar(downloadURL)
+
                 });
             }
         );
