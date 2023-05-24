@@ -6,6 +6,7 @@ import EditExamQuestionForm from "./component/EditExamQuestion/EditExamQuestionF
 import CreateExamForm from "./component/CreateExam/CreateExamForm";
 import CreateCategory from "./component/category/CreateCategory";
 import Exam from "./component/CreateExam/Exam";
+import Profile from "./component/user/Profile";
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
                 <Route path="/" element={<HomePage/>}/>
                 <Route path="/categories" element={<Categories/>}/>
                 <Route path="/createCategory" element={<CreateCategory/>}/>
+                <Route path="/profile" element={<Profile/>}/>
                 <Route path="/exam/all" element={<Exam/>}/>
                 <Route path="/exam/edit" element={<EditExamQuestionForm/>}/>
                 <Route path="/exam/create" element={<CreateExamForm/>}/>
