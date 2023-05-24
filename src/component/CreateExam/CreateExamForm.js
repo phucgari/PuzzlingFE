@@ -8,6 +8,9 @@ const validationSchema=Yup.object().shape({
     category:Yup.object().shape({
         id:Yup.string().required()
     }),
+    passScore:Yup.number().required(),
+    number:Yup.number().required(),
+    time:Yup.number().required(),
     user:Yup.object().required()
 })
 function CreateExamForm(props) {
@@ -41,26 +44,39 @@ function CreateExamForm(props) {
                 }}
             >
                 {({isValid})=>
-                (
-                <Form>
-                    <div className="container" >
-                        <h3> Tạo mới bài thi </h3>
-                        <Field name={`name`} className={"form-control"}
-                               id={`name`}
-                               placeholder="Tên Bài thi"/>
-                        <br/>
-                        <Field as="select" name="category.id">
-                            <option value="">chọn</option>
-                            {categories.map((cate)=>(
-                                <>
-                                    <option value={`${cate.id}`}>{cate.name}</option>
-                                </>
-                            ))}
-                        </Field>
-                        <button type="submit" className="btn btn-secondary" disabled={!isValid}>submit</button>
-                    </div>
-                </Form>
-                )}
+                    (
+                        <Form>
+                            <div className="container" >
+                                <h3> Tạo mới bài thi </h3>
+                                <Field name={`name`} className={"form-control"}
+                                       id={`name`}
+                                       placeholder="Tên Bài thi"/>
+                                <br/>
+                                <Field as="select" name="category.id">
+                                    <option value="">chọn</option>
+                                    {categories.map((cate)=>(
+                                        <>
+                                            <option value={`${cate.id}`}>{cate.name}</option>
+                                        </>
+                                    ))}
+                                </Field>
+                                <br/>
+                                <label>Số lượng câu hỏi</label>
+                                <br/>
+                                <Field type="number" name="number" />
+                                <br/>
+                                <label>Điểm đạt</label>
+                                <br/>
+                                <Field type="number" name="passScore" />
+                                <br/>
+                                <label>Thời gian bài thi</label>
+                                <br/>
+                                <Field type="text" name="time" />
+                                <br/>
+                                <button type="submit" className="btn btn-secondary" disabled={!isValid}>submit</button>
+                            </div>
+                        </Form>
+                    )}
             </Formik>
         </div>
     );
