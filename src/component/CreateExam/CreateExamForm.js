@@ -15,7 +15,7 @@ function CreateExamForm(props) {
     const[exam,setExam]=React.useState({
         name:"",
         category:{
-
+            id:""
         },
         user : JSON.parse(localStorage.getItem('account')).user
     })
@@ -29,9 +29,9 @@ function CreateExamForm(props) {
         <div>
             <Formik
                 initialValues={exam}
-                // validationSchema={validationSchema}
+                validationSchema={validationSchema}
                 onSubmit={(values) => {
-                    axios.post(`http://localhost:8080/puzzling/exam/createExam`, values)
+                    axios.post(`http://localhost:8080/puzzling/exam/create`, values)
                         .then((response) => {
                             navigate('/exam/edit',{state:{id:response.data.id}} );
                         })
@@ -50,13 +50,14 @@ function CreateExamForm(props) {
                                placeholder="Tên Bài thi"/>
                         <br/>
                         <Field as="select" name="category.id">
+                            <option value="">chọn</option>
                             {categories.map((cate)=>(
                                 <>
                                     <option value={`${cate.id}`}>{cate.name}</option>
                                 </>
                             ))}
                         </Field>
-                        <button type="submit" className="btn btn-secondary">submit</button>
+                        <button type="submit" className="btn btn-secondary" disabled={!isValid}>submit</button>
                     </div>
                 </Form>
                 )}
