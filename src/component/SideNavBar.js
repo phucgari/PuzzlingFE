@@ -43,12 +43,12 @@ function SideNavBar(props) {
                 <Link to={"javascript:void(0)"} className="closebtn " onClick={closeNav}>
                     <i className="fa fa-arrow-left" style={{marginRight:10, fontSize:25}}/>
                 </Link>
-                <a href="profile.html" className="">
+                <Link to="/profile" className="">
                     <img
                         src="/images/user.png"
                         className="user-profile shadow img-fluid rounded-circle ml-3"
-                    />
-                </a>
+                        alt={""}/>
+                </Link>
                 <a href="" className="text-white text-left">
                     <small>
                         <p>Hello</p>
@@ -58,9 +58,9 @@ function SideNavBar(props) {
                     <i className="fa fa-th-large text-white mr-3"/>
                     Danh mục
                 </Link>
-                <a onClick={() => navigate("/exam/create")}>
+                <a onClick={() => navigate("/exam/all")}>
                     <button className="gradientBtn animated wow fadeInUp delay-0-3s">
-                       Tạo bài Quiz
+                        Xem bài Quiz
                     </button>
                 </a>
                 <a href="category.html">
@@ -79,10 +79,10 @@ function SideNavBar(props) {
                     <i className="fa fa-history text-white mr-3"/>
                     Lịch sử thi
                 </a>
-                <a href="profile.html">
+                <Link to={"/profile"}>
                     <i className="fa fa-user-o text-white mr-3"/>
                     Thông tin cá nhân
-                </a>
+                </Link>
                 <a href="#" onClick={logout}>
                     <i className="fa fa-power-off text-white mr-3"/>
                     Đăng xuất

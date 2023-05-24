@@ -51,7 +51,7 @@ function BackGroundEditExamQuestion(props) {
             <div className="container">
                 <Formik initialValues={exam}
                         onSubmit={(values) => {
-                            axios.put(`http://localhost:8080/puzzling/exam/updateExam?examId=${id}`, values)
+                            axios.put(`http://localhost:8080/puzzling/exam/update?examId=${id}`, values)
                                 .then(() => {
                                     alert("Thành công!")
                                     navigate('/');

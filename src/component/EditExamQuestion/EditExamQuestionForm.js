@@ -12,8 +12,8 @@ function EditExamQuestionForm() {
         questions: []
     })
     React.useEffect(
-        () => {
-            axios.get(`http://localhost:8080/puzzling/exam/infoExam?examId=${id}`)
+
+        ()=>{axios.get(`http://localhost:8080/puzzling/exam/info?examId=${id}`)
                 .then((response) => {
                     setExam(response.data)
                 })

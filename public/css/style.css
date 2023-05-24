@@ -248,6 +248,10 @@ p#exampleModalLabel {
     padding-bottom: 70px;
 }
 
+.change-pass {
+    padding-bottom: 30px;
+}
+
 .rounded-modal {
     border-radius: 1.5rem !important;
 }
