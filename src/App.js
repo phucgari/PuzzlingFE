@@ -15,7 +15,7 @@ function App() {
                 <Route path="/" element={<HomePage/>}/>
                 <Route path="/categories" element={<Categories/>}/>
                 <Route path="/createCategory" element={<CreateCategory/>}/>
-                <Route path="/exam/edit" element={<EditExamQuestionForm/>}/>
+                <Route path="/exam/edit/*" element={<EditExamQuestionForm/>}/>
                 <Route path="/exam/create" element={<CreateExamForm/>}/>
             </Routes>
         </div>

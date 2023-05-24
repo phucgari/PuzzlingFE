@@ -2,38 +2,51 @@ import React from 'react';
 import SideBarEditExamQuestion from "./SideBarEditExamQuestion";
 import BackGroundEditExamQuestion from "./BackGroundEditExamQuestion";
 import axios from "axios";
-import {useLocation} from "react-router-dom";
+import {Route, Routes, useLocation} from "react-router-dom";
+import SearchAddQuestion from "../searchAddQuestion/SearchAddQuestion";
 
 function EditExamQuestionForm() {
     const {state} = useLocation();
-    const { id } = state;
+    const id = 1;
     const [exam, setExam] = React.useState({
         questions: []
     })
     React.useEffect(
-        ()=>{axios.get(`http://localhost:8080/puzzling/exam/infoExam?examId=${id}`)
+        () => {
+            axios.get(`http://localhost:8080/puzzling/exam/infoExam?examId=${id}`)
                 .then((response) => {
-                   setExam(response.data)
+                    setExam(response.data)
                 })
                 .catch((error) => {
                     console.log(error);
-                })}
-    , [])
+                })
+        }
+        , [])
     return (
-        <div className="container">
-            <div className="row">
-                <SideBarEditExamQuestion
-                    setExam={setExam}
+        <Routes>
+            <Route path={`/`} element={
+                <div className="container">
+                    <div className="row">
+                        <SideBarEditExamQuestion
+                            setExam={setExam}
+                            exam={exam}
+                        />
+                        <div className="col-1"></div>
+                        <BackGroundEditExamQuestion
+                            exam={exam}
+                            setExam={setExam}
+                            id={id}
+                        />
+                    </div>
+                </div>
+            } />
+            <Route path={`/search-add`} element={
+                <SearchAddQuestion
                     exam={exam}
-                />
-                <div className="col-1"></div>
-                <BackGroundEditExamQuestion
-                    exam={exam}
                     setExam={setExam}
-                    id={id}
                 />
-            </div>
-        </div>
+            }/>
+        </Routes>
     );
 }
 
