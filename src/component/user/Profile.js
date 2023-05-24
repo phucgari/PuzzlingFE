@@ -8,17 +8,17 @@ import {storage} from "../../firebase";
 import * as Yup from "yup";
 
 export default function Profile() {
-    const {id} = useParams();
+    const id = JSON.parse(localStorage.getItem("account")).user['id'];
     const [user, setUser] = useState({})
     const [imgUrl, setImgUrl] = useState(null);
     const navigate = useNavigate();
     const [progressPercent, setProgressPercent] = useState(0);
     const initialValues = {
         avatar: user.avatar || "/images/user.png",
-        name: user.name || "",
-        email: user.email || "",
-        phone: user.phone || "",
-        gender: user.gender || ""
+        name: user.name,
+        email: user.email,
+        phone: user.phone,
+        gender: user.gender
     }
 
     const validationSchema = Yup.object().shape({
@@ -36,7 +36,7 @@ export default function Profile() {
             .catch((error) => {
                 console.log(error);
             });
-    }, [id]);
+    },[id]);
 
     return (
         <div className="container">
@@ -46,7 +46,7 @@ export default function Profile() {
                         initialValues={initialValues}
                         onSubmit={(values) => {
                             values.avatar = imgUrl;
-                            axios.put(`http://localhost:8080/puzzling/users/${id}`, values)
+                            axios.put(`http://localhost:8080/puzzling/users/${JSON.parse(localStorage.getItem("account")).user['id']}`, values)
                                 .then(() => {
                                     alert("Sửa thông tin thành công!")
                                 })
@@ -74,8 +74,8 @@ export default function Profile() {
                                                 <span><img src="/images/left-icon.png" alt={""}/></span>
                                             </div>
                                             <Field type="text" id="recipient-user"
-                                                   name={"name"} placeholder="Họ tên..."
-                                                   className="form-control textfield-rounded shadow-sm mb-4 ml-n3"/>
+                                                   name={"name"}  placeholder="Họ tên..." value={initialValues.name}
+                                                   className="form-control textfield-rounded shadow-sm mb-4 ml-n3" />
                                             <ErrorMessage name={"name"} style={{color:"red"}}/>
                                         </div>
                                     </div>
@@ -85,18 +85,19 @@ export default function Profile() {
                                                 <span><img src="/images/right-icon.png" className="rotate-180" alt={""}/></span>
                                             </div>
                                             <Field type="text" id="recipient-mobile"
-                                                   name={"email"} placeholder="Email..."
+                                                   name={"email"} placeholder="Email..."  value={initialValues.email}
                                                    className="form-control textfield-rounded shadow-sm p-3 mb-4 ml-n3"/>
                                             <ErrorMessage name={"email"} style={{color:"red"}}/>
                                         </div>
                                     </div>
+
                                     <div className="col-lg-6">
                                         <div className="form-group input-group w-100 animated wow fadeInDown delay-0-3s">
                                             <div className="input-group-prepend">
                                                 <span><img src="/images/right-icon.png" className="rotate-180" alt={""}/></span>
                                             </div>
                                             <Field type="text" id="recipient-adress"
-                                                   name={"phone"} placeholder="Số điện thoại..."
+                                                   name={"phone"} placeholder="Số điện thoại..." value={initialValues.phone}
                                                    className="form-control textfield-rounded shadow-sm p-3 mb-4 ml-n3"/>
                                             <ErrorMessage name={"phone"} style={{color:"red"}}/>
                                         </div>
@@ -106,11 +107,11 @@ export default function Profile() {
                                             <div className="input-group-prepend">
                                                 <span><img src="/images/left-icon.png" alt={""}/></span>
                                             </div>
-                                            <select name={"gender"}
+                                            <select as="select" name={"gender"}
                                                     className="form-control textfield-rounded gender-value shadow-sm mb-4 ml-n3">
-                                                <option hidden>Giới tính</option>
-                                                <option value={"MALE"}>Nam</option>
+                                                <option value={"MALE"}> Nam </option>
                                                 <option value={"FEMALE"}>Nữ</option>
+
                                             </select>
                                         </div>
                                     </div>
