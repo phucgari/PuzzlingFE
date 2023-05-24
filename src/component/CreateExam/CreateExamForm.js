@@ -24,7 +24,7 @@ function CreateExamForm(props) {
     })
     const[categories,setCategories]=React.useState([])
     React.useEffect(()=>{
-        axios.get("http://localhost:8080/puzzling/categories").then((response)=>{
+        axios.get("http://localhost:8080/puzzling/categories/").then((response)=>{
             setCategories(response.data)
         })
     },[])
