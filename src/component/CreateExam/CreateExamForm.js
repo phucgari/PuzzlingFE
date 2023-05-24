@@ -8,8 +8,8 @@ const validationSchema=Yup.object().shape({
     category:Yup.object().shape({
         id:Yup.string().required()
     }),
-    passScore:Yup.number().required(),
-    time:Yup.number().required(),
+    passScore:Yup.number().required().min(0),
+    time:Yup.number().required().min(0),
     user:Yup.object().required()
 })
 function CreateExamForm(props) {
