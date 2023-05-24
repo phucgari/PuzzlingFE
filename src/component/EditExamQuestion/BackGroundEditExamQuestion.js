@@ -3,7 +3,7 @@ import {FieldArray, Form, Formik} from "formik";
 import RenderQuestionForm from "./BackGroundEditExamQuestion/RenderQuestionForm";
 import * as Yup from "yup";
 import axios from "axios";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 const validationExam=Yup.object().shape({
     questions:Yup.array().of(
         Yup.object().shape({
@@ -36,7 +36,7 @@ const validationExam=Yup.object().shape({
 })
 function BackGroundEditExamQuestion(props) {
     const navigate = useNavigate();
-    const {exam, setExam} = props
+    const {exam, setExam,id} = props
     useEffect(
         () => {
 
@@ -48,8 +48,9 @@ function BackGroundEditExamQuestion(props) {
             <div className="container">
                 <Formik initialValues={exam}
                         onSubmit={(values) => {
-                            axios.put(`http://localhost:8080/puzzling/exam/updateExam?examId=1`, values)
+                            axios.put(`http://localhost:8080/puzzling/exam/update?examId=${id}`, values)
                                 .then(() => {
+                                    alert("Thành công!")
                                     navigate('/');
                                 })
                                 .catch((error) => {

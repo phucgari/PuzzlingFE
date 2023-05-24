@@ -2,13 +2,16 @@ import React from 'react';
 import SideBarEditExamQuestion from "./SideBarEditExamQuestion";
 import BackGroundEditExamQuestion from "./BackGroundEditExamQuestion";
 import axios from "axios";
+import {useLocation} from "react-router-dom";
 
 function EditExamQuestionForm() {
+    const {state} = useLocation();
+    const { id } = state;
     const [exam, setExam] = React.useState({
         questions: []
     })
     React.useEffect(
-        ()=>{axios.get(`http://localhost:8080/puzzling/exam/infoExam?examId=1`)
+        ()=>{axios.get(`http://localhost:8080/puzzling/exam/info?examId=${id}`)
                 .then((response) => {
                    setExam(response.data)
                 })
@@ -27,6 +30,7 @@ function EditExamQuestionForm() {
                 <BackGroundEditExamQuestion
                     exam={exam}
                     setExam={setExam}
+                    id={id}
                 />
             </div>
         </div>

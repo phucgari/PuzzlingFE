@@ -2,6 +2,7 @@ import React from 'react';
 import {Field, Form, Formik} from "formik";
 import axios from "axios";
 import * as Yup from "yup";
+import {useNavigate} from "react-router-dom";
 const validationSchema=Yup.object().shape({
     name:Yup.string().required(),
     category:Yup.object().shape({
@@ -10,10 +11,11 @@ const validationSchema=Yup.object().shape({
     user:Yup.object().required()
 })
 function CreateExamForm(props) {
+    const navigate = useNavigate();
     const[exam,setExam]=React.useState({
         name:"",
         category:{
-
+            id:""
         },
         user : JSON.parse(localStorage.getItem('account')).user
     })
@@ -27,8 +29,16 @@ function CreateExamForm(props) {
         <div>
             <Formik
                 initialValues={exam}
-                // validationSchema={validationSchema}
-                onSubmit={console.log}
+                validationSchema={validationSchema}
+                onSubmit={(values) => {
+                    axios.post(`http://localhost:8080/puzzling/exam/create`, values)
+                        .then((response) => {
+                            navigate('/exam/edit',{state:{id:response.data.id}} );
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                        });
+                }}
             >
                 {({isValid})=>
                 (
@@ -40,13 +50,14 @@ function CreateExamForm(props) {
                                placeholder="Tên Bài thi"/>
                         <br/>
                         <Field as="select" name="category.id">
+                            <option value="">chọn</option>
                             {categories.map((cate)=>(
                                 <>
                                     <option value={`${cate.id}`}>{cate.name}</option>
                                 </>
                             ))}
                         </Field>
-                        <button type="submit" className="btn btn-secondary">submit</button>
+                        <button type="submit" className="btn btn-secondary" disabled={!isValid}>submit</button>
                     </div>
                 </Form>
                 )}
