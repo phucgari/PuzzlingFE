@@ -6,7 +6,7 @@ export default function Categories() {
     const [categories, setCategories] = useState([]);
 
     useEffect(() => {
-            axios.get("http://localhost:8080/puzzling/categories")
+            axios.get("http://localhost:8080/puzzling/categories/")
                 .then((response) => {
                     setCategories(response.data)
                 })
