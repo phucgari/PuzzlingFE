@@ -15,14 +15,14 @@ function openNav() {
 }
 
 function SideNavBar(props) {
-    const account = JSON.parse(localStorage.getItem("account"))
+    const id = JSON.parse(localStorage.getItem("id"))
     const navigate = useNavigate()
-    const [isSideNavOpen, setIsSideNavOpen] = useState(false)
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const validation = Yup.object().shape({
         username: Yup.string().required("Không được để trống!").min(6, "Tối thiểu là 6 ký tự!!").max(32,"Tối đa 32 ký tự!")
             .test("username","Tên người dùng đã tồn tại",async function (username) {
-                return axios.get("http://localhost:8080/puzzling/check/" + username).then(
+                return axios.get("http://localhost:8080/puzzling/check?username=" + username).then(
+
                     () => true
                 ).catch(
                     () => false
@@ -49,20 +49,28 @@ function SideNavBar(props) {
                         className="user-profile shadow img-fluid rounded-circle ml-3"
                         alt={""}/>
                 </Link>
-                <a href="" className="text-white text-left">
-                    <small>
-                        <p>Hello</p>
-                    </small>
-                </a>
+                {
+                    id != null &&
+                    (
+                        <a href="" className="text-white text-left">
+                            <small>
+                                <p>{id.username}</p>
+                            </small>
+                        </a>
+                    )
+                }
                 <Link to="/categories">
                     <i className="fa fa-th-large text-white mr-3"/>
                     Danh mục
                 </Link>
-                <a onClick={() => navigate("/exam/all")}>
-                    <button className="gradientBtn animated wow fadeInUp delay-0-3s">
-                        Xem bài Quiz
-                    </button>
-                </a>
+                {
+                    id != null && (
+                        <Link to={"/exam/all"}>
+                            <i className="fa fa-question text-white mr-3"/>
+                            Xem bài Quiz
+                        </Link>
+                    )
+                }
                 <a href="category.html">
                     <i className="fa fa-question text-white mr-3"/>
                     Giải câu đố
@@ -79,28 +87,36 @@ function SideNavBar(props) {
                     <i className="fa fa-history text-white mr-3"/>
                     Lịch sử thi
                 </a>
-                <Link to={"/profile"}>
-                    <i className="fa fa-user-o text-white mr-3"/>
-                    Thông tin cá nhân
-                </Link>
-                <a href="#" onClick={logout}>
-                    <i className="fa fa-power-off text-white mr-3"/>
-                    Đăng xuất
-                </a>
+                {
+                    id != null && (
+                        <Link to={"/profile"}>
+                            <i className="fa fa-user-o text-white mr-3"/>
+                            Thông tin cá nhân
+                        </Link>
+                    )
+                }
+                {
+                    id != null && (
+                        <a href="#" onClick={logout}>
+                            <i className="fa fa-power-off text-white mr-3"/>
+                            Đăng xuất
+                        </a>
+                    )
+                }
             </div>
             {/*Nav Bar*/}
             <nav className="navbar navbar-expand-lg">
                 <div className="container">
                     <span className="menu" onClick={openNav}>
-                        <img src="/images/menu.png"/>
+                        <img src="/images/menu.png" alt={""}/>
                     </span>
                     <a className="zIndex-1 ml-n5 mr-5" href="#">
                         <img
-                            src="/images/logo.png"
+                            src="/images/logo.png" alt={""}
                             className="d-none d-sm-none d-md-block ml-n5 mr-5"
                         />
                     </a>
-                    {account === null && <ul className="nav">
+                    {id === null && <ul className="nav">
                         <li className="nav-item" onClick={openLogin}>
                             <a
                                 className="nav-link text-white cursor-pointer"
@@ -129,7 +145,7 @@ function SideNavBar(props) {
                             </div>
                         </li>
                     </ul>}
-                    {account !== null}
+                    {id !== null}
                 </div>
             </nav>
             {/*Login Modal*/}
@@ -184,7 +200,7 @@ function SideNavBar(props) {
                                             />
                                             <div className="input-group-append z-Index-2">
                                             <span>
-                                                <img src="/images/right-icon.png" className="ml-n6"/>
+                                                <img src="/images/right-icon.png" className="ml-n6" alt={""}/>
                                                 <i className="fa fa-user-o ml-n4-1 text-white"/>
                                             </span>
                                             </div>
@@ -192,7 +208,7 @@ function SideNavBar(props) {
                                         <div className="form-group input-group w-75 animated wow fadeInDown delay-0-2s">
                                             <div className="input-group-prepend z-Index-2">
                                             <span>
-                                                <img src="/images/left-icon.png"/>
+                                                <img src="/images/left-icon.png" alt={""}/>
                                                 <i className="fa fa-key ml-n4-2 text-white"/>
                                             </span>
                                             </div>
@@ -309,7 +325,7 @@ function SideNavBar(props) {
                                                 className="col-lg-6 form-group input-group w-75 animated wow fadeInDown delay-0-1s">
                                                 <div className="input-group-prepend z-Index-2">
                                                 <span>
-                                                    <img src="/images/left-icon.png"/>
+                                                    <img src="/images/left-icon.png" alt={""}/>
                                                     <i className="fa fa-user-o zIndex-2 ml-n4-2 text-white"/>
                                                 </span>
                                                 </div>
@@ -326,7 +342,7 @@ function SideNavBar(props) {
                                                 className="col-lg-6 form-group input-group w-75 animated wow fadeInDown delay-0-2s">
                                                 <div className="input-group-prepend z-Index-2">
                                                 <span>
-                                                    <img src="/images/right-icon.png" className="rotate-180"/>
+                                                    <img src="/images/right-icon.png" className="rotate-180" alt={""}/>
                                                     <i className="fa fa-envelope zIndex-2 ml-n4-2 text-white rotate-n0"/>
                                                 </span>
                                                 </div>
@@ -343,7 +359,7 @@ function SideNavBar(props) {
                                                 className="col-lg-6 form-group input-group w-75 animated wow fadeInDown delay-0-3s">
                                                 <div className="input-group-prepend z-Index-2">
                                                 <span>
-                                                    <img src="/images/right-icon.png" className="rotate-180"/>
+                                                    <img src="/images/right-icon.png" className="rotate-180" alt={""}/>
                                                     <i className="fa fa-key rotate-n0 zIndex-2 ml-n4-2 text-white"/>
                                                 </span>
                                                 </div>
@@ -360,7 +376,7 @@ function SideNavBar(props) {
                                                 className="col-lg-6 form-group input-group w-75 animated wow fadeInDown delay-0-4s">
                                                 <div className="input-group-prepend z-Index-2">
                                                 <span>
-                                                    <img src="/images/left-icon.png"/>
+                                                    <img src="/images/left-icon.png" alt={""}/>
                                                     <i className="fa fa-key zIndex-2 ml-n4-2 text-white"/>
                                                 </span>
                                                 </div>
@@ -447,16 +463,11 @@ function SideNavBar(props) {
 
     function login(values) {
         axios.post('http://localhost:8080/puzzling/login', values)
-            .then(response => {
-                const { username, password, user } = response.data;
-                const account = {
-                    username: username,
-                    password: password,
-                    user: user
-                };
+            .then((response) => {
+
                 setIsLoggedIn(true);
                 alert('Đăng nhập thành công.');
-                localStorage.setItem('account', JSON.stringify(account));
+                localStorage.setItem("id", JSON.stringify(response.data.id));
             })
             .then(() => {
                 closeLogin();
@@ -467,7 +478,7 @@ function SideNavBar(props) {
     }
 
     function logout() {
-        localStorage.removeItem('account');
+        localStorage.removeItem('id');
         setIsLoggedIn(false);
         alert('Đăng xuất thành công.');
         // openSignUp()

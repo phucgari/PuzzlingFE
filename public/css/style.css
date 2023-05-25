@@ -569,3 +569,11 @@ input {
 #profileImage {
     cursor: pointer;
 }
+
+.gender-value {
+    text-align: center;
+}
+
+.imageUpload>input {
+    display: none;
+}

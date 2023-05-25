@@ -8,9 +8,8 @@ const validationSchema=Yup.object().shape({
     category:Yup.object().shape({
         id:Yup.string().required()
     }),
-    passScore:Yup.number().required(),
-    number:Yup.number().required(),
-    time:Yup.number().required(),
+    passScore:Yup.number().required().min(0),
+    time:Yup.number().required().min(0),
     user:Yup.object().required()
 })
 function CreateExamForm(props) {
@@ -60,10 +59,6 @@ function CreateExamForm(props) {
                                         </>
                                     ))}
                                 </Field>
-                                <br/>
-                                <label>Số lượng câu hỏi</label>
-                                <br/>
-                                <Field type="number" name="number" />
                                 <br/>
                                 <label>Điểm đạt</label>
                                 <br/>
