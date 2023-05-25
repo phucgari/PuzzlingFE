@@ -11,13 +11,12 @@ export default function Profile() {
     const id = JSON.parse(localStorage.getItem("account")).user['id'];
     const [user, setUser] = useState({})
     const [imgUrl, setImgUrl] = useState(null);
-    const navigate = useNavigate();
     const [progressPercent, setProgressPercent] = useState(0);
     const initialValues = {
-        avatar: user.avatar || "/images/user.png",
-        name: user.name,
-        email: user.email,
-        phone: user.phone,
+        avatar: imgUrl || "/images/user.png",
+        name: user.name || "",
+        email: user.email || "",
+        phone: user.phone || "",
         gender: user.gender
     }
 
@@ -55,6 +54,7 @@ export default function Profile() {
                                 })
                         }}
                         validationSchema={validationSchema}
+                        enableReinitialize={true}
                     >
                         <Form>
                             <div className={"imageUpload"} style={{textAlign:"center"}}>
@@ -74,7 +74,7 @@ export default function Profile() {
                                                 <span><img src="/images/left-icon.png" alt={""}/></span>
                                             </div>
                                             <Field type="text" id="recipient-user"
-                                                   name={"name"}  placeholder="Họ tên..." value={initialValues.name}
+                                                   name={"name"}  placeholder="Họ tên..."
                                                    className="form-control textfield-rounded shadow-sm mb-4 ml-n3" />
                                             <ErrorMessage name={"name"} style={{color:"red"}}/>
                                         </div>
@@ -85,7 +85,7 @@ export default function Profile() {
                                                 <span><img src="/images/right-icon.png" className="rotate-180" alt={""}/></span>
                                             </div>
                                             <Field type="text" id="recipient-mobile"
-                                                   name={"email"} placeholder="Email..."  value={initialValues.email}
+                                                   name={"email"} placeholder="Email..."
                                                    className="form-control textfield-rounded shadow-sm p-3 mb-4 ml-n3"/>
                                             <ErrorMessage name={"email"} style={{color:"red"}}/>
                                         </div>
@@ -97,8 +97,13 @@ export default function Profile() {
                                                 <span><img src="/images/right-icon.png" className="rotate-180" alt={""}/></span>
                                             </div>
                                             <Field type="text" id="recipient-adress"
+<<<<<<< HEAD
                                                    name={"phone"} placeholder="Số điện thoại..." value={initialValues.phone}
                                                    className="form-control textfield-rounded shadow-sm p-3 mb-4 ml-n3" />
+=======
+                                                   name={"phone"} placeholder="Số điện thoại..."
+                                                   className="form-control textfield-rounded shadow-sm p-3 mb-4 ml-n3"/>
+>>>>>>> bf8860e03602bfe9e3ff92e8583622eec6970bb9
                                             <ErrorMessage name={"phone"} style={{color:"red"}}/>
                                         </div>
                                     </div>
@@ -107,12 +112,13 @@ export default function Profile() {
                                             <div className="input-group-prepend">
                                                 <span><img src="/images/left-icon.png" alt={""}/></span>
                                             </div>
-                                            <select as="select" name={"gender"}
+                                            <Field as="select" name={"gender"}
                                                     className="form-control textfield-rounded gender-value shadow-sm mb-4 ml-n3">
+                                                <option value={""}> Chọn </option>
                                                 <option value={"MALE"}> Nam </option>
                                                 <option value={"FEMALE"}>Nữ</option>
 
-                                            </select>
+                                            </Field>
                                         </div>
                                     </div>
                                 </div>
@@ -134,7 +140,6 @@ export default function Profile() {
                     </Formik>
                 </div>
             </div>
-            {/*</div>*/}
             {/*Change Password Modal*/}
             <ChangePassword/>
         </div>
