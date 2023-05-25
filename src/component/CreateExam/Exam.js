@@ -7,7 +7,7 @@ export default function Exam() {
     const navigate = useNavigate();
 
     useEffect(() => {
-            axios.get(`http://localhost:8080/puzzling/exam/list?username=${JSON.parse(localStorage.getItem("account")).username}`)
+            axios.get(`http://localhost:8080/puzzling/exam/list?user=${JSON.parse(localStorage.getItem("account")).user.id}`)
                 .then((response) => {
                     setExam(response.data)
                 })
