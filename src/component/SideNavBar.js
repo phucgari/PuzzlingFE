@@ -15,7 +15,7 @@ function openNav() {
 }
 
 function SideNavBar(props) {
-    const account = JSON.parse(localStorage.getItem("account"))
+    const id = JSON.parse(localStorage.getItem("id"))
     const navigate = useNavigate()
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const validation = Yup.object().shape({
@@ -50,11 +50,11 @@ function SideNavBar(props) {
                         alt={""}/>
                 </Link>
                 {
-                    account != null &&
+                    id != null &&
                     (
                         <a href="" className="text-white text-left">
                             <small>
-                                <p>{account.username}</p>
+                                <p>{id.username}</p>
                             </small>
                         </a>
                     )
@@ -64,7 +64,7 @@ function SideNavBar(props) {
                     Danh mục
                 </Link>
                 {
-                    account != null && (
+                    id != null && (
                         <Link to={"/exam/all"}>
                             <i className="fa fa-question text-white mr-3"/>
                             Xem bài Quiz
@@ -88,7 +88,7 @@ function SideNavBar(props) {
                     Lịch sử thi
                 </a>
                 {
-                    account != null && (
+                    id != null && (
                         <Link to={"/profile"}>
                             <i className="fa fa-user-o text-white mr-3"/>
                             Thông tin cá nhân
@@ -96,7 +96,7 @@ function SideNavBar(props) {
                     )
                 }
                 {
-                    account != null && (
+                    id != null && (
                         <a href="#" onClick={logout}>
                             <i className="fa fa-power-off text-white mr-3"/>
                             Đăng xuất
@@ -116,7 +116,7 @@ function SideNavBar(props) {
                             className="d-none d-sm-none d-md-block ml-n5 mr-5"
                         />
                     </a>
-                    {account === null && <ul className="nav">
+                    {id === null && <ul className="nav">
                         <li className="nav-item" onClick={openLogin}>
                             <a
                                 className="nav-link text-white cursor-pointer"
@@ -145,7 +145,7 @@ function SideNavBar(props) {
                             </div>
                         </li>
                     </ul>}
-                    {account !== null}
+                    {id !== null}
                 </div>
             </nav>
             {/*Login Modal*/}
@@ -463,16 +463,11 @@ function SideNavBar(props) {
 
     function login(values) {
         axios.post('http://localhost:8080/puzzling/login', values)
-            .then(response => {
-                const { username, password, user } = response.data;
-                const account = {
-                    username: username,
-                    password: password,
-                    user: user
-                };
+            .then((response) => {
+
                 setIsLoggedIn(true);
                 alert('Đăng nhập thành công.');
-                localStorage.setItem('account', JSON.stringify(account));
+                localStorage.setItem("id", JSON.stringify(response.data.id));
             })
             .then(() => {
                 closeLogin();
@@ -483,7 +478,7 @@ function SideNavBar(props) {
     }
 
     function logout() {
-        localStorage.removeItem('account');
+        localStorage.removeItem('id');
         setIsLoggedIn(false);
         alert('Đăng xuất thành công.');
         // openSignUp()
