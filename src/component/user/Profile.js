@@ -97,13 +97,8 @@ export default function Profile() {
                                                 <span><img src="/images/right-icon.png" className="rotate-180" alt={""}/></span>
                                             </div>
                                             <Field type="text" id="recipient-adress"
-<<<<<<< HEAD
-                                                   name={"phone"} placeholder="Số điện thoại..." value={initialValues.phone}
-                                                   className="form-control textfield-rounded shadow-sm p-3 mb-4 ml-n3" />
-=======
                                                    name={"phone"} placeholder="Số điện thoại..."
                                                    className="form-control textfield-rounded shadow-sm p-3 mb-4 ml-n3"/>
->>>>>>> bf8860e03602bfe9e3ff92e8583622eec6970bb9
                                             <ErrorMessage name={"phone"} style={{color:"red"}}/>
                                         </div>
                                     </div>
