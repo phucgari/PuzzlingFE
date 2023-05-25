@@ -2,36 +2,81 @@ import React, {useEffect, useState} from 'react';
 import axios from "axios";
 import Pagination from "./Pagination";
 import MappingQuestionsSearched from "./MappingQuestionsSearched";
-import {Field, Form, Formik} from "formik";
+import {Field, FieldArray, Form, Formik} from "formik";
+import {useNavigate} from "react-router-dom";
 
 function SearchAddQuestion(props) {
-    const{exam,setExam}=props
-    const [questionsSearched, setQuestionsSearched] = useState([]);
+    const {exam, setExam} = props
+    const navigate = useNavigate();
     const [currentPage, setCurrentPage] = useState(1);
-    const [questionsPerPage] = useState(10);
+    const [ElementPerPage] = useState(5);
+    const [selectQuestionToAdd, setSelectQuestionToAdd] = useState({elements: []})
+    const [searchForm] = useState({
+        name: "",
+        category: exam.category.name,
+        questionType: "",
+        level: ""
+    })
+    function addtoExam(values,action){
+        let newQ=[]
+        values.elements.forEach((element)=> {
+            let question=element.question
+            if(element.add)
+            newQ.push({
+                level:question.level,
+                name:question.name,
+                questionType:question.questionType,
+                options:question.options.map((option)=>({
+                    name:option.name,
+                    status:option.status
+                }))
+            })
+        })
+        setExam((exam)=>({
+            ...exam,
+            questions:[
+                ...exam.questions,
+                ...newQ
+            ]
+        }))
+        action.resetForm()
+        navigate("/exam/edit/")
+    }
+    function search(searchForm) {
+        axios.post(`http://localhost:8080/puzzling/question/search`, searchForm)
+            .then((response) => {
+                let mapper = response.data.map((question) =>
+                    ({
+                        question: question,
+                        add: false
+                    })
+                )
+                setSelectQuestionToAdd({elements: mapper})
+            })
+    }
 
     useEffect(() => {
-
+        search(searchForm)
     }, []);
 
     // Get current posts
-    const indexOfLastQuestion = currentPage * questionsPerPage;
-    const indexOfFirstQuestion = indexOfLastQuestion - questionsPerPage;
-    const currentQuestions = questionsSearched.slice(indexOfFirstQuestion, indexOfLastQuestion);
+    const indexOfLastElement = currentPage * ElementPerPage;
+    const indexOfFirstElement = indexOfLastElement - ElementPerPage;
+    const currentElements = selectQuestionToAdd.elements.slice(indexOfFirstElement, indexOfLastElement);
 
     // Change page
     const paginate = pageNumber => setCurrentPage(pageNumber);
 
     return (
         <div className='container mt-5'>
+            <button type="button" onClick={() => navigate("/exam/edit/")} className="btn btn-primary"> Trở về trình quản
+                lý câu hỏi
+            </button>
             <h1 className='text-primary mb-3'>Search Questions</h1>
-            <Formik initialValues={({
-                name: "",
-                category:exam.category,
-                questionType:"",
-                level:""
-            })}>
-                {({value})=>
+            <Formik initialValues={searchForm}
+                onSubmit={search}
+            >
+                {({value}) =>
                     <Form>
                         <Field name={`name`} className={"form-control"}
                                id={`name`}
@@ -57,10 +102,26 @@ function SearchAddQuestion(props) {
                     </Form>
                 }
             </Formik>
-            <MappingQuestionsSearched questions={currentQuestions} />
+            <Formik
+                initialValues={selectQuestionToAdd}
+                enableReinitialize={true}
+                onSubmit={addtoExam}
+            >
+                <Form>
+                    <FieldArray name={"element"}>
+                        {
+                            (arrayHelper) =>
+                                <MappingQuestionsSearched
+                                    elements={currentElements}
+                                    startIndex={indexOfFirstElement}/>
+                        }
+                    </FieldArray>
+                    <button type="submit" className="btn btn-secondary">Thêm vào </button>
+                </Form>
+            </Formik>
             <Pagination
-                questionsPerPage={questionsPerPage}
-                totalQuestions={questionsSearched.length}
+                elementPerPage={ElementPerPage}
+                totalElements={selectQuestionToAdd.elements.length}
                 paginate={paginate}
             />
         </div>

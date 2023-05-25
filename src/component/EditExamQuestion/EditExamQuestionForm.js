@@ -7,13 +7,13 @@ import SearchAddQuestion from "../searchAddQuestion/SearchAddQuestion";
 
 function EditExamQuestionForm() {
     const {state} = useLocation();
-    const {id} = state;
     const [exam, setExam] = React.useState({
         questions: []
     })
     React.useEffect(
-
-        ()=>{axios.get(`http://localhost:8080/puzzling/exam/info?examId=${id}`)
+        ()=>{
+            const {id} = state;
+            axios.get(`http://localhost:8080/puzzling/exam/info?examId=${id}`)
                 .then((response) => {
                     setExam(response.data)
                 })
@@ -23,30 +23,34 @@ function EditExamQuestionForm() {
         }
         , [])
     return (
-        <Routes>
-            <Route path={`/`} element={
-                <div className="container">
-                    <div className="row">
-                        <SideBarEditExamQuestion
-                            setExam={setExam}
-                            exam={exam}
-                        />
-                        <div className="col-1"></div>
-                        <BackGroundEditExamQuestion
-                            exam={exam}
-                            setExam={setExam}
-                            id={id}
-                        />
+        <>
+            <h3 className="d-flex justify-content-center"> Bộ câu hỏi {exam.name} </h3>
+            <h5 className="d-flex justify-content-center"> Tổng số câu hỏi: {exam.questions.length} </h5>
+            <Routes>
+                <Route path={`/`} element={
+                    <div className="container">
+                        <div className="row">
+                            <SideBarEditExamQuestion
+                                setExam={setExam}
+                                exam={exam}
+                            />
+                            <div className="col-1"></div>
+                            <BackGroundEditExamQuestion
+                                exam={exam}
+                                setExam={setExam}
+                                id={exam.id}
+                            />
+                        </div>
                     </div>
-                </div>
-            } />
-            <Route path={`/search-add`} element={
-                <SearchAddQuestion
-                    exam={exam}
-                    setExam={setExam}
-                />
-            }/>
-        </Routes>
+                } />
+                <Route path={`/search-add`} element={
+                    <SearchAddQuestion
+                        exam={exam}
+                        setExam={setExam}
+                    />
+                }/>
+            </Routes>
+        </>
     );
 }
 
