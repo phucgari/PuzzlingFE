@@ -13,7 +13,7 @@ export default function Profile() {
     const [imgUrl, setImgUrl] = useState(null);
     const [progressPercent, setProgressPercent] = useState(0);
     const initialValues = {
-        avatar: imgUrl || "/images/user.png",
+        avatar: imgUrl || user.avatar,
         name: user.name || "",
         email: user.email || "",
         phone: user.phone || "",
