@@ -46,7 +46,7 @@ export default function Profile() {
                         initialValues={initialValues}
                         onSubmit={(values) => {
                             values.avatar = imgUrl;
-                            axios.put(`http://localhost:8080/puzzling/users/${JSON.parse(localStorage.getItem("account")).user['id']}`, values)
+                            axios.put(`http://localhost:8080/puzzling/users/${id}`, values)
                                 .then(() => {
                                     alert("Sửa thông tin thành công!")
                                 })
@@ -98,7 +98,7 @@ export default function Profile() {
                                             </div>
                                             <Field type="text" id="recipient-adress"
                                                    name={"phone"} placeholder="Số điện thoại..." value={initialValues.phone}
-                                                   className="form-control textfield-rounded shadow-sm p-3 mb-4 ml-n3"/>
+                                                   className="form-control textfield-rounded shadow-sm p-3 mb-4 ml-n3" />
                                             <ErrorMessage name={"phone"} style={{color:"red"}}/>
                                         </div>
                                     </div>
@@ -117,7 +117,7 @@ export default function Profile() {
                                     </div>
                                 </div>
                                 <center>
-                                    <button type="button" className="gradientBtn w-50 animated wow fadeInUp">Lưu thông tin</button>
+                                    <button type="submit" className="gradientBtn w-50 animated wow fadeInUp">Lưu thông tin</button>
                                 </center>
                             </div>
                             <div className="modal-footer border-0 mt-n4">
