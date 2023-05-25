@@ -21,7 +21,7 @@ function SideNavBar(props) {
     const validation = Yup.object().shape({
         username: Yup.string().required("Không được để trống!").min(6, "Tối thiểu là 6 ký tự!!").max(32,"Tối đa 32 ký tự!")
             .test("username","Tên người dùng đã tồn tại",async function (username) {
-                return axios.get("http://localhost:8080/puzzling/check/" + username).then(
+                return axios.get("http://localhost:8080/puzzling/check?username="+username).then(
                     () => true
                 ).catch(
                     () => false
