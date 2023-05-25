@@ -3,11 +3,12 @@ import axios from "axios";
 import {Link, useNavigate} from "react-router-dom";
 
 export default function Exam() {
+    const id = JSON.parse(localStorage.getItem("id"));
     const [exam, setExam] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
-            axios.get(`http://localhost:8080/puzzling/exam/list?user=${JSON.parse(localStorage.getItem("account")).user.id}`)
+            axios.get(`http://localhost:8080/puzzling/exam/list?user=${id}`)
                 .then((response) => {
                     setExam(response.data)
                 })
