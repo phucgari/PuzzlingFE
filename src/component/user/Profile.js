@@ -1,4 +1,4 @@
-import {Link, useNavigate, useParams} from "react-router-dom";
+import {Link} from "react-router-dom";
 import ChangePassword from "./ChangePassword";
 import {Formik, Form, Field, ErrorMessage} from "formik";
 import axios from "axios";
@@ -8,7 +8,7 @@ import {storage} from "../../firebase";
 import * as Yup from "yup";
 
 export default function Profile() {
-    const id = JSON.parse(localStorage.getItem("account")).user['id'];
+    const id = JSON.parse(localStorage.getItem("id"));
     const [user, setUser] = useState({})
     const [imgUrl, setImgUrl] = useState(null);
     const [progressPercent, setProgressPercent] = useState(0);
