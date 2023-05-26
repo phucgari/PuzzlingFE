@@ -19,11 +19,7 @@ function CreateExamForm(props) {
             id:""
         },
         user : {
-<<<<<<< HEAD
-            id:JSON.parse(localStorage.getItem('id')).user
-=======
             id:JSON.parse(localStorage.getItem('id'))
->>>>>>> 94cfa941c7d7a571c47af10a4e66ac409e41de16
         }
     })
     const[categories,setCategories]=React.useState([])
