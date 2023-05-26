@@ -26,10 +26,13 @@ const validationExam = Yup.object().shape({
                 } else if (questionType === "MULTI_CHOICE") {
                     return schema.test("test Option Array", (value, context) => {
                         let checkName = true
+                        let countStatus= 0
                         value.forEach((option) => {
                             if (!option.name) checkName = false
+                            if (option.status) countStatus++
                         })
-                        return checkName
+                        let checkStatus=countStatus >= 2
+                        return checkName && checkStatus
                     })
                 }
             })
