@@ -8,7 +8,7 @@ const validationSchema=Yup.object().shape({
     category:Yup.object().shape({
         id:Yup.string().required()
     }),
-    passScore:Yup.number().required().min(0),
+    passScore:Yup.number().required().min(0).max(100),
     time:Yup.number().required().min(0),
     user:Yup.object().required()
 })
@@ -19,7 +19,9 @@ function CreateExamForm(props) {
         category:{
             id:""
         },
-        user : JSON.parse(localStorage.getItem('id')).user
+        user : {
+            id:JSON.parse(localStorage.getItem('id'))
+        }
     })
     const[categories,setCategories]=React.useState([])
     React.useEffect(()=>{
@@ -33,6 +35,7 @@ function CreateExamForm(props) {
                 initialValues={exam}
                 validationSchema={validationSchema}
                 onSubmit={(values) => {
+                    console.log(values)
                     axios.post(`http://localhost:8080/puzzling/exam/create`, values)
                         .then((response) => {
                             navigate('/exam/edit',{state:{id:response.data.id}} );

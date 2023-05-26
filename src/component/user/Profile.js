@@ -59,7 +59,7 @@ export default function Profile() {
                         <Form>
                             <div className={"imageUpload"} style={{textAlign:"center"}}>
                                 <label htmlFor={"avatar"}>
-                                    <img src={initialValues.avatar} id="profileImage" alt={""}
+                                    <img src={initialValues.avatar} alt={""}
                                          className="user-profile shadow mx-auto img-fluid rounded-circle mt-n5 mb-1 animated wow pulse"/>
                                 </label>
                                 <input type="file" id="avatar" name="avatar"

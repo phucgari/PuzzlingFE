@@ -199,9 +199,11 @@ body {
 .z-Index-2 {
     z-index: 1 !important;
 }
+
 .swal2-container {
     z-index: 99999; /* Giá trị z-index cao hơn giá trị của modal */
 }
+
 .gradientBtn {
     font-weight: bolder;
     background-color: #fff;
@@ -564,10 +566,6 @@ input {
 
 /*profile photo change*/
 
-#imageUpload {
-    display: none;
-}
-
 #profileImage {
     cursor: pointer;
 }
@@ -576,6 +574,24 @@ input {
     text-align: center;
 }
 
-.imageUpload>input {
+.imageUpload > input {
+    display: none;
+}
+
+/*category picture change*/
+
+.cate-picture {
+    height: 75px;
+    width: 75px;
+    border: 6px solid #fff;
+    padding: 0 2px 2px 0;
+    background-color: #fff;
+}
+
+#picture {
+    cursor: pointer;
+}
+
+.picture-upload> input {
     display: none;
 }
