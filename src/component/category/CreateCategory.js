@@ -1,9 +1,9 @@
-import {Link, useNavigate} from "react-router-dom";
-import {ErrorMessage, Field, Form, Formik} from "formik";
+import {useNavigate} from "react-router-dom";
+import {Field, Form, Formik} from "formik";
 import axios from "axios";
 import {storage} from "../../firebase";
 import {ref, getDownloadURL, uploadBytesResumable} from "firebase/storage";
-import {useState} from "react";
+import React, {useState} from "react";
 
 export default function CreateCategory() {
     const navigate = useNavigate();
@@ -17,7 +17,7 @@ export default function CreateCategory() {
         <div className="container">
             <div className="modal-dialog modal-lg" role="document">
                 <div className="modal-content rounded-modal shadow p-4 border-0"
-                     style={{marginTop: 6 + 'rem', backgroundColor: "#c4f6ff"}}>
+                     style={{marginTop: 6 + 'rem', backgroundColor: "#bef6fd"}}>
                     <Formik
                         initialValues={initialValues}
                         onSubmit={(values) => {
@@ -28,18 +28,19 @@ export default function CreateCategory() {
                                     alert("Tạo mới thành công!")
                                     navigate("/categories")
                                 })
-                                .catch((error) => {
+                                .catch(() => {
                                     alert("TKhông thành công!")
                                 })
                         }}
                         enableReinitialize={true}
                     >
-                        <Form style={{textAlign: "center"}}>
-                            <div>
+                        <Form>
+                            <div style={{textAlign: "center"}}>
                                 <h1>Thêm danh mục mới</h1>
                                 <hr/>
                             </div>
-                            <div className="picture-upload" style={{marginTop: 80}}>
+                            <h5>Thêm ảnh: </h5>
+                            <div className="picture-upload" style={{marginTop: 80, marginLeft: 40}}>
                                 <label htmlFor={"picture"}>
                                     <img src={initialValues.picture} alt={""}
                                          className="cate-picture shadow mx-auto img-fluid rounded-circle mt-n5 mb-1 animated wow pulse"/>
@@ -51,6 +52,7 @@ export default function CreateCategory() {
                             </div>
                             <div className="modal-body">
                                 <div className="row">
+                                    <h5>Tên danh mục:</h5>
                                     <div
                                         className="form-group input-group w-100 animated wow fadeInDown delay-0-1s">
                                         <div className="input-group-prepend">
@@ -66,8 +68,6 @@ export default function CreateCategory() {
                                     </button>
                                 </center>
                             </div>
-
-
                         </Form>
                     </Formik>
                 </div>

@@ -53,7 +53,7 @@ body {
 }
 
 .home-bg {
-    background: url('../images/bg-quiz-05.png') no-repeat center center fixed;
+    background: url('../images/bg-image.png') no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     background-size: cover;

@@ -8,8 +8,9 @@ function HomePage(props) {
             <div className="container-fluid mt-5 mb-5">
                 <div className="row">
                     <div className="col-lg-1"/>
-                    <div className="col-lg-5">
-                        <h1 className="color-blue mt-5 animated wow fadeInDown delay-0-1s">
+                    <div className="col-lg-5" style={{marginLeft: 45}}>
+                        <h1 className="color-blue mt-5 animated wow fadeInDown delay-0-1s"
+                        >
                             Quiz
                         </h1>
                         <p className="animated wow fadeInDown delay-0-2s">
@@ -24,19 +25,18 @@ function HomePage(props) {
                             </button>
                         </a>
                     </div>
-                    <div className="col-lg-1"/>
-                    <div className="col-lg-5">
+                    <div className="col-lg-5" style={{marginTop: 45}}>
                         <img
                             src="/images/right-img.png"
                             className="img-fluid animated wow pulse slow infinite"
-                        />
+                            alt={""}/>
                     </div>
                 </div>
                 <div className="float-left ml-5">
                     <img
                         src="/images/bottom-img.png"
                         className="img-fluid animated wow swing slower infinite"
-                    />
+                        alt={""}/>
                 </div>
             </div>
         </div>
