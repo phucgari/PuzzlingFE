@@ -114,10 +114,10 @@ svg circle {
     transform: scale(1.07);
 }
 
-.quiz ul li input[type=radio] {
-    position: absolute;
-    visibility: hidden;
-}
+/*.quiz ul li input[type=radio] {*/
+/*    position: absolute;*/
+/*    visibility: hidden;*/
+/*}*/
 
 .quiz ul li label {
     display: block;
