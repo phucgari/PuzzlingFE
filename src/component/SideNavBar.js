@@ -43,7 +43,7 @@ function SideNavBar(props) {
                 <Link to={"javascript:void(0)"} className="closebtn " onClick={closeNav}>
                     <i className="fa fa-arrow-left" style={{marginRight:10, fontSize:25}}/>
                 </Link>
-                <Link to="/profile" className="">
+                <Link to="/profile" className="" onClick={closeNav}>
                     <img
                         src="/images/user.png"
                         className="user-profile shadow img-fluid rounded-circle ml-3"
@@ -59,7 +59,7 @@ function SideNavBar(props) {
                         </a>
                     )
                 }
-                <Link to="/categories">
+                <Link to="/categories" onClick={closeNav}>
                     <i className="fa fa-th-large text-white mr-3"/>
                     Danh mục
                 </Link>
@@ -71,19 +71,19 @@ function SideNavBar(props) {
                         </Link>
                     )
                 }
-                <a href="category.html">
+                <a href="category.html" onClick={closeNav}>
                     <i className="fa fa-question text-white mr-3"/>
                     Giải câu đố
                 </a>
-                <a href="quiz.html">
+                <a href="quiz.html" onClick={closeNav}>
                     <i className="fa fa-random text-white mr-3"/>
                     Giải đố ngẫu nhiên
                 </a>
-                <a href="leaderboard.html">
+                <a href="leaderboard.html" onClick={closeNav}>
                     <i className="fa fa-users text-white mr-3"/>
                     Bảng xếp hạng
                 </a>
-                <a href="score-history.html">
+                <a href="score-history.html" onClick={closeNav}>
                     <i className="fa fa-history text-white mr-3"/>
                     Lịch sử thi
                 </a>
