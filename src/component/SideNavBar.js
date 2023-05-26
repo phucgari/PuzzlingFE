@@ -15,13 +15,14 @@ function openNav() {
 }
 
 function SideNavBar(props) {
-    const account = JSON.parse(localStorage.getItem("account"))
+    const id = JSON.parse(localStorage.getItem("id"))
     const navigate = useNavigate()
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const validation = Yup.object().shape({
         username: Yup.string().required("Không được để trống!").min(6, "Tối thiểu là 6 ký tự!!").max(32,"Tối đa 32 ký tự!")
             .test("username","Tên người dùng đã tồn tại",async function (username) {
-                return axios.get("http://localhost:8080/puzzling/check/" + username).then(
+                return axios.get("http://localhost:8080/puzzling/check?username=" + username).then(
+
                     () => true
                 ).catch(
                     () => false
@@ -42,52 +43,52 @@ function SideNavBar(props) {
                 <Link to={"javascript:void(0)"} className="closebtn " onClick={closeNav}>
                     <i className="fa fa-arrow-left" style={{marginRight:10, fontSize:25}}/>
                 </Link>
-                <Link to="/profile" className="">
+                <Link to="/profile" className="" onClick={closeNav}>
                     <img
                         src="/images/user.png"
                         className="user-profile shadow img-fluid rounded-circle ml-3"
                         alt={""}/>
                 </Link>
                 {
-                    account != null &&
+                    id != null &&
                     (
                         <a href="" className="text-white text-left">
                             <small>
-                                <p>{account.username}</p>
+                                <p>{id.username}</p>
                             </small>
                         </a>
                     )
                 }
-                <Link to="/categories">
+                <Link to="/categories" onClick={closeNav}>
                     <i className="fa fa-th-large text-white mr-3"/>
                     Danh mục
                 </Link>
                 {
-                    account != null && (
+                    id != null && (
                         <Link to={"/exam/all"}>
                             <i className="fa fa-question text-white mr-3"/>
                             Xem bài Quiz
                         </Link>
                     )
                 }
-                <a href="category.html">
+                <a href="category.html" onClick={closeNav}>
                     <i className="fa fa-question text-white mr-3"/>
                     Giải câu đố
                 </a>
-                <a href="quiz.html">
+                <a href="quiz.html" onClick={closeNav}>
                     <i className="fa fa-random text-white mr-3"/>
                     Giải đố ngẫu nhiên
                 </a>
-                <a href="leaderboard.html">
+                <a href="leaderboard.html" onClick={closeNav}>
                     <i className="fa fa-users text-white mr-3"/>
                     Bảng xếp hạng
                 </a>
-                <a href="score-history.html">
+                <a href="score-history.html" onClick={closeNav}>
                     <i className="fa fa-history text-white mr-3"/>
                     Lịch sử thi
                 </a>
                 {
-                    account != null && (
+                    id != null && (
                         <Link to={"/profile"}>
                             <i className="fa fa-user-o text-white mr-3"/>
                             Thông tin cá nhân
@@ -95,7 +96,7 @@ function SideNavBar(props) {
                     )
                 }
                 {
-                    account != null && (
+                    id != null && (
                         <a href="#" onClick={logout}>
                             <i className="fa fa-power-off text-white mr-3"/>
                             Đăng xuất
@@ -115,7 +116,7 @@ function SideNavBar(props) {
                             className="d-none d-sm-none d-md-block ml-n5 mr-5"
                         />
                     </a>
-                    {account === null && <ul className="nav">
+                    {id === null && <ul className="nav">
                         <li className="nav-item" onClick={openLogin}>
                             <a
                                 className="nav-link text-white cursor-pointer"
@@ -144,7 +145,7 @@ function SideNavBar(props) {
                             </div>
                         </li>
                     </ul>}
-                    {account !== null}
+                    {id !== null}
                 </div>
             </nav>
             {/*Login Modal*/}
@@ -462,16 +463,11 @@ function SideNavBar(props) {
 
     function login(values) {
         axios.post('http://localhost:8080/puzzling/login', values)
-            .then(response => {
-                const { username, password, user } = response.data;
-                const account = {
-                    username: username,
-                    password: password,
-                    user: user
-                };
+            .then((response) => {
+
                 setIsLoggedIn(true);
                 alert('Đăng nhập thành công.');
-                localStorage.setItem('account', JSON.stringify(account));
+                localStorage.setItem("id", JSON.stringify(response.data.id));
             })
             .then(() => {
                 closeLogin();
@@ -482,7 +478,7 @@ function SideNavBar(props) {
     }
 
     function logout() {
-        localStorage.removeItem('account');
+        localStorage.removeItem('id');
         setIsLoggedIn(false);
         alert('Đăng xuất thành công.');
         // openSignUp()

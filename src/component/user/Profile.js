@@ -1,4 +1,4 @@
-import {Link, useNavigate, useParams} from "react-router-dom";
+import {Link} from "react-router-dom";
 import ChangePassword from "./ChangePassword";
 import {Formik, Form, Field, ErrorMessage} from "formik";
 import axios from "axios";
@@ -8,17 +8,16 @@ import {storage} from "../../firebase";
 import * as Yup from "yup";
 
 export default function Profile() {
-    const {id} = useParams();
+    const id = JSON.parse(localStorage.getItem("id"));
     const [user, setUser] = useState({})
     const [imgUrl, setImgUrl] = useState(null);
-    const navigate = useNavigate();
     const [progressPercent, setProgressPercent] = useState(0);
     const initialValues = {
-        avatar: user.avatar || "/images/user.png",
+        avatar: imgUrl || user.avatar,
         name: user.name || "",
         email: user.email || "",
         phone: user.phone || "",
-        gender: user.gender || ""
+        gender: user.gender
     }
 
     const validationSchema = Yup.object().shape({
@@ -36,7 +35,7 @@ export default function Profile() {
             .catch((error) => {
                 console.log(error);
             });
-    }, [id]);
+    },[id]);
 
     return (
         <div className="container">
@@ -55,6 +54,7 @@ export default function Profile() {
                                 })
                         }}
                         validationSchema={validationSchema}
+                        enableReinitialize={true}
                     >
                         <Form>
                             <div className={"imageUpload"} style={{textAlign:"center"}}>
@@ -74,8 +74,8 @@ export default function Profile() {
                                                 <span><img src="/images/left-icon.png" alt={""}/></span>
                                             </div>
                                             <Field type="text" id="recipient-user"
-                                                   name={"name"} placeholder="Họ tên..."
-                                                   className="form-control textfield-rounded shadow-sm mb-4 ml-n3"/>
+                                                   name={"name"}  placeholder="Họ tên..."
+                                                   className="form-control textfield-rounded shadow-sm mb-4 ml-n3" />
                                             <ErrorMessage name={"name"} style={{color:"red"}}/>
                                         </div>
                                     </div>
@@ -90,6 +90,7 @@ export default function Profile() {
                                             <ErrorMessage name={"email"} style={{color:"red"}}/>
                                         </div>
                                     </div>
+
                                     <div className="col-lg-6">
                                         <div className="form-group input-group w-100 animated wow fadeInDown delay-0-3s">
                                             <div className="input-group-prepend">
@@ -106,17 +107,18 @@ export default function Profile() {
                                             <div className="input-group-prepend">
                                                 <span><img src="/images/left-icon.png" alt={""}/></span>
                                             </div>
-                                            <select name={"gender"}
+                                            <Field as="select" name={"gender"}
                                                     className="form-control textfield-rounded gender-value shadow-sm mb-4 ml-n3">
-                                                <option hidden>Giới tính</option>
-                                                <option value={"MALE"}>Nam</option>
+                                                <option value={""}> Chọn </option>
+                                                <option value={"MALE"}> Nam </option>
                                                 <option value={"FEMALE"}>Nữ</option>
-                                            </select>
+
+                                            </Field>
                                         </div>
                                     </div>
                                 </div>
                                 <center>
-                                    <button type="button" className="gradientBtn w-50 animated wow fadeInUp">Lưu thông tin</button>
+                                    <button type="submit" className="gradientBtn w-50 animated wow fadeInUp">Lưu thông tin</button>
                                 </center>
                             </div>
                             <div className="modal-footer border-0 mt-n4">
@@ -133,7 +135,6 @@ export default function Profile() {
                     </Formik>
                 </div>
             </div>
-            {/*</div>*/}
             {/*Change Password Modal*/}
             <ChangePassword/>
         </div>

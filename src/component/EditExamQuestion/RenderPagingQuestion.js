@@ -8,12 +8,10 @@ function RenderPagingQuestion(props) {
     const [currentPage, setCurrentPage] = React.useState(1);
     const [questionsPerPage] = React.useState(5);
 
-    console.log(values.questions)
     // Get current posts
     const indexOfLastQuestion = currentPage * questionsPerPage;
     const indexOfFirstQuestion = indexOfLastQuestion - questionsPerPage;
     const currentQuestions = values.questions.slice(indexOfFirstQuestion, indexOfLastQuestion);
-
     const paginate = pageNumber => setCurrentPage(pageNumber);
     return (
         <Form>
@@ -30,8 +28,8 @@ function RenderPagingQuestion(props) {
                         ))
                     }
                     <Pagination
-                        questionsPerPage={questionsPerPage}
-                        totalQuestions={values.questions.length}
+                        elementPerPage={questionsPerPage}
+                        totalElements={values.questions.length}
                         paginate={paginate}
                     />
                 </>

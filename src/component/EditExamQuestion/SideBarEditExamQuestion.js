@@ -1,8 +1,10 @@
 import React from 'react';
+import {useNavigate} from "react-router-dom";
 
 function SideBarEditExamQuestion(props) {
     const {setExam, exam} = props
 
+    const navigate = useNavigate();
     function addOneChoiceQuestion() {
         setExam(
             {
@@ -32,6 +34,10 @@ function SideBarEditExamQuestion(props) {
 
     return (
         <div className="col-3 border ">
+
+            <button type="button" className="btn btn-primary" onClick={()=>navigate("/exam/edit/search-add")}>
+                Thêm câu hỏi từ bộ có sẵn
+            </button>
             <button type="button" className="btn btn-primary" onClick={addOneChoiceQuestion}>Thêm câu hỏi lựa chọn một
                 đáp án
             </button>
