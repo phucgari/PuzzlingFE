@@ -28,6 +28,22 @@ function DoExamForm(props) {
             recordDetail:[]
         });
     const[currentIndex,setCurrentIndex]=React.useState(0);
+    function changeAnswerStatusRadio(recordDetailId,answerId){
+        let newAnswers=record.recordDetail[recordDetailId].answers.map((answer,index)=>{
+            let answerStatus=index===answerId?'true':'false'
+            return{
+                ...answer,
+                answerStatus:answerStatus
+            }
+        })
+        let newRecord=record
+        console.log(newRecord)
+        newRecord.recordDetail[recordDetailId].answers=newAnswers
+        setRecord({
+            ...newRecord,
+        })
+        console.log(record)
+    }
     useEffect(()=>{
         axios.get(`http://localhost:8080/puzzling/exam/info?examId=${examId}`)
             .then((response) => {
@@ -59,6 +75,8 @@ function DoExamForm(props) {
                     <Render1Question
                         questions={record.exam.questions}
                         currentIndex={currentIndex}
+                        changeAnswerStatusRadio={changeAnswerStatusRadio}
+                        recordDetail={record.recordDetail}
                     />
                     {
                         currentIndex!==record.exam.questions.length-1 ?

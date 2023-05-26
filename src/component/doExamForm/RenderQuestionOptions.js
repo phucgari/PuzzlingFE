@@ -2,10 +2,8 @@ import React from 'react';
 import {Field} from "formik";
 
 function RenderQuestionOptions(props) {
-    const{currentQuestion,currentIndex}=props
-    console.log(currentQuestion.options)
-    console.log(currentQuestion)
-
+    const{currentQuestion,currentIndex,changeAnswerStatusRadio,recordDetail}=props
+    console.log(recordDetail)
     switch (currentQuestion.questionType){
         case "MULTI_CHOICE":
             return (
@@ -14,10 +12,10 @@ function RenderQuestionOptions(props) {
                         currentQuestion.options.map((option,index)=>
                             <li className="animated wow fadeInUp delay-0-1s">
                                 <Field type="checkbox"
-                                       id={`record.recordDetail.${currentIndex}.answers.${index}.answerStatus`}
-                                       name={`record.recordDetail.${currentIndex}.answers.${index}.answerStatus`}
+                                       id={`recordDetail.${currentIndex}.answers.${index}.answerStatus`}
+                                       name={`recordDetail.${currentIndex}.answers.${index}.answerStatus`}
                                 />
-                                <label htmlFor={`record.recordDetail.${currentIndex}.answers.${index}.answerStatus`}
+                                <label htmlFor={`recordDetail.${currentIndex}.answers.${index}.answerStatus`}
                                        className="align-middle  element-animation">{option.name}</label>
                             </li>
                         )
@@ -29,11 +27,12 @@ function RenderQuestionOptions(props) {
                 <>
                     {
                         currentQuestion.options.map((option,index)=>
-                            <li className="animated wow fadeInUp delay-0-1s" onClick={()=>changeAnswerStatusInRadio(index)}>
-                                <input type="radio" id={`record.recordDetail.${currentIndex}.answers.${index}.answerStatus`}
-                                       name={`record.recordDetail.${currentIndex}.answers.${index}.answerStatus`}
+                            <li className="animated wow fadeInUp delay-0-1s" onClick={()=>changeAnswerStatusRadio(currentIndex,index)}>
+                                <Field type="radio" id={`recordDetail.${currentIndex}.answers.${index}.answerStatus`}
+                                       name={`recordDetail.${currentIndex}.answers.${index}.answerStatus`}
+                                       value="true"
                                 />
-                                <label htmlFor={`record.recordDetail.${currentIndex}.answers.${index}.answerStatus`}
+                                <label htmlFor={`recordDetail.${currentIndex}.answers.${index}.answerStatus`}
                                        className="align-middle  element-animation">{option.name}</label>
                             </li>
                         )
