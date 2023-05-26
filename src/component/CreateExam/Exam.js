@@ -22,7 +22,7 @@ export default function Exam() {
             <div className="row">
                 {
                     exam.map((item) => (
-                        <a onClick={() => navigate("/exam/edit", {state:{id:item.id}})}>
+                        <a onClick={() => navigate(`/exam/edit/${item.id}`)}>
                             <div
                                 className="col-auto col-centered animated wow jackInTheBox slow"
                                 data-toggle="modal"
