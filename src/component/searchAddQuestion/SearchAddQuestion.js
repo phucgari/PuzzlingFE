@@ -3,10 +3,11 @@ import axios from "axios";
 import Pagination from "./Pagination";
 import MappingQuestionsSearched from "./MappingQuestionsSearched";
 import {Field, FieldArray, Form, Formik} from "formik";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 
 function SearchAddQuestion(props) {
     const {exam, setExam} = props
+    let {id} = useParams();
     const navigate = useNavigate();
     const [currentPage, setCurrentPage] = useState(1);
     const [ElementPerPage] = useState(5);
@@ -41,7 +42,7 @@ function SearchAddQuestion(props) {
             ]
         }))
         action.resetForm()
-        navigate("/exam/edit/")
+        navigate(`/exam/edit/${id}`)
     }
 
     function search(searchForm) {
@@ -76,7 +77,7 @@ function SearchAddQuestion(props) {
                      style={{backgroundColor: "#bef6fd"}}
                 >
                     <h2 className='mb-4'
-                        style={{textAlign:"center", fontWeight:"bold"}}
+                        style={{textAlign: "center", fontWeight: "bold"}}
                     >
                         Tìm kiếm câu hỏi
                     </h2>
@@ -85,34 +86,34 @@ function SearchAddQuestion(props) {
                     >
                         {() =>
                             <Form>
-                                <Field name={"name"} className={"form-control textfield-rounded"}
+                                <Field name={"name"} className={"form-control textfield-rounded mt-4"}
                                        id={"name"} placeholder="Tên câu hỏi"/>
-                                <label htmlFor={"level"}>Chọn độ khó</label>
-                                <Field as="select" className={"form-control textfield-rounded"}
+                                <label htmlFor={"level"} className={"mt-4"}>Chọn độ khó: </label>
+                                <Field as="select" className={"form-control textfield-rounded mt-2"}
                                        name={"level"} id={"level"}>
                                     <option value="" hidden>Chọn</option>
                                     <option value="EASY"> Dễ</option>
                                     <option value="MEDIUM">Vừa</option>
                                     <option value="HARD"> Khó</option>
                                 </Field>
-                                <br/>
-                                <label htmlFor={"questionType"}>Chọn loại câu hỏi</label>
-                                <Field as="select" className={"form-control textfield-rounded"} name={"questionType"}
+                                <label htmlFor={"questionType"} className={"mt-4"}>Chọn loại câu hỏi:</label>
+                                <Field as="select" className={"form-control textfield-rounded mt-2"} name={"questionType"}
                                        id={"questionType"}>
                                     <option value="" hidden>Chọn</option>
-                                    <option value="ONE_CHOICE"> Lựa chọn một đáp án</option>
-                                    <option value="MULTI_CHOICE"> Lựa chọn nhiều đáp án</option>
+                                    <option value="ONE_CHOICE"> Một đáp án</option>
+                                    <option value="MULTI_CHOICE">Nhiều đáp án</option>
                                 </Field>
-                                <button type="submit" className="btn btn-secondary">Tìm kiếm</button>
+                                <button type="submit" className="gradientBtn w-50 animated wow fadeInUp mt-4">Tìm kiếm</button>
                             </Form>
                         }
                     </Formik>
+                    <br/>
                     <Formik
                         initialValues={selectQuestionToAdd}
                         enableReinitialize={true}
                         onSubmit={addToExam}
                     >
-                        <Form>
+                        <Form className={"mt-4"}>
                             <FieldArray name={"element"}>
                                 {
                                     () =>
@@ -129,6 +130,11 @@ function SearchAddQuestion(props) {
                         totalElements={selectQuestionToAdd.elements.length}
                         paginate={paginate}
                     />
+                    <button type="button" onClick={() => navigate(`/exam/edit/${id}`)}
+                            className="btn btn-primary"
+                    >
+                        Trở về trình quản lý câu hỏi
+                    </button>
                 </div>
             </div>
         </div>

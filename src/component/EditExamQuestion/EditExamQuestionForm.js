@@ -2,17 +2,20 @@ import React from 'react';
 import SideBarEditExamQuestion from "./SideBarEditExamQuestion";
 import BackGroundEditExamQuestion from "./BackGroundEditExamQuestion";
 import axios from "axios";
-import {Route, Routes, useLocation} from "react-router-dom";
+import {Route, Routes, useLocation, useParams} from "react-router-dom";
 import SearchAddQuestion from "../searchAddQuestion/SearchAddQuestion";
 
 function EditExamQuestionForm() {
-    const {state} = useLocation();
+    let { id } = useParams();
     const [exam, setExam] = React.useState({
+        category:{
+            name:""
+        },
         questions: []
     })
+    console.log(exam)
     React.useEffect(
         ()=>{
-            const {id} = state;
             axios.get(`http://localhost:8080/puzzling/exam/info?examId=${id}`)
                 .then((response) => {
                     setExam(response.data)
