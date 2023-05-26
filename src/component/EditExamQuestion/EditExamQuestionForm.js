@@ -11,7 +11,7 @@ function EditExamQuestionForm() {
         questions: []
     })
     React.useEffect(
-        ()=>{
+        () => {
             const {id} = state;
             axios.get(`http://localhost:8080/puzzling/exam/info?examId=${id}`)
                 .then((response) => {
@@ -23,34 +23,41 @@ function EditExamQuestionForm() {
         }
         , [])
     return (
-        <>
-            <h3 className="d-flex justify-content-center"> Bộ câu hỏi {exam.name} </h3>
-            <h5 className="d-flex justify-content-center"> Tổng số câu hỏi: {exam.questions.length} </h5>
-            <Routes>
-                <Route path={`/`} element={
-                    <div className="container">
-                        <div className="row">
-                            <SideBarEditExamQuestion
-                                setExam={setExam}
-                                exam={exam}
-                            />
-                            <div className="col-1"></div>
-                            <BackGroundEditExamQuestion
-                                exam={exam}
-                                setExam={setExam}
-                                id={exam.id}
-                            />
-                        </div>
-                    </div>
-                } />
-                <Route path={`/search-add`} element={
-                    <SearchAddQuestion
-                        exam={exam}
-                        setExam={setExam}
-                    />
-                }/>
-            </Routes>
-        </>
+        <div className="container">
+            <div className="modal-dialog modal-lg" role="document">
+                <div className="modal-content rounded-modal shadow p-3 border-0"
+                     style={{marginTop: 6 + 'rem', backgroundColor: "#d5fdfd"}}>
+                    <>
+                        <h3 className="d-flex justify-content-center"> Bộ câu hỏi {exam.name} </h3>
+                        <h5 className="d-flex justify-content-center"> Tổng số câu hỏi: {exam.questions.length} </h5>
+                        <Routes>
+                            <Route path={`/`} element={
+                                <div className="container">
+                                    <div className="row">
+                                        <SideBarEditExamQuestion
+                                            setExam={setExam}
+                                            exam={exam}
+                                        />
+                                        <div className="col-1"></div>
+                                        <BackGroundEditExamQuestion
+                                            exam={exam}
+                                            setExam={setExam}
+                                            id={exam.id}
+                                        />
+                                    </div>
+                                </div>
+                            }/>
+                            <Route path={`/search-add`} element={
+                                <SearchAddQuestion
+                                    exam={exam}
+                                    setExam={setExam}
+                                />
+                            }/>
+                        </Routes>
+                    </>
+                </div>
+            </div>
+        </div>
     );
 }
 

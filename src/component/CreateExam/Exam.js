@@ -15,36 +15,47 @@ export default function Exam() {
                 .catch((error) => {
                     console.log(error.message)
                 })
-        },[]
+        }, []
     )
     return (
-        <div className="container">
-            <div className="row">
-                {
-                    exam.map((item) => (
-                        <a onClick={() => navigate("/exam/edit", {state:{id:item.id}})}>
-                            <div
-                                className="col-auto col-centered animated wow jackInTheBox slow"
-                                data-toggle="modal"
-                                data-target="#subCateModal"
-                                key={item.id}
-                            >
-                                <div className="box-part text-center shadow">
-                                    <div className="title mt-4">
-                                        <h4>{item.name}</h4>
+        <div className="modal-dialog modal-lg" role="document">
+            <div className="modal-content rounded-modal shadow p-3 border-0"
+                 style={{marginTop: 6 + 'rem', backgroundColor: "#d5fdfd"}}>
+                <div className="container">
+                    <div style={{textAlign: "center"}}
+                        // className="col-auto col-centered animated wow jackInTheBox slow"
+                        // data-toggle="modal"
+                        // data-target="#subCateModal"
+                    >
+                        <button>
+                            <Link to={"/exam/create"} style={{fontSize: 20}}>Tạo bài thi mới</Link>
+                        </button>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                    </div>
+                    <div className="table-light col-12">
+                        <div className="wrapper">
+
+                            {
+                                exam.map((item) => (
+                                    <div
+                                        key={item.id}
+                                    >Bai thi {item.id}
+                                        <br/>
+                                        <button onClick={() => navigate("/exam/edit", {state: {id: item.id}})}>
+
+                                            <div>
+                                                <h4>{item.name}</h4>
+                                                <hr/>
+                                            </div>
+                                        </button>
                                     </div>
-                                </div>
-                            </div>
-                        </a>
-                    ))
-                }
-                <div
-                    className="col-auto col-centered animated wow jackInTheBox slow"
-                    data-toggle="modal"
-                    data-target="#subCateModal"
-                >
-                    <div className="box-part text-center shadow">
-                        <Link to={"/exam/create"} style={{fontSize:70, fontWeight:"bold", textDecoration:"none"}}>+</Link>
+                                ))
+                            }
+                        </div>
                     </div>
                 </div>
             </div>

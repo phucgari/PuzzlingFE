@@ -26,12 +26,12 @@ const validationExam = Yup.object().shape({
                 } else if (questionType === "MULTI_CHOICE") {
                     return schema.test("test Option Array", (value, context) => {
                         let checkName = true
-                        let countStatus= 0
+                        let countStatus = 0
                         value.forEach((option) => {
                             if (!option.name) checkName = false
                             if (option.status) countStatus++
                         })
-                        let checkStatus=countStatus >= 2
+                        let checkStatus = countStatus >= 2
                         return checkName && checkStatus
                     })
                 }
@@ -50,30 +50,37 @@ function BackGroundEditExamQuestion(props) {
         [exam]
     )
     return (
-        <div className="col-8 border ">
-            <div className="container">
-                <Formik initialValues={exam}
-                        onSubmit={(values) => {
-                            console.log(values)
-                            axios.put(`http://localhost:8080/puzzling/exam/update?examId=${id}`, values)
-                                .then(() => {
-                                    alert("Thành công!")
-                                    navigate('/');
-                                })
-                                .catch((error) => {
-                                    console.log(error);
-                                });
-                        }}
-                        enableReinitialize={true}
-                        validationSchema={validationExam}
-                >
-                    {({values, isValid}) => <RenderPagingQuestion
-                        values={values}
-                        isValid={isValid}
-                        setExam={setExam}
-                    />
-                    }
-                </Formik>
+        <div className="container">
+            <div className="modal-dialog modal-lg" role="document">
+                <div className="modal-content rounded-modal shadow p-3 border-0"
+                     style={{marginTop: 6 + 'rem', backgroundColor: "#d5fdfd"}}>
+                    <div className="col-8 border ">
+                        <div className="container">
+                            <Formik initialValues={exam}
+                                    onSubmit={(values) => {
+                                        console.log(values)
+                                        axios.put(`http://localhost:8080/puzzling/exam/update?examId=${id}`, values)
+                                            .then(() => {
+                                                alert("Thành công!")
+                                                navigate('/');
+                                            })
+                                            .catch((error) => {
+                                                console.log(error);
+                                            });
+                                    }}
+                                    enableReinitialize={true}
+                                    validationSchema={validationExam}
+                            >
+                                {({values, isValid}) => <RenderPagingQuestion
+                                    values={values}
+                                    isValid={isValid}
+                                    setExam={setExam}
+                                />
+                                }
+                            </Formik>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     );
