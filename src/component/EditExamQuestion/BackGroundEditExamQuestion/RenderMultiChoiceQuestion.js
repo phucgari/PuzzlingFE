@@ -33,7 +33,7 @@ function RenderMultiChoiceQuestion(props) {
                                     <Field type="checkbox"
                                            name={`questions.${index}.options.${optionIndex}.status`}
                                            id={`questions.${index}.options.${optionIndex}.status`}
-                                           checked={option.status}
+                                           checked={option.status===true||option.status==='true'}
                                     />
                                 </div>
                             </div>
