@@ -3,10 +3,11 @@ import axios from "axios";
 import Pagination from "./Pagination";
 import MappingQuestionsSearched from "./MappingQuestionsSearched";
 import {Field, FieldArray, Form, Formik} from "formik";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 
 function SearchAddQuestion(props) {
     const {exam, setExam} = props
+    let { id } = useParams();
     const navigate = useNavigate();
     const [currentPage, setCurrentPage] = useState(1);
     const [ElementPerPage] = useState(5);
@@ -40,7 +41,7 @@ function SearchAddQuestion(props) {
             ]
         }))
         action.resetForm()
-        navigate("/exam/edit/")
+        navigate(`/exam/edit/${id}`)
     }
     function search(searchForm) {
         axios.post(`http://localhost:8080/puzzling/question/search`, searchForm)
@@ -69,7 +70,7 @@ function SearchAddQuestion(props) {
 
     return (
         <div className='container mt-5'>
-            <button type="button" onClick={() => navigate("/exam/edit/")} className="btn btn-primary"> Trở về trình quản
+            <button type="button" onClick={() => navigate(`/exam/edit/${id}`) }className="btn btn-primary"> Trở về trình quản
                 lý câu hỏi
             </button>
             <h1 className='text-primary mb-3'>Search Questions</h1>
