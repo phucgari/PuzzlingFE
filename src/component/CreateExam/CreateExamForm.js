@@ -19,7 +19,7 @@ function CreateExamForm(props) {
         category:{
             id:""
         },
-        user : JSON.parse(localStorage.getItem('account')).user
+        user : JSON.parse(localStorage.getItem('id')).user
     })
     const[categories,setCategories]=React.useState([])
     React.useEffect(()=>{
