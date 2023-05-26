@@ -29,7 +29,7 @@ const validationExam = Yup.object().shape({
                         let countStatus= 0
                         value.forEach((option) => {
                             if (!option.name) checkName = false
-                            if (option.status) countStatus++
+                            if (option.status===true||option.status==='true') countStatus++
                         })
                         let checkStatus=countStatus >= 2
                         return checkName && checkStatus
