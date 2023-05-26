@@ -10,7 +10,6 @@ const validationSchema=Yup.object().shape({
     }),
     passScore:Yup.number().required().min(0),
     time:Yup.number().required().min(0),
-    user:Yup.object().required()
 })
 function CreateExamForm(props) {
     const navigate = useNavigate();
@@ -19,7 +18,9 @@ function CreateExamForm(props) {
         category:{
             id:""
         },
-        user : JSON.parse(localStorage.getItem('id')).user
+        user : {
+            id:JSON.parse(localStorage.getItem('id')).user
+        }
     })
     const[categories,setCategories]=React.useState([])
     React.useEffect(()=>{
