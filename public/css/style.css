@@ -1,8 +1,7 @@
 @font-face {
-    font-family: 'Bauhaus Light BT';
+    font-family: 'Sitka Text';
     font-style: normal;
     font-weight: normal;
-    src: local('Bauhaus Light BT'), url('../bauhaus-font/bauhauslightbt.woff') format('woff');
 }
 
 :root {
@@ -16,7 +15,7 @@
 }
 
 body {
-    font-family: 'Bauhaus Light BT';
+    font-family: 'Sitka Text', serif;
     background-color: #fff;
 }
 
@@ -54,7 +53,7 @@ body {
 }
 
 .home-bg {
-    background: url('../images/bg-quiz-02.png') no-repeat center center fixed;
+    background: url('../images/bg-image.png') no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     background-size: cover;
@@ -74,13 +73,16 @@ body {
     left: 0;
     background-color: transparent;
     background-image: linear-gradient(to right, var(--color-gradient-start) 0%, var(--color-gradient-stop) 31%) !important;
-    overflow-x: hidden;
     transition: 0.5s;
     padding-top: 60px;
     border-bottom-right-radius: 100%;
     border-top-right-radius: 100%;
     border-bottom: 0;
     overflow: hidden;
+}
+
+.sidenav {
+    overflow-x: hidden;
 }
 
 .sidenav a {
@@ -156,7 +158,7 @@ body {
     .box-part {
         border-radius: 10px;
         padding: 10px 0 !important;
-        margin: 20px 0px;
+        margin: 20px 0;
         width: 120px !important;
     }
 
@@ -197,9 +199,11 @@ body {
 .z-Index-2 {
     z-index: 1 !important;
 }
+
 .swal2-container {
     z-index: 99999; /* Giá trị z-index cao hơn giá trị của modal */
 }
+
 .gradientBtn {
     font-weight: bolder;
     background-color: #fff;
@@ -455,7 +459,7 @@ input {
 .card-input-element:checked + .box-part::after {
     content: '\f00c';
     color: #49159b;
-    font-family: 'FontAwesome';
+    font-family: 'FontAwesome', serif;
     font-size: 22px;
     position: absolute;
     top: 1rem;
@@ -562,10 +566,6 @@ input {
 
 /*profile photo change*/
 
-#imageUpload {
-    display: none;
-}
-
 #profileImage {
     cursor: pointer;
 }
@@ -574,6 +574,24 @@ input {
     text-align: center;
 }
 
-.imageUpload>input {
+.imageUpload > input {
+    display: none;
+}
+
+/*category picture change*/
+
+.cate-picture {
+    height: 75px;
+    width: 75px;
+    border: 6px solid #fff;
+    padding: 0 2px 2px 0;
+    background-color: #fff;
+}
+
+#picture {
+    cursor: pointer;
+}
+
+.picture-upload> input {
     display: none;
 }
