@@ -25,7 +25,6 @@ export default function Profile() {
         email:Yup.string().required("Không được để trống!"),
         phone:Yup.string().required("Không được để trống!")
     })
-
     useEffect(() => {
         axios
             .get(`http://localhost:8080/puzzling/users/${id}`)
@@ -35,7 +34,7 @@ export default function Profile() {
             .catch((error) => {
                 console.log(error);
             });
-    },[id]);
+    },[id, imgUrl]);
 
     return (
         <div className="container">
@@ -157,7 +156,8 @@ export default function Profile() {
             },
             () => {
                 getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                    setImgUrl(downloadURL)
+                    setImgUrl(downloadURL);
+
                 });
             }
         );

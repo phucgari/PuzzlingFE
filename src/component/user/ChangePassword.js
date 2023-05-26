@@ -1,5 +1,4 @@
 export default function ChangePassword() {
-    const id = JSON.parse()
     return (
         <div className="modal fade mt-5" id="passModal" tabIndex="-1" role="dialog"
              aria-labelledby="exampleModalLabel"

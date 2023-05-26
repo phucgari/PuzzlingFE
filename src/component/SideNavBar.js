@@ -44,8 +44,7 @@ function SideNavBar(props) {
                     <i className="fa fa-arrow-left" style={{marginRight:10, fontSize:25}}/>
                 </Link>
                 <Link to="/profile" className="">
-                    <img
-                        src="/images/user.png"
+                    <img src="/images/user.png"
                         className="user-profile shadow img-fluid rounded-circle ml-3"
                         alt={""}/>
                 </Link>
