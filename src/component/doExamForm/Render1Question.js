@@ -2,7 +2,7 @@ import React from 'react';
 import RenderQuestionOptions from "./RenderQuestionOptions";
 
 function Render1Question(props) {
-    const {questions,currentIndex,changeAnswerStatusRadio,recordDetail}=props
+    const {questions,currentIndex,changeAnswerStatusRadio}=props
     const currentQuestion=questions[currentIndex]
     return (
         <div className="container">
@@ -21,7 +21,6 @@ function Render1Question(props) {
                         <ul className="row">
                             {
                                 <RenderQuestionOptions
-                                    recordDetail={recordDetail}
                                     currentQuestion={currentQuestion}
                                     currentIndex={currentIndex}
                                     changeAnswerStatusRadio={changeAnswerStatusRadio}

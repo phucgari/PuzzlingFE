@@ -37,12 +37,10 @@ function DoExamForm(props) {
             }
         })
         let newRecord=record
-        console.log(newRecord)
         newRecord.recordDetail[recordDetailId].answers=newAnswers
         setRecord({
             ...newRecord,
         })
-        console.log(record)
     }
     useEffect(()=>{
         axios.get(`http://localhost:8080/puzzling/exam/info?examId=${examId}`)
@@ -76,7 +74,6 @@ function DoExamForm(props) {
                         questions={record.exam.questions}
                         currentIndex={currentIndex}
                         changeAnswerStatusRadio={changeAnswerStatusRadio}
-                        recordDetail={record.recordDetail}
                     />
                     {
                         currentIndex!==record.exam.questions.length-1 ?

@@ -2,8 +2,7 @@ import React from 'react';
 import {Field} from "formik";
 
 function RenderQuestionOptions(props) {
-    const{currentQuestion,currentIndex,changeAnswerStatusRadio,recordDetail}=props
-    console.log(recordDetail)
+    const{currentQuestion,currentIndex,changeAnswerStatusRadio}=props
     switch (currentQuestion.questionType){
         case "MULTI_CHOICE":
             return (
