@@ -1,8 +1,8 @@
 @font-face {
-    font-family: 'Bauhaus Light BT';
+    font-family: 'Sitka Text';
     font-style: normal;
     font-weight: normal;
-    src: local('Bauhaus Light BT'), url('../bauhaus-font/bauhauslightbt.woff') format('woff');
+    /*src: local('Bauhaus Light BT'), url('../bauhaus-font/bauhauslightbt.woff') format('woff');*/
 }
 
 :root {
@@ -16,7 +16,7 @@
 }
 
 body {
-    font-family: 'Bauhaus Light BT';
+    font-family: 'Sitka Text', serif;
     background-color: #fff;
 }
 
@@ -577,3 +577,7 @@ input {
 .imageUpload>input {
     display: none;
 }
+
+/*.bg-blue {*/
+/*    background: #93ffec;*/
+/*}*/
