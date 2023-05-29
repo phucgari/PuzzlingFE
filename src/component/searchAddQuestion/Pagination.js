@@ -1,6 +1,7 @@
 import React from 'react';
+import {Link} from "react-router-dom";
 
-const Pagination = ({ elementPerPage, totalElements, paginate }) => {
+const Pagination = ({elementPerPage, totalElements, paginate,currentPage}) => {
     const pageNumbers = [];
 
     for (let i = 1; i <= Math.ceil(totalElements / elementPerPage); i++) {
@@ -10,13 +11,36 @@ const Pagination = ({ elementPerPage, totalElements, paginate }) => {
     return (
         <nav>
             <ul className='pagination'>
-                {pageNumbers.map(number => (
-                    <li key={number} className='page-item'>
-                        <button type={"button"} onClick={() => paginate(number)} className='page-link'>
-                            {number}
-                        </button>
-                    </li>
-                ))}
+                <nav aria-label="Page navigation example">
+                    <ul className="pagination">
+                        {currentPage===1||
+                            <li className="page-item">
+                            <Link className="page-link" to="#" aria-label="Previous"
+                                  onClick={() => paginate(currentPage - 1)}>
+                                &laquo;
+                            </Link>
+                        </li>
+                        }
+                        {
+                            pageNumbers.map(number => (
+                                <li key={number} className='page-item'>
+                                    <button type={"button"} onClick={() => paginate(number)} className='page-link'>
+                                        {number}
+                                    </button>
+                                </li>
+                            ))
+                        }
+                        {currentPage===pageNumbers.length||
+                            <li className="page-item">
+                            <Link className="page-link" to="#" aria-label="Next"
+                                  onClick={() => paginate(currentPage + 1)}>
+                                &raquo;
+                            </Link>
+                        </li>
+                        }
+                    </ul>
+                </nav>
+
             </ul>
         </nav>
     );
