@@ -10,7 +10,6 @@ const validationSchema=Yup.object().shape({
     }),
     passScore:Yup.number().required().min(0).max(100),
     time:Yup.number().required().min(0),
-    user:Yup.object().required()
 })
 function CreateExamForm(props) {
     const navigate = useNavigate();
