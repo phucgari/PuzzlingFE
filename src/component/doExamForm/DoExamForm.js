@@ -4,7 +4,17 @@ import axios from "axios";
 import Render1Question from "./Render1Question";
 import {Form, Formik} from "formik";
 import AdditionalInformation from "./AdditionalInformation";
-
+function submitRecord(values){
+    let currentdate = new Date();
+    let datetime =currentdate.getDate() + "/"
+        + (currentdate.getMonth()+1)  + "/"
+        + currentdate.getFullYear() + "T"
+        + currentdate.getHours() + ":"
+        + currentdate.getMinutes() + ":"
+        + currentdate.getSeconds();
+    values.time=datetime
+    console.log(values)
+}
 function DoExamForm(props) {
     const { examId } = useParams();
     const[record,setRecord]= React.useState(
@@ -64,7 +74,7 @@ function DoExamForm(props) {
     return (
         <div>
             <Formik initialValues={record}
-                    onSubmit={console.log}
+                    onSubmit={submitRecord}
                     enableReinitialize={true}
             >
                 {
