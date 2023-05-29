@@ -7,10 +7,12 @@ export default function Exam() {
     const id = JSON.parse(localStorage.getItem("id"));
     const [exam, setExam] = useState([]);
     const navigate = useNavigate();
-    // const [currentPage, setCurrentPage] = useState(1);
-    // const [ElementPerPage] = useState(6)
-    // const [selectQuestionToAdd, setSelectQuestionToAdd] = useState({elements: []})
-    // const paginate = pageNumber => setCurrentPage(pageNumber);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [ElementPerPage] = useState(6)
+    const indexOfLastElement = currentPage * ElementPerPage;
+    const indexOfFirstElement = indexOfLastElement - ElementPerPage;
+    const currentElements = exam.slice(indexOfFirstElement, indexOfLastElement);
+    const paginate = pageNumber => setCurrentPage(pageNumber);
 
     useEffect(() => {
             axios.get(`http://localhost:8080/puzzling/exam/list?user=${id}`)
@@ -30,10 +32,10 @@ export default function Exam() {
                     className={'row'}
                 >
                     <div className={'col-lg-11'} style={{textAlign: "center"}}>
-                    <h2 style={{fontWeight: "bold"}}>
+                    <h2 style={{fontWeight: "bold",fontSize:45}}>
                         Danh sách bài thi
                         <br/>
-                        <small className="text-muted">Chọn bài thi bạn muốn tham gia</small>
+                        <small className="text-muted" style={{fontSize:20}}>Chọn bài thi bạn muốn tham gia</small>
                     </h2></div>
                     <div className=" text-center col-lg-1" style={{float:"right",paddingRight:"50px"}}>
                         <Link to={"/exam/create"}>
@@ -49,7 +51,7 @@ export default function Exam() {
                         <div className="row gy-5">
 
                             {
-                                exam.map((item) => (
+                                currentElements.map((item) => (
                                     <div className={"col col-4 p-3 bg-lightblue"} style={{display:"flex",justifyContent:"center"}}
                                          key={item.id}
                                     >
@@ -68,12 +70,15 @@ export default function Exam() {
                         </div>
                     </div>
                 </div>
-                {/*<Pagination*/}
-                {/*    elementPerPage={ElementPerPage}*/}
-                {/*    totalElements={selectQuestionToAdd.elements.length}*/}
-                {/*    paginate={paginate}*/}
-                {/*/>*/}
                 <br/>
+                <div style={{display:"flex",justifyContent:"center"}}>
+                <Pagination
+                    elementPerPage={ElementPerPage}
+                    totalElements={exam.length}
+                    paginate={paginate}
+                    currentPage={currentPage}
+                />
+                </div>
                 <br/>
             </div>
         </div>

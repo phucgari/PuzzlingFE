@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {ErrorMessage, Field, Form, Formik} from "formik";
 import axios from "axios";
-import {Link, useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
 import Swal from 'sweetalert2/src/sweetalert2.js'
 import * as Yup from 'yup'
 
@@ -16,7 +16,6 @@ function openNav() {
 
 function SideNavBar(props) {
     const id = JSON.parse(localStorage.getItem("id"))
-    const navigate = useNavigate()
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const validation = Yup.object().shape({
         username: Yup.string().required("Không được để trống!").min(6, "Tối thiểu là 6 ký tự!!").max(32,"Tối đa 32 ký tự!")
@@ -40,7 +39,7 @@ function SideNavBar(props) {
         <div>
             {/*Side Bar*/}
             <div id="mySidenav" className="sidenav">
-                <Link to={"javascript:void(0)"} className="closebtn " onClick={closeNav}>
+                <Link to={"#"} className="closebtn " onClick={closeNav}>
                     <i className="fa fa-arrow-left" style={{marginRight:10, fontSize:25}}/>
                 </Link>
                 <Link to="/profile" className="" onClick={closeNav}>
@@ -52,11 +51,11 @@ function SideNavBar(props) {
                 {
                     id != null &&
                     (
-                        <a href="" className="text-white text-left">
+                        <Link to="" className="text-white text-left">
                             <small>
                                 <p>{id.username}</p>
                             </small>
-                        </a>
+                        </Link>
                     )
                 }
                 <Link to="/categories" onClick={closeNav}>
@@ -71,25 +70,25 @@ function SideNavBar(props) {
                         </Link>
                     )
                 }
-                <a href="category.html" onClick={closeNav}>
+                <Link to="/category.html" onClick={closeNav}>
                     <i className="fa fa-question text-white mr-3"/>
                     Giải câu đố
-                </a>
-                <a href="quiz.html" onClick={closeNav}>
+                </Link>
+                <Link to="/quiz.html" onClick={closeNav}>
                     <i className="fa fa-random text-white mr-3"/>
                     Giải đố ngẫu nhiên
-                </a>
-                <a href="leaderboard.html" onClick={closeNav}>
+                </Link>
+                <Link to="/leaderboard.html" onClick={closeNav}>
                     <i className="fa fa-users text-white mr-3"/>
                     Bảng xếp hạng
-                </a>
-                <a href="score-history.html" onClick={closeNav}>
+                </Link>
+                <Link to="/score-history.html" onClick={closeNav}>
                     <i className="fa fa-history text-white mr-3"/>
                     Lịch sử thi
-                </a>
+                </Link>
                 {
                     id != null && (
-                        <Link to={"/profile"}>
+                        <Link to={"/profile"} onClick={closeNav}>
                             <i className="fa fa-user-o text-white mr-3"/>
                             Thông tin cá nhân
                         </Link>
@@ -97,10 +96,10 @@ function SideNavBar(props) {
                 }
                 {
                     id != null && (
-                        <a href="#" onClick={logout}>
+                        <Link to="#" onClick={logout}>
                             <i className="fa fa-power-off text-white mr-3"/>
                             Đăng xuất
-                        </a>
+                        </Link>
                     )
                 }
             </div>
@@ -110,15 +109,15 @@ function SideNavBar(props) {
                     <span className="menu" onClick={openNav}>
                         <img src="/images/menu.png" alt={""}/>
                     </span>
-                    <a className="zIndex-1 ml-n5 mr-5" href="#">
+                    <Link className="zIndex-1 ml-n5 mr-5" to="#">
                         <img
                             src="/images/logo.png" alt={""}
                             className="d-none d-sm-none d-md-block ml-n5 mr-5"
                         />
-                    </a>
+                    </Link>
                     {id === null && <ul className="nav">
                         <li className="nav-item" onClick={openLogin}>
-                            <a
+                            <Link to={"#"}
                                 className="nav-link text-white cursor-pointer"
                                 style={{fontWeight:"bold"}}
                                 // data-toggle="modal"
@@ -126,7 +125,7 @@ function SideNavBar(props) {
                                 // data-whatever=""
                             >
                                 Đăng nhập
-                            </a>
+                            </Link>
                         </li>
                         <li className="nav-item">
                             <span className="nav-link color-blue" href="#">
@@ -425,7 +424,8 @@ function SideNavBar(props) {
                                     </button>
                                     <p className="text-center color-dark mt-3 animated wow fadeInUp delay-0-6s">
                                         Bạn đã có tài khoản?{" "}
-                                        <a onClick={openLogin}
+                                        <Link onClick={openLogin}
+                                              to={"#"}
                                             // data-dismiss="modal"
                                            className="color-blue"
                                             // data-toggle="modal"
@@ -433,7 +433,7 @@ function SideNavBar(props) {
                                             // data-whatever=""
                                         >
                                             Đăng nhập
-                                        </a>{" "}
+                                        </Link>{" "}
                                     </p>
                                 </center>
                             </div>
