@@ -2,6 +2,10 @@
     font-family: 'Sitka Text';
     font-style: normal;
     font-weight: normal;
+<<<<<<< HEAD
+    /*src: local('Bauhaus Light BT'), url('../bauhaus-font/bauhauslightbt.woff') format('woff');*/
+=======
+>>>>>>> 11172276ea102109093f26156ce0ab0e29561c4b
 }
 
 :root {
@@ -577,8 +581,6 @@ input {
 .imageUpload > input {
     display: none;
 }
-
-/*category picture change*/
 
 .cate-picture {
     height: 75px;
