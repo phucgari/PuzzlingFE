@@ -25,23 +25,19 @@ function DoExamForm(props) {
                 category: "",
                 user: {}
             },
-            recordDetail:[]
+            recordDetail:[
+                {
+                    question:{},
+                    answers:[
+                        {
+                            option:{},
+                            answerStatus:"false"
+                        }
+                    ]
+                }
+            ]
         });
     const[currentIndex,setCurrentIndex]=React.useState(0);
-    function changeAnswerStatusRadio(recordDetailId,answerId){
-        let newAnswers=record.recordDetail[recordDetailId].answers.map((answer,index)=>{
-            let answerStatus=index===answerId?'true':'false'
-            return{
-                ...answer,
-                answerStatus:answerStatus
-            }
-        })
-        let newRecord=record
-        newRecord.recordDetail[recordDetailId].answers=newAnswers
-        setRecord({
-            ...newRecord,
-        })
-    }
     useEffect(()=>{
         axios.get(`http://localhost:8080/puzzling/exam/info?examId=${examId}`)
             .then((response) => {
@@ -69,27 +65,35 @@ function DoExamForm(props) {
                     onSubmit={console.log}
                     enableReinitialize={true}
             >
-                <Form>
-                    <Render1Question
-                        questions={record.exam.questions}
-                        currentIndex={currentIndex}
-                        changeAnswerStatusRadio={changeAnswerStatusRadio}
-                    />
-                    {
-                        currentIndex!==record.exam.questions.length-1 ?
-                        <button type="button" onClick={() => setCurrentIndex((cur) => ++cur)} className="btn btn-primary">
-                            Câu hỏi tiếp theo
-                        </button>:
-                        <button type="submit" className="btn btn-primary">
-                            Nộp bài thi
-                        </button>
+                {
+                    (formik)=>{
+                        return(
+                            <Form>
+                                <Render1Question
+                                    currentIndex={currentIndex}
+                                    formik={formik}
+                                />
+                                {
+                                    currentIndex!==record.exam.questions.length-1 &&
+                                    <button type="button" onClick={() => setCurrentIndex((cur) => ++cur)} className="btn btn-primary">
+                                        Câu hỏi tiếp theo
+                                    </button>
+                                }
+                                {
+                                    currentIndex===record.exam.questions.length-1 &&
+                                    <button type="submit" className="btn btn-primary">
+                                        Nộp bài thi
+                                    </button>
+                                }
+                                {currentIndex!==0 &&
+                                    <button type="button" onClick={()=>setCurrentIndex((cur)=>--cur)} className="btn btn-primary">
+                                        Câu hỏi trước
+                                    </button>
+                                }
+                            </Form>
+                        )
                     }
-                    {currentIndex!==0 &&
-                        <button type="button" onClick={()=>setCurrentIndex((cur)=>--cur)} className="btn btn-primary">
-                            Câu hỏi trước
-                        </button>
-                    }
-                </Form>
+                }
             </Formik>
         </div>
     );

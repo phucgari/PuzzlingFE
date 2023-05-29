@@ -2,14 +2,14 @@ import React from 'react';
 import RenderQuestionOptions from "./RenderQuestionOptions";
 
 function Render1Question(props) {
-    const {questions,currentIndex,changeAnswerStatusRadio}=props
-    const currentQuestion=questions[currentIndex]
+    const {currentIndex,formik}=props
+    const currentQuestion=formik.values.exam.questions[currentIndex]
     return (
         <div className="container">
             <div className="row"><br></br>
                 <div className="col-sm-12 col-sm-offset-2" id="quiz_web">
                     <div className="progress mb-2">
-                        <div className="progress-bar bg-blue" role="progressbar" style={{width: `${(currentIndex+1)/questions.length*100}%`}}
+                        <div className="progress-bar bg-blue" role="progressbar" style={{width: `${(currentIndex+1)/formik.values.exam.questions.length*100}%`}}
                              aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                     <div id="quiz" className="quiz">
@@ -21,9 +21,8 @@ function Render1Question(props) {
                         <ul className="row">
                             {
                                 <RenderQuestionOptions
-                                    currentQuestion={currentQuestion}
                                     currentIndex={currentIndex}
-                                    changeAnswerStatusRadio={changeAnswerStatusRadio}
+                                    formik={formik}
                                 />
                             }
                         </ul>
