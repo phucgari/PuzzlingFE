@@ -56,7 +56,7 @@ export default function Exam() {
                                          key={item.id}
                                     >
                                         <button className={"btn btn-outline-dark"} style={{width:"300px"}}
-                                                onClick={() => navigate("/exam/edit", {state: {id: item.id}})}>
+                                                onClick={() => navigate("/exam/edit/"+item.id)}>
                                             <h4 style={{fontWeight: "bold"}}> Bài thi số: {item.id}</h4>
                                             <hr/>
                                             <div>
