@@ -3,6 +3,7 @@ import {useParams} from "react-router-dom";
 import axios from "axios";
 import Render1Question from "./Render1Question";
 import {Form, Formik} from "formik";
+import AdditionalInformation from "./AdditionalInformation";
 
 function DoExamForm(props) {
     const { examId } = useParams();
@@ -18,6 +19,7 @@ function DoExamForm(props) {
                 passScore: 0,
                 questions: [{
                     name: "",
+                    level:"",
                     options: [{
                         name: ""
                     }]
@@ -90,6 +92,11 @@ function DoExamForm(props) {
                                         Câu hỏi trước
                                     </button>
                                 }
+                                <AdditionalInformation
+                                    formik={formik}
+                                    currentIndex={currentIndex}
+                                    setCurrentIndex={setCurrentIndex}
+                                />
                             </Form>
                         )
                     }
