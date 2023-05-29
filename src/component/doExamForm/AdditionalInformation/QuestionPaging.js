@@ -4,7 +4,6 @@ import RenderPaging from "./RenderPaging";
 function QuestionPaging(props) {
     const {formik, currentIndex, setCurrentIndex} = props
     const recordDetailTouched = formik.touched.recordDetail
-    console.log(recordDetailTouched)
     return (
         <div>
             <ul className='pagination'>
