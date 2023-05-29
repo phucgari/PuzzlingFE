@@ -1,9 +1,9 @@
 import React from 'react';
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 
 function SideBarEditExamQuestion(props) {
     const {setExam, exam} = props
-
+    let { id } = useParams();
     const navigate = useNavigate();
 
     function addOneChoiceQuestion() {

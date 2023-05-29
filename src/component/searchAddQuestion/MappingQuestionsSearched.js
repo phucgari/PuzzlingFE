@@ -2,31 +2,28 @@ import React from 'react';
 import {Field} from "formik";
 const MappingQuestionsSearched = ({ elements, startIndex}) => {
     return (
-        <ul className='list-group mb-4'>
+        <div className='list-group mb-4'>
             {elements.map((element, index) => (
-                <li key={index + startIndex} className='list-group-item'>
+                <div key={index + startIndex} className='list-group-item'>
                     <label htmlFor={`elements.${index+startIndex}.add`}>Chọn</label>
                     <Field type="checkbox" name={`elements.${index+startIndex}.add`}
-                           id={`elements.${index+startIndex}.add`}
-                    ></Field>
-                    <br/>
-                    Câu hỏi {element.question.name}
-                    <br/>
-                    Đáp án
-                    <br/>
+                           id={`elements.${index+startIndex}.add`}>
+                    </Field>
+                    <p>Câu hỏi: {element.question.name}</p>
+                    <p>Đáp án:</p>
                     {element.question.options.map((option)=>(
                         <>
                             {option.status==='true' ?
-                                <span className="fa fa-ok"></span>:
-                                <span className="fa fa-remove"></span>
-                            }
+                                <i className={"fa fa-check"} style={{color:"forestgreen"}}></i>:
+                                <i className={"fa fa-remove"} style={{color:"red"}}></i>
+                            }&nbsp;
                             {option.name}
                             <br/>
                         </>
                     ))}
-                </li>
+                </div>
             ))}
-        </ul>
+        </div>
     )
 
 };
