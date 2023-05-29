@@ -1,16 +1,16 @@
 import React from 'react';
-import {Field, Form, Formik} from "formik";
+import {ErrorMessage, Field, Form, Formik} from "formik";
 import axios from "axios";
 import * as Yup from "yup";
 import {useNavigate} from "react-router-dom";
 
 const validationSchema = Yup.object().shape({
-    name: Yup.string().required(),
+    name: Yup.string().required("Vui lòng nhập tên bài thi!!!"),
     category: Yup.object().shape({
         id: Yup.string().required()
     }),
-    passScore:Yup.number().required().min(0).max(100),
-    time:Yup.number().required().min(0),
+    passScore:Yup.number().required("Vui lòng nhập điểm tối thiểu để qua bài thi!!!").min(1,"Điểm tối thiểu để qua bài thi phải lớn hơn 1").max(100,"Điểm tối đa để qua bài thi là 100 điểm!!!"),
+    time:Yup.number().required("Vui lòng nhập thời gian làm bài thi!!!").min(1,"Thời gian làm bài phải hợp lệ!!!"),
     user:Yup.object().required()
 })
 
@@ -58,16 +58,19 @@ function CreateExamForm(props) {
                                         <h4>Tiêu đề bài thi</h4>
                                         <Field name={`name`} className={"form-control textfield-rounded"}
                                                id={`name`}
-                                               placeholder="Tên Bài thi"/>
+                                               placeholder="Tên Bài thi"
+                                        />
+                                        <span style={{color:"red",fontSize:18+"px"}}>
+                                        < ErrorMessage name={'name'}/></span>
                                         <br/>
                                         <h4>Danh mục bài thi</h4>
                                             <div
-                                                className="form-group input-group w-100 animated wow fadeInDown delay-0-1s">
+                                                className="form-group input-group w-100 animated wow ">
                                                 <div className="input-group-prepend">
                                                 </div>
                                                 <Field as="select" name="category.id"
                                                        className={"form-control textfield-rounded"}>
-                                                    <option value="">Vui lòng chọn</option>
+                                                    <option value="" hidden>Vui lòng chọn</option>
                                                     {categories.map((cate) => (
                                                         <>
                                                             <option value={`${cate.id}`}>{cate.name}</option>
@@ -80,7 +83,9 @@ function CreateExamForm(props) {
                                             className="wrapper">
                                             <div className="input-group-prepend">
                                             </div>
-                                            <Field type="number" name="passScore" className={"form-control textfield-rounded"}/>
+                                            <Field type="number" name="passScore" className={"form-control textfield-rounded"} placeholder="Tối đa 100 điểm"/>
+                                            <span style={{color:"red",fontSize:18+"px"}}>
+                                                < ErrorMessage name={'passScore'}/></span>
                                         </div>
                                         <br/>
                                             <h4>Thời gian làm bài</h4>
@@ -88,7 +93,9 @@ function CreateExamForm(props) {
                                             className="wrapper">
                                             <div className="input-group-prepend">
                                             </div>
-                                            <Field type="text" name="time" className={"form-control textfield-rounded"}/>
+                                            <Field type="text" name="time" className={"form-control textfield-rounded"} placeholder="Nhập thời gian làm bài thi"/>
+                                            <span style={{color:"red",fontSize:18+"px"}}>
+                                                < ErrorMessage name={'time'}/></span>
                                         </div>
                                             <br/>
                                         <button type="submit" className="btn btn-success" disabled={!isValid}>Tạo bài thi
