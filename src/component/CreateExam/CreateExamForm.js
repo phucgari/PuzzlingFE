@@ -12,6 +12,7 @@ const validationSchema = Yup.object().shape({
     passScore: Yup.number().required("Vui lòng nhập điểm tối thiểu để qua bài thi!!!").min(1, "Điểm tối thiểu để qua bài thi phải lớn hơn 1").max(100, "Điểm tối đa để qua bài thi là 100 điểm!!!"),
     time: Yup.number().required("Vui lòng nhập thời gian làm bài thi!!!").min(1, "Thời gian làm bài phải hợp lệ!!!"),
     user: Yup.object().required()
+
 })
 
 function CreateExamForm(props) {
