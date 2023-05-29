@@ -1,22 +1,22 @@
 import React, {useEffect} from 'react';
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
 import Render1Question from "./Render1Question";
 import {Form, Formik} from "formik";
 import AdditionalInformation from "./AdditionalInformation";
-function submitRecord(values){
-    let currentdate = new Date();
-    let datetime =currentdate.getDate() + "/"
-        + (currentdate.getMonth()+1)  + "/"
-        + currentdate.getFullYear() + "T"
-        + currentdate.getHours() + ":"
-        + currentdate.getMinutes() + ":"
-        + currentdate.getSeconds();
-    values.time=datetime
-    console.log(values)
-}
+
 function DoExamForm(props) {
     const { examId } = useParams();
+    const navigate = useNavigate();
+    function submitRecord(values){
+        axios.post(`http://localhost:8080/puzzling/record/createExamResult`, values)
+            .then(() => {
+                navigate("/")
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
     const[record,setRecord]= React.useState(
         {
             user:{
