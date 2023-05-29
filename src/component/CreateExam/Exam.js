@@ -24,12 +24,9 @@ export default function Exam() {
     )
     return (
         <div className="modal-dialog modal-lg" role="document">
-            <div className="modal-content rounded-modal shadow p-3 border-0"
-                 style={{marginTop: 6 + 'rem', backgroundColor: "#d5fdfd"}}>
+            <div className="modal-content rounded-modal shadow p-4 border-0"
+                 style={{ backgroundColor: "#bef6fd"}}>
                 <div
-                    // className="col-auto col-centered animated wow jackInTheBox slow"
-                    // data-toggle="modal"
-                    // data-target="#subCateModal"
                     className={'row'}
                 >
                     <div className={'col-lg-11'} style={{textAlign: "center"}}>

@@ -29,7 +29,7 @@ function EditExamQuestionForm() {
         <div className="container">
             <div className="modal-dialog modal-lg" role="document">
                 <div className="modal-content rounded-modal shadow p-3 border-0"
-                     style={{marginTop: 6 + 'rem', backgroundColor: "#d5fdfd"}}>
+                     style={{marginTop: 6 + 'rem', backgroundColor: "#bef6fd"}}>
                     <>
                         <h3 className="d-flex justify-content-center"> Bộ câu hỏi {exam.name} </h3>
                         <h5 className="d-flex justify-content-center"> Tổng số câu hỏi: {exam.questions.length} </h5>

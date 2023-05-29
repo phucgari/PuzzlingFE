@@ -9,9 +9,9 @@ const validationSchema = Yup.object().shape({
     category: Yup.object().shape({
         id: Yup.string().required()
     }),
-    passScore:Yup.number().required("Vui lòng nhập điểm tối thiểu để qua bài thi!!!").min(1,"Điểm tối thiểu để qua bài thi phải lớn hơn 1").max(100,"Điểm tối đa để qua bài thi là 100 điểm!!!"),
-    time:Yup.number().required("Vui lòng nhập thời gian làm bài thi!!!").min(1,"Thời gian làm bài phải hợp lệ!!!"),
-    user:Yup.object().required()
+    passScore: Yup.number().required("Vui lòng nhập điểm tối thiểu để qua bài thi!!!").min(1, "Điểm tối thiểu để qua bài thi phải lớn hơn 1").max(100, "Điểm tối đa để qua bài thi là 100 điểm!!!"),
+    time: Yup.number().required("Vui lòng nhập thời gian làm bài thi!!!").min(1, "Thời gian làm bài phải hợp lệ!!!"),
+    user: Yup.object().required()
 })
 
 function CreateExamForm(props) {
@@ -22,8 +22,8 @@ function CreateExamForm(props) {
             id: ""
         },
 
-        user : {
-            id:JSON.parse(localStorage.getItem('id'))
+        user: {
+            id: JSON.parse(localStorage.getItem('id'))
         }
     })
     const [categories, setCategories] = React.useState([])
@@ -35,7 +35,8 @@ function CreateExamForm(props) {
     return (
         <div className="container">
             <div className="modal-dialog modal-lg" role="document">
-                <div className="modal-content rounded-modal shadow p-3 border-0" style={{marginTop: 6 + 'rem',backgroundColor:"#d5fdfd"}}>
+                <div className="modal-content rounded-modal shadow p-3 border-0"
+                     style={{marginTop: 6 + 'rem', backgroundColor: "#bef6fd"}}>
                     <Formik
                         initialValues={exam}
                         validationSchema={validationSchema}
@@ -52,54 +53,61 @@ function CreateExamForm(props) {
                         {({isValid}) =>
                             (
                                 <Form>
-                                    <h1 style={{textAlign:"center",fontWeight:"bold"}} className="title,"> Tạo bài thi mới </h1>
+                                    <h1 style={{textAlign: "center", fontWeight: "bold"}} className="title,"> Tạo bài
+                                        thi mới </h1>
                                     <hr/>
                                     <div className="container mt-5">
-                                        <h4>Tiêu đề bài thi</h4>
+                                        <label htmlFor={"name"} style={{fontSize: 18}}>Tiêu đề bài thi</label>
                                         <Field name={`name`} className={"form-control textfield-rounded"}
                                                id={`name`}
                                                placeholder="Tên Bài thi"
                                         />
-                                        <span style={{color:"red",fontSize:18+"px"}}>
+                                        <span style={{color: "red", fontSize: 18 + "px"}}>
                                         < ErrorMessage name={'name'}/></span>
                                         <br/>
-                                        <h4>Danh mục bài thi</h4>
-                                            <div
-                                                className="form-group input-group w-100 animated wow ">
-                                                <div className="input-group-prepend">
-                                                </div>
-                                                <Field as="select" name="category.id"
-                                                       className={"form-control textfield-rounded"}>
-                                                    <option value="" hidden>Vui lòng chọn</option>
-                                                    {categories.map((cate) => (
-                                                        <>
-                                                            <option value={`${cate.id}`}>{cate.name}</option>
-                                                        </>
-                                                    ))}
-                                                </Field>
+                                        <label htmlFor={"category"} style={{fontSize: 18}}>Danh mục bài thi</label>
+                                        <div
+                                            className="form-group input-group w-100 animated wow ">
+                                            <div className="input-group-prepend">
                                             </div>
-                                            <h4>Điểm đạt</h4>
+                                            <Field as="select" name="category.id"
+                                                   className={"form-control textfield-rounded"}>
+                                                <option value="" hidden>Vui lòng chọn</option>
+                                                {categories.map((cate) => (
+                                                    <>
+                                                        <option value={`${cate.id}`}>{cate.name}</option>
+                                                    </>
+                                                ))}
+                                            </Field>
+                                        </div>
+
+                                        <label htmlFor={"passScore"} style={{fontSize: 18}}>Điểm đạt</label>
                                         <div
                                             className="wrapper">
                                             <div className="input-group-prepend">
                                             </div>
-                                            <Field type="number" name="passScore" className={"form-control textfield-rounded"} placeholder="Tối đa 100 điểm"/>
-                                            <span style={{color:"red",fontSize:18+"px"}}>
+                                            <Field type="number" name="passScore"
+                                                   className={"form-control textfield-rounded"}
+                                                   placeholder="Tối đa 100 điểm"/>
+                                            <span style={{color: "red", fontSize: 18 + "px"}}>
                                                 < ErrorMessage name={'passScore'}/></span>
                                         </div>
                                         <br/>
-                                            <h4>Thời gian làm bài</h4>
+                                        <label htmlFor={"time"} style={{fontSize: 18}}>Thời gian làm bài</label>
                                         <div
                                             className="wrapper">
                                             <div className="input-group-prepend">
                                             </div>
-                                            <Field type="text" name="time" className={"form-control textfield-rounded"} placeholder="Nhập thời gian làm bài thi"/>
-                                            <span style={{color:"red",fontSize:18+"px"}}>
+                                            <Field type="text" name="time" className={"form-control textfield-rounded"}
+                                                   placeholder="Nhập thời gian làm bài thi"/>
+                                            <span style={{color: "red", fontSize: 18 + "px"}}>
                                                 < ErrorMessage name={'time'}/></span>
                                         </div>
-                                            <br/>
-                                        <button type="submit" className="btn btn-success" disabled={!isValid}>Tạo bài thi
-                                        </button>
+                                        <div style={{textAlign: "center"}}>
+                                            <button type="submit" className="gradientBtn mt-4 animated wow fadeInUp
+" disabled={!isValid}>Tạo bài thi
+                                            </button>
+                                        </div>
                                     </div>
                                 </Form>
 
