@@ -8,7 +8,10 @@ function RenderMultiChoiceQuestion(props) {
     const {question, index, setExam, exam} = props
     return (
         <div className={"form-group"} key={index}>
-            <h3>Câu hỏi lựa chọn nhiều đáp án</h3>
+            <br/>
+            <br/>
+            <hr/>
+            <h4>Câu hỏi lựa chọn nhiều đáp án</h4>
             <DeleteQuestionButton
                 exam={exam}
                 setExam={setExam}

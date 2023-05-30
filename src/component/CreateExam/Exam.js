@@ -22,7 +22,7 @@ export default function Exam() {
                 .catch((error) => {
                     console.log(error.message)
                 })
-        }, []
+        }, [id]
     )
     return (
         <div className="modal-dialog modal-lg" role="document">
@@ -60,8 +60,12 @@ export default function Exam() {
                                             <h4 style={{fontWeight: "bold"}}> Bài thi số: {item.id}</h4>
                                             <hr/>
                                             <div>
-                                                <h5>Tên bài thi: {item.name}</h5> Thời gian làm bài: {item.time} <br/> Điểm
-                                                tối thiểu: {item.passScore} <br/> Người tạo: {item.user.name}
+                                                <h5>Tên bài thi: {item.name}</h5> 
+                                                Thời gian làm bài: {item.time} phút
+                                                <br/> 
+                                                Điểm tối thiểu: {item.passScore}%
+                                                <br/> 
+                                                Người tạo: {item.user.name}
                                             </div>
                                         </button>
                                     </div>

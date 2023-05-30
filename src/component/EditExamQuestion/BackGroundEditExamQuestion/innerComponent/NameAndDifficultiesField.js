@@ -1,5 +1,5 @@
 import React from 'react';
-import {Field} from "formik";
+import {ErrorMessage, Field} from "formik";
 
 function NameAndDifficultiesField(props) {
     const {index} = props

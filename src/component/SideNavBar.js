@@ -14,7 +14,7 @@ function openNav() {
     document.getElementById("mySidenav").style.cssText = "width:270px; border-right: 10px solid #fff; box-shadow: 1px 8px 8px 8px rgba(73,21,155,0.3); -webkit-box-shadow: 1px 8px 8px 8px rgba(73,21,155,0.3);  -moz-box-shadow: 1px 8px 8px 8px rgba(73,21,155,0.3);";
 }
 
-function SideNavBar(props) {
+function SideNavBar() {
     const id = JSON.parse(localStorage.getItem("id"))
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const validation = Yup.object().shape({
@@ -52,9 +52,7 @@ function SideNavBar(props) {
                     id != null &&
                     (
                         <Link to="" className="text-white text-left">
-                            <small>
-                                <p>{id.username}</p>
-                            </small>
+                            <small><p>{id.username}</p></small>
                         </Link>
                     )
                 }
@@ -118,29 +116,27 @@ function SideNavBar(props) {
                     {id === null && <ul className="nav">
                         <li className="nav-item" onClick={openLogin}>
                             <Link to={"#"}
-                                className="nav-link text-white cursor-pointer"
-                                style={{fontWeight:"bold"}}
+                                className="nav-link cursor-pointer"
                                 // data-toggle="modal"
                                 // data-target="#loginModal"
                                 // data-whatever=""
                             >
-                                Đăng nhập
+                                <p style={{color:"#001fb2", fontWeight:"bold"}}>Đăng nhập</p>
                             </Link>
                         </li>
                         <li className="nav-item">
-                            <span className="nav-link color-blue" href="#">
-                                |
+                            <span className="nav-link" href="#">
+                                <p style={{color:"#001fb2", fontWeight:"bold"}}>|</p>
                             </span>
                         </li>
                         <li className="nav-item" onClick={openSignUp}>
                             <div
-                                className="nav-link text-white cursor-pointer"
-                                style={{fontWeight:"bold"}}
+                                className="nav-link cursor-pointer"
                                 // data-toggle="modal"
                                 // data-target="#signUpModal"
                                 // data-whatever=""
                             >
-                                Đăng ký
+                                <p style={{color:"#001fb2", fontWeight:"bold"}}>Đăng ký</p>
                             </div>
                         </li>
                     </ul>}
@@ -250,7 +246,7 @@ function SideNavBar(props) {
                                 </button>
                                 <p className="text-center color-dark mt-3 animated wow fadeInUp delay-0-3s">
                                     Bạn chưa có tài khoản?{" "}
-                                    <a onClick={openSignUp}
+                                    <Link to={"#"} onClick={openSignUp}
                                         // data-dismiss="modal"
                                         className="color-blue"
                                         // data-toggle="modal"
@@ -258,7 +254,7 @@ function SideNavBar(props) {
                                         // data-whatever=""
                                     >
                                         Đăng ký
-                                    </a>{" "}
+                                    </Link>{" "}
                                 </p>
                             </center>
                         </div>
