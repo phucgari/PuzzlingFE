@@ -52,7 +52,7 @@ function BackGroundEditExamQuestion(props) {
     return (
 
         <div className="container">
-            <div className="modal-dialog modal-lg" role="document">
+            <div className="modal-dialog modal-xl" role="document">
                 <div className="modal-content rounded-modal shadow p-3 border-0"
                      style={{marginTop: 6 + 'rem', backgroundColor: "#d5fdfd"}}>
                     <div className="col-12 ">

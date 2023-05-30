@@ -41,7 +41,7 @@ function RenderOnceChoiceQuestion(props) {
                     />
                     {question.options.map(((option, optionIndex) => {
                             return <>
-                                <div className="input-group">
+                                <div className="input-group mt-1">
                                     <div className="input-group-prepend">
                                         <div className="input-group-text">
                                             <Field type="radio"
