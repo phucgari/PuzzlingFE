@@ -8,6 +8,7 @@ import CreateCategory from "./component/category/CreateCategory";
 import Exam from "./component/CreateExam/Exam";
 import Profile from "./component/user/Profile";
 import DoExamForm from "./component/doExamForm/DoExamForm";
+import ShowRecordForm from "./component/show-record/ShowRecordForm";
 
 function App() {
 
@@ -23,7 +24,7 @@ function App() {
                 <Route path="/exam/all" element={<Exam/>}/>
                 <Route path="/exam/create" element={<CreateExamForm/>}/>
                 <Route path="/exam/do/:examId" element={<DoExamForm/>}/>
-                <Route path="/record/:id" element={<CreateExamForm/>}/>
+                <Route path="/record/:recordId" element={<ShowRecordForm/>}/>
             </Routes>
         </div>
     );
