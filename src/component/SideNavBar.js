@@ -116,29 +116,27 @@ function SideNavBar() {
                     {id === null && <ul className="nav">
                         <li className="nav-item" onClick={openLogin}>
                             <Link to={"#"}
-                                className="nav-link text-white cursor-pointer"
-                                style={{fontWeight:"bold"}}
+                                className="nav-link cursor-pointer"
                                 // data-toggle="modal"
                                 // data-target="#loginModal"
                                 // data-whatever=""
                             >
-                                Đăng nhập
+                                <p style={{color:"#001fb2", fontWeight:"bold"}}>Đăng nhập</p>
                             </Link>
                         </li>
                         <li className="nav-item">
-                            <span className="nav-link color-blue" href="#">
-                                |
+                            <span className="nav-link" href="#">
+                                <p style={{color:"#001fb2", fontWeight:"bold"}}>|</p>
                             </span>
                         </li>
                         <li className="nav-item" onClick={openSignUp}>
                             <div
-                                className="nav-link text-white cursor-pointer"
-                                style={{fontWeight:"bold"}}
+                                className="nav-link cursor-pointer"
                                 // data-toggle="modal"
                                 // data-target="#signUpModal"
                                 // data-whatever=""
                             >
-                                Đăng ký
+                                <p style={{color:"#001fb2", fontWeight:"bold"}}>Đăng ký</p>
                             </div>
                         </li>
                     </ul>}
