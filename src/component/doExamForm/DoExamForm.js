@@ -70,6 +70,7 @@ function DoExamForm(props) {
                         }))
                     }))
                 })
+                navigate(`/record/`+response.data.id)
             })
             .catch((error) => {
                 console.log(error);
