@@ -10,10 +10,8 @@ import AuthorAndLevel from "./AdditionalInformation/AuthorAndLevel";
 function DoExamForm(props) {
     const {examId} = useParams();
     const navigate = useNavigate();
-    if(JSON.parse(localStorage.getItem("id"))===undefined){
-        document.getElementById("mySidenav").style.cssText = "width:270px; border-right: 10px solid #fff; box-shadow: 1px 8px 8px 8px rgba(73,21,155,0.3); -webkit-box-shadow: 1px 8px 8px 8px rgba(73,21,155,0.3);  -moz-box-shadow: 1px 8px 8px 8px rgba(73,21,155,0.3);";
-    }
     function submitRecord(values) {
+        values.user.id=JSON.parse(localStorage.getItem("id"))
         axios.post(`http://localhost:8080/puzzling/record/createExamResult`, values)
             .then((response) => {
                 navigate(`/record/`+response.data.id)
@@ -25,8 +23,8 @@ function DoExamForm(props) {
 
     const [record, setRecord] = React.useState(
         {
-            user: {
-                id: JSON.parse(localStorage.getItem("id"))
+            user:{
+                id:""
             },
             exam: {
                 id: "",
@@ -60,8 +58,8 @@ function DoExamForm(props) {
         axios.get(`http://localhost:8080/puzzling/exam/info?examId=${examId}`)
             .then((response) => {
                 setRecord({
-                    user: {
-                        id: JSON.parse(localStorage.getItem("id"))
+                    user:{
+                        id:""
                     },
                     exam: response.data,
                     recordDetail: response.data.questions.map((question) => ({
