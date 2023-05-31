@@ -5,6 +5,7 @@ import Render1RecordDetail from "./Render1Record";
 import RecordSumary from "./RecordSumary";
 
 function ShowRecordForm(props) {
+    const [showDetailRecord,setShowDetailRecord]=useState(false);
     const { recordId } = useParams();
     const [record,setRecord]=useState({
         time:"",
@@ -33,16 +34,26 @@ function ShowRecordForm(props) {
         <div className="container">
             <RecordSumary
                 record={record}
+                check={() => checkDemo()}
             />
-            {
-                record.recordDetail.map((recordDetailElement)=>
-                    <Render1RecordDetail
-                        recordDetailElement={recordDetailElement}
-                    />
-                )
+            {showDetailRecord &&
+                <div className={"modal-content rounded-modal shadow p-4 border-0"} style={{backgroundColor: "#bef6fd"}}>
+                <h3 style={{display: "flex", justifyContent: "center", fontWeight: "bold"}}>Chi tiết đáp án</h3>
+                {
+                    record.recordDetail.map((recordDetailElement) =>
+                        <Render1RecordDetail
+                            recordDetailElement={recordDetailElement}
+                        />
+                    )
+                }
+            </div>
             }
         </div>
     );
+
+    function checkDemo() {
+        setShowDetailRecord(!showDetailRecord)
+    }
 }
 
 export default ShowRecordForm;

@@ -1,23 +1,19 @@
-import React from 'react';
-import AuthorAndLevel from "./AdditionalInformation/AuthorAndLevel";
+import React, {useEffect} from 'react';
 import QuestionPaging from "./AdditionalInformation/QuestionPaging";
-import Clock from "./AdditionalInformation/Clock";
 
 function AdditionalInformation(props) {
-    const{formik,currentIndex,setCurrentIndex}=props
+    const {formik, currentIndex, setCurrentIndex} = props
+    useEffect(()=>{
+        if(JSON.parse(localStorage.getItem("id"))===null){
+            document.getElementById("loginModal").style.display = "block";
+        }
+    },[formik])
     return (
-        <div>
-            <AuthorAndLevel
-                formik={formik}
-                currentIndex={currentIndex}
-            />
+        <div style={{display:"flex", justifyContent:"center"}}>
             <QuestionPaging
                 formik={formik}
                 currentIndex={currentIndex}
                 setCurrentIndex={setCurrentIndex}
-            />
-            <Clock
-                formik={formik}
             />
         </div>
     );

@@ -19,7 +19,10 @@ function RenderOnceChoiceQuestion(props) {
 
     return (
         <div className={"form-group"} key={index}>
-            <h3>Câu hỏi lựa chọn một đáp án</h3>
+            <br/>
+            <br/>
+            <hr/>
+            <h4>Câu hỏi lựa chọn một đáp án</h4>
             <DeleteQuestionButton
                 exam={exam}
                 setExam={setExam}
@@ -38,7 +41,7 @@ function RenderOnceChoiceQuestion(props) {
                     />
                     {question.options.map(((option, optionIndex) => {
                             return <>
-                                <div className="input-group">
+                                <div className="input-group mt-1">
                                     <div className="input-group-prepend">
                                         <div className="input-group-text">
                                             <Field type="radio"

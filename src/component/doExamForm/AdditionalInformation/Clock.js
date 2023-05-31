@@ -1,40 +1,40 @@
-import React from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 
 function Clock(props) {
-    const{formik}=props
-    const[timer,setTimer]=React.useState({
-        minute:formik.values.exam.time,
-        second:0
+    const {formik} = props
+    const [timer, setTimer] = useState({
+        minute: formik.values.exam.time,
+        second: 0
     })
-    let lastInterval=React.useRef(0)
-    React.useEffect(()=>{
+    let lastInterval = useRef(0)
+    useEffect(() => {
         setTimer({
-            minute:formik.values.exam.time,
-            second:0
+            minute: formik.values.exam.time,
+            second: 0
         })
         clearInterval(lastInterval.current)
-        lastInterval.current=setInterval(function (){
+        lastInterval.current = setInterval(function () {
             setTimer(prevState => {
-                if(prevState.second===0){
-                    if(prevState.minute===0){
+                if (prevState.second === 0) {
+                    if (prevState.minute === 0) {
                         formik.handleSubmit();
                     }
-                    return{
-                        minute:prevState.minute-1,
-                        second:59
+                    return {
+                        minute: prevState.minute - 1,
+                        second: 59
                     }
-                }else{
+                } else {
                     return {
                         minute: prevState.minute,
-                        second: prevState.second-1
+                        second: prevState.second - 1
                     }
                 }
             })
-        },1000)
-    },[formik.values.exam])
+        }, 1000)
+    }, [formik.values.exam.time])
     return (
-        <div>
-            {timer.minute}:{timer.second}
+        <div style={{fontWeight: "bold"}}>
+            <p style={{paddingLeft: 15, paddingTop: 20}}>Thời gian còn lại: {timer.minute}:{timer.second}</p>
         </div>
     );
 }
