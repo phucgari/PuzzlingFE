@@ -10,11 +10,13 @@ import AuthorAndLevel from "./AdditionalInformation/AuthorAndLevel";
 function DoExamForm(props) {
     const {examId} = useParams();
     const navigate = useNavigate();
-
+    if(JSON.parse(localStorage.getItem("id"))===undefined){
+        document.getElementById("mySidenav").style.cssText = "width:270px; border-right: 10px solid #fff; box-shadow: 1px 8px 8px 8px rgba(73,21,155,0.3); -webkit-box-shadow: 1px 8px 8px 8px rgba(73,21,155,0.3);  -moz-box-shadow: 1px 8px 8px 8px rgba(73,21,155,0.3);";
+    }
     function submitRecord(values) {
         axios.post(`http://localhost:8080/puzzling/record/createExamResult`, values)
-            .then(() => {
-                navigate("/")
+            .then((response) => {
+                navigate(`/record/`+response.data.id)
             })
             .catch((error) => {
                 console.log(error);
@@ -70,7 +72,6 @@ function DoExamForm(props) {
                         }))
                     }))
                 })
-                navigate(`/record/`+response.data.id)
             })
             .catch((error) => {
                 console.log(error);
