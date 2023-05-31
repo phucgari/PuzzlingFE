@@ -32,20 +32,6 @@ function SideBarEditExamQuestion(props) {
             }
         )
     }
-    const handleOptionSelect = (event) => {
-        const selectedOption = event.target.value;
-        switch (selectedOption) {
-            case 'one-choice':
-                addOneChoiceQuestion();
-                break;
-            case 'multi-choice':
-                addMultiChoiceQuestion();
-                break;
-            default:
-                // Xử lý khi không có lựa chọn nào được chọn
-                break;
-        }
-    };
 
 
     return (
@@ -57,12 +43,12 @@ function SideBarEditExamQuestion(props) {
                     <br/>
                     <div className={"row"}>
                         <div className={"col col-16"} style={{display: "flex", justifyContent: "left"}}>
-                            <button className="gradientBtn animated wow fadeInUpy" onClick={handleOptionSelect} value="one-choice">
+                            <button className="gradientBtn animated wow fadeInUpy" onClick={addOneChoiceQuestion}>
                                 Thêm câu hỏi lựa chọn một đáp án
                             </button>
                         </div>
                         <div className={"col col-16"} style={{display: "flex", justifyContent: "center"}}>
-                            <button className="gradientBtn animated wow fadeInUpy" onClick={handleOptionSelect} value="multi-choice">
+                            <button className="gradientBtn animated wow fadeInUpy" onClick={addMultiChoiceQuestion}>
                                 Thêm câu hỏi lựa chọn nhiều đáp án
                             </button>
                         </div>

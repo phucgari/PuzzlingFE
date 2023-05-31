@@ -45,9 +45,16 @@ function BackGroundEditExamQuestion(props) {
     const {exam, setExam, id} = props
     useEffect(
         () => {
-
+            axios
+                .get(`http://localhost:8080/puzzling/exam/info?examId=${id}`)
+                .then((response) => {
+                    setExam(response.data);
+                })
+                .catch(() => {
+                    alert("exam not found");
+                });
         },
-        [exam]
+        []
     )
     return (
 
@@ -77,6 +84,7 @@ function BackGroundEditExamQuestion(props) {
                                     values={values}
                                     isValid={isValid}
                                     setExam={setExam}
+
                                 />
                                 }
                             </Formik>
