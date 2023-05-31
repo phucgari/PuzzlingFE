@@ -2,6 +2,19 @@ import React from 'react';
 import {Field} from "formik";
 
 const MappingQuestionsSearched = ({elements, startIndex}) => {
+    function renderLevel(level) {
+        let str_lv = "";
+        if (level === "EASY") {
+            str_lv = "Dễ";
+        } else if (level === "MEDIUM") {
+            str_lv = "Trung bình";
+        } else if (level === "HARD") {
+            str_lv = "Khó";
+        }
+        return (
+            <div className={"mt-4"} style={{textAlign:"right"}}>Mức độ: {str_lv}</div>
+        )
+    }
     return (
         <div className='list-group mb-4'>
             {elements.map((element, index) => (
@@ -16,9 +29,11 @@ const MappingQuestionsSearched = ({elements, startIndex}) => {
                             Chọn
                         </label>
                     </div>
-                    <p>{element.question.name}</p>
-                    <hr/><small className={"text-muted"}>Lựa chọn đáp án</small>
-                    <table className={"mt-2"} style={{marginLeft:20}}>
+                    {renderLevel(element.question.level)}
+                    <p>Câu hỏi: {element.question.name}</p>
+                    <hr/>
+                    <small className={"text-muted"}>Lựa chọn đáp án</small>
+                    <table className={"mt-2"} style={{marginLeft: 20}}>
                         {
                             element.question.options.map((option) => (
                                 <tbody>
@@ -41,7 +56,6 @@ const MappingQuestionsSearched = ({elements, startIndex}) => {
             ))}
         </div>
     )
-
 };
 
 export default MappingQuestionsSearched;

@@ -390,7 +390,7 @@ function SideNavBar() {
                                         <button
                                             // id={"btn-signup"}
                                             type="submit"
-                                            className="gradientBtn w-75 animated wow fadeInUp delay-0-5s"
+                                            className="gradientBtn w-50 animated wow fadeInUp delay-0-5s"
                                             // data-toggle="modal"
                                             // data-target="#loginModal"
                                             // data-dismiss="modal"
