@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {useNavigate, useParams} from "react-router-dom";
 
 function SideBarEditExamQuestion(props) {
@@ -34,11 +34,7 @@ function SideBarEditExamQuestion(props) {
     }
     const handleOptionSelect = (event) => {
         const selectedOption = event.target.value;
-
         switch (selectedOption) {
-            case 'search-add':
-                navigate('/exam/edit/search-add');
-                break;
             case 'one-choice':
                 addOneChoiceQuestion();
                 break;
@@ -54,25 +50,33 @@ function SideBarEditExamQuestion(props) {
 
     return (
         <div className="container">
-            <div className="modal-dialog modal-lg" role="document">
+            <div className="modal-dialog modal-lg" role="document" >
                 <div className="modal-content rounded-modal shadow p-3 border-0"
                      style={{marginTop: 6 + 'rem', backgroundColor: "#d5fdfd"}}>
-                    <h5>Vui lòng chọn loại câu hỏi bạn muốn</h5>
-                    <div className="col-3">
-                        <select className="form-select textfield-rounded" onChange={handleOptionSelect}>
-                            <option>Chọn loại câu hỏi</option>
-                            <option value="search-add">Thêm câu hỏi từ bộ có sẵn</option>
-                            <option value="one-choice" onClick={addOneChoiceQuestion}>
+                    <h4>Vui lòng chọn loại câu hỏi bạn muốn:</h4>
+                    <div className={"row"}>
+                        <div className={"col col-16"} style={{display: "flex", justifyContent: "left"}}>
+                            <button className="gradientBtn animated wow fadeInUpy" onClick={handleOptionSelect} value="one-choice">
                                 Thêm câu hỏi lựa chọn một đáp án
-                            </option>
-                            <option value="multi-choice" onClick={addMultiChoiceQuestion}>
+                            </button>
+                        </div>
+                        <div className={"col col-16"} style={{display: "flex", justifyContent: "center"}}>
+                            <button className="gradientBtn animated wow fadeInUpy" onClick={handleOptionSelect} value="multi-choice">
                                 Thêm câu hỏi lựa chọn nhiều đáp án
-                            </option>
-                        </select>
+                            </button>
+                        </div>
+                        <div className={"col col-16"}
+                            style={{display:"flex",justifyContent:"right"}} >
+                            <button type="button" className="gradientBtn animated wow fadeInUpy"
+                                    onClick={() => navigate(`/exam/edit/${exam.id}/search-add`)}>
+                                Thêm câu hỏi từ bộ có sẵn
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+
     );
 
 }

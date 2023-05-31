@@ -9,7 +9,7 @@ import RenderPagingQuestion from "./RenderPagingQuestion";
 const validationExam = Yup.object().shape({
     questions: Yup.array().of(
         Yup.object().shape({
-            name: Yup.string().required(),
+            name: Yup.string().required("Tên của câu hỏi không được để trống!"),
             level: Yup.string().required(),
             questionsType: Yup.string(),
             options: Yup.array().when('questionType', ([questionType], schema) => {
@@ -50,12 +50,14 @@ function BackGroundEditExamQuestion(props) {
         [exam]
     )
     return (
+
         <div className="container">
-            <div className="modal-dialog modal-lg" role="document">
+            <div className="modal-dialog modal-xl" role="document">
                 <div className="modal-content rounded-modal shadow p-3 border-0"
                      style={{marginTop: 6 + 'rem', backgroundColor: "#d5fdfd"}}>
-                    <div className="col-8 border ">
+                    <div className="col-12 ">
                         <div className="container">
+                            <h3 style={{display:"flex",justifyContent:"center",fontWeight: "bold"}}>Thêm nội dung câu hỏi</h3>
                             <Formik initialValues={exam}
                                     onSubmit={(values) => {
                                         console.log(values)

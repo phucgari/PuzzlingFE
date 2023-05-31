@@ -1,11 +1,7 @@
 @font-face {
-    font-family: 'Sitka Text';
+    font-family: 'Arial';
     font-style: normal;
     font-weight: normal;
-<<<<<<< HEAD
-    /*src: local('Bauhaus Light BT'), url('../bauhaus-font/bauhauslightbt.woff') format('woff');*/
-=======
->>>>>>> 11172276ea102109093f26156ce0ab0e29561c4b
 }
 
 :root {
@@ -19,7 +15,7 @@
 }
 
 body {
-    font-family: 'Sitka Text', serif;
+    font-family: 'Arial', serif;
     background-color: #fff;
 }
 
@@ -252,8 +248,8 @@ body {
 }
 
 p#exampleModalLabel {
-    padding-left: 14px;
-    padding-bottom: 70px;
+    padding-left: 5px;
+    padding-bottom: 56px;
 }
 
 .change-pass {
@@ -596,4 +592,8 @@ input {
 
 .picture-upload> input {
     display: none;
+}
+
+.bg-color-blue {
+    background-color: darkblue;
 }

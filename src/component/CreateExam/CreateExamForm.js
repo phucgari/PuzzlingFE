@@ -2,20 +2,21 @@ import React from 'react';
 import {ErrorMessage, Field, Form, Formik} from "formik";
 import axios from "axios";
 import * as Yup from "yup";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 
 const validationSchema = Yup.object().shape({
     name: Yup.string().required("Vui lòng nhập tên bài thi!!!"),
     category: Yup.object().shape({
         id: Yup.string().required()
     }),
-    passScore: Yup.number().required("Vui lòng nhập điểm tối thiểu để qua bài thi!!!").min(1, "Điểm tối thiểu để qua bài thi phải lớn hơn 1").max(100, "Điểm tối đa để qua bài thi là 100 điểm!!!"),
+    passScore: Yup.number().required("Vui lòng nhập điểm tối thiểu để qua bài thi!!!").min(1, "Điểm tối thiểu để qua bài thi phải lớn hơn 1%").max(100, "Điểm tối đa để qua bài thi là 100%!!!"),
     time: Yup.number().required("Vui lòng nhập thời gian làm bài thi!!!").min(1, "Thời gian làm bài phải hợp lệ!!!"),
     user: Yup.object().required()
 
 })
 
 function CreateExamForm(props) {
+    const id  = useParams();
     const navigate = useNavigate();
     const [exam, setExam] = React.useState({
         name: "",
@@ -44,7 +45,7 @@ function CreateExamForm(props) {
                         onSubmit={(values) => {
                             axios.post(`http://localhost:8080/puzzling/exam/create`, values)
                                 .then((response) => {
-                                    navigate('/exam/edit', {state: {id: response.data.id}});
+                                    navigate(`/exam/edit/${response.data.id}`);
                                 })
                                 .catch((error) => {
                                     console.log(error);
@@ -82,19 +83,19 @@ function CreateExamForm(props) {
                                             </Field>
                                         </div>
 
-                                        <label htmlFor={"passScore"} style={{fontSize: 18}}>Điểm đạt</label>
+                                        <label htmlFor={"passScore"} style={{fontSize: 18}}>Điểm đạt (%)</label>
                                         <div
                                             className="wrapper">
                                             <div className="input-group-prepend">
                                             </div>
                                             <Field type="number" name="passScore"
                                                    className={"form-control textfield-rounded"}
-                                                   placeholder="Tối đa 100 điểm"/>
+                                                   placeholder="Tối đa 100%"/>
                                             <span style={{color: "red", fontSize: 18 + "px"}}>
                                                 < ErrorMessage name={'passScore'}/></span>
                                         </div>
                                         <br/>
-                                        <label htmlFor={"time"} style={{fontSize: 18}}>Thời gian làm bài</label>
+                                        <label htmlFor={"time"} style={{fontSize: 18}}>Thời gian làm bài (phút)</label>
                                         <div
                                             className="wrapper">
                                             <div className="input-group-prepend">
@@ -105,8 +106,8 @@ function CreateExamForm(props) {
                                                 < ErrorMessage name={'time'}/></span>
                                         </div>
                                         <div style={{textAlign: "center"}}>
-                                            <button type="submit" className="gradientBtn mt-4 animated wow fadeInUp
-" disabled={!isValid}>Tạo bài thi
+                                            <button type="submit" className="gradientBtn mt-4 animated wow fadeInUp"
+                                                    disabled={!isValid}>Tạo bài thi
                                             </button>
                                         </div>
                                     </div>

@@ -4,13 +4,13 @@ function DeleteQuestionButton(props) {
     const {exam, setExam, index} = props
     return (
         <div>
-            <div className="btn-group float-right" role="group">
-                <i className="btn btn-danger fa fa-minus"
+            <div className="btn-group float-right mb-2" role="group">
+                <button className="btn btn-danger"
                    onClick={() => {
                        exam.questions.splice(index, 1)
                        setExam({...exam})
                    }}
-                />
+                >Xoá câu hỏi</button>
             </div>
         </div>
     );
