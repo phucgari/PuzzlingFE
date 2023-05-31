@@ -466,7 +466,7 @@ function SideNavBar() {
                 localStorage.setItem("id", JSON.stringify(response.data.id));
             })
             .then(() => {
-                closeLogin();
+                window.location.reload()
             })
             .catch(() => {
                 alert('Sai tài khoản hoặc mật khẩu! Vui lòng thử lại');

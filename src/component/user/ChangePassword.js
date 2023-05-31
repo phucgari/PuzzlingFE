@@ -82,6 +82,7 @@ export default function ChangePassword() {
                                         <i className="fa fa-key ml-n4-2 text-white"></i>
                                     </span>
                                         </div>
+                                        <ErrorMessage name={"newPassword"}/>
                                         <Field type="text" name={"newPassword"}
                                                className="form-control textfield-rounded shadow-sm p-3 mb-3 zIndex-1"
                                                id="newPassword" placeholder="Mật khẩu mới..."/>
@@ -94,6 +95,7 @@ export default function ChangePassword() {
                                         <i className="fa fa-key ml-n4-2 text-white"></i>
                                     </span>
                                         </div>
+                                        <ErrorMessage name={"confirmPassword"}/>
                                         <Field type="text" name={"confirmPassword"}
                                                className="form-control textfield-rounded shadow-sm p-3 mb-4 zIndex-1"
                                                id="confirmPassword" placeholder="Xác nhận mật khẩu..."/>
