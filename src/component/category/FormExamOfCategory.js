@@ -3,7 +3,7 @@ import axios from "axios";
 import {Link, useNavigate} from "react-router-dom";
 import Pagination from "../searchAddQuestion/Pagination";
 
-export default function Exam() {
+export default function FormExamOfCategory() {
     const id = JSON.parse(localStorage.getItem("id"));
     const [exam, setExam] = useState([]);
     const navigate = useNavigate();
@@ -32,11 +32,11 @@ export default function Exam() {
                     className={'row'}
                 >
                     <div className={'col-lg-11'} style={{textAlign: "center"}}>
-                    <h2 style={{fontWeight: "bold",fontSize:45}}>
-                        Danh sách bài thi của bạn
-                        <br/>
-                        <small className="text-muted" style={{fontSize:20}}>Thêm câu hỏi cho bài thi</small>
-                    </h2></div>
+                        <h2 style={{fontWeight: "bold",fontSize:45}}>
+                            Danh sách bài thi của bạn
+                            <br/>
+                            <small className="text-muted" style={{fontSize:20}}>Thêm câu hỏi cho bài thi</small>
+                        </h2></div>
                     <div className=" text-center col-lg-1" style={{float:"right",paddingRight:"50px"}}>
                         <Link to={"/exam/create"}>
                             <i className={"fa fa-plus-circle"} style={{fontSize:60}}></i>
@@ -60,11 +60,11 @@ export default function Exam() {
                                             <h4 style={{fontWeight: "bold"}}> Bài thi số: {item.id}</h4>
                                             <hr/>
                                             <div>
-                                                <h5>Tên bài thi: {item.name}</h5> 
+                                                <h5>Tên bài thi: {item.name}</h5>
                                                 Thời gian làm bài: {item.time} phút
-                                                <br/> 
+                                                <br/>
                                                 Điểm tối thiểu: {item.passScore}%
-                                                <br/> 
+                                                <br/>
                                                 Người tạo: {item.user.name}
                                             </div>
                                         </button>
@@ -76,12 +76,12 @@ export default function Exam() {
                 </div>
                 <br/>
                 <div style={{display:"flex",justifyContent:"center"}}>
-                <Pagination
-                    elementPerPage={ElementPerPage}
-                    totalElements={exam.length}
-                    paginate={paginate}
-                    currentPage={currentPage}
-                />
+                    <Pagination
+                        elementPerPage={ElementPerPage}
+                        totalElements={exam.length}
+                        paginate={paginate}
+                        currentPage={currentPage}
+                    />
                 </div>
                 <br/>
             </div>

@@ -39,11 +39,13 @@ function EditExamQuestionForm() {
                                     exam={exam}
                                 />
                                 <div className="col-1"></div>
-                                <BackGroundEditExamQuestion
-                                    exam={exam}
-                                    setExam={setExam}
-                                    id={exam.id}
-                                />
+                                {exam.questions.length > 0 &&
+                                    <BackGroundEditExamQuestion
+                                        exam={exam}
+                                        setExam={setExam}
+                                        id={exam.id}
+                                    />
+                                }
                             </div>
                         </div>
                     }/>

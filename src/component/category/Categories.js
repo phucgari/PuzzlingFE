@@ -26,6 +26,7 @@ export default function Categories() {
                             data-target="#subCateModal"
                             key={item.id}
                         >
+                            <Link to={`/category/${item.id}`}>
                             <div className="box-part text-center shadow">
                                 <img
                                     src={item.picture}
@@ -36,6 +37,8 @@ export default function Categories() {
                                     <h4>{item.name}</h4>
                                 </div>
                             </div>
+                            </Link>
+
                         </div>
                     ))
                 }
