@@ -1,20 +1,20 @@
-import {Field, Form, Formik} from "formik";
+import {ErrorMessage, Field, Form, Formik} from "formik";
 import {useEffect, useState} from "react";
 import axios from "axios";
 import * as Yup from "yup";
 
 export default function ChangePassword() {
     const id = JSON.parse(localStorage.getItem("id"));
-    const [password, setPassword] = useState("");
+    const [password, setPassword] = useState({});
     const initialValues = {
-        oldPassword: password,
+        oldPassword: "",
         newPassword: "",
         confirmPassword:""
     }
 
     const validationSchema = Yup.object().shape({
         oldPassword: Yup.string().required("Không được để trống!")
-            .test("password","Sai mật khẩu",async function (password) {
+            .test("oldPassword","Sai mật khẩu",async function (password) {
                 return axios.get(`http://localhost:8080/puzzling/users/check/${id}?password=` + password)
                     .then(() => true)
                     .catch(() => false)
@@ -58,61 +58,56 @@ export default function ChangePassword() {
                     </div>
                     <div className="modal-body">
                         <Formik initialValues={initialValues}
-                                validationSchema={validationSchema}
-                                onSubmit={(values) => {
-                                    axios.put(`http://localhost:8080/puzzling/users/changePassword/${id}`, values)
-                                        .then(() => {
-                                            alert("Thành công")
-                                        })
-                                        .catch(() => {
-                                            alert("Thất bại")
-                                        });
-                                }}>
-                                <Form>
-                                    <center>
-                                        <div className="form-group input-group w-75 animated wow fadeInDown delay-0-1s">
-                                            <Field type="text" name={"oldPassword"}
-                                                   className="form-control textfield-rounded shadow-sm p-3 mb-3 zIndex-1"
-                                                   id="oldPassword" placeholder="Mật khẩu cũ..."/>
-                                            <div className="input-group-append z-Index-2">
-                                            <span>
-                                                <img src="/images/right-icon.png" className="ml-n6" alt={""}/>
-                                                <i className="fa fa-key ml-n4-1 text-white"></i>
-                                            </span>
-                                            </div>
-                                        </div>
-                                        <div
-                                            className="form-group input-group w-75 z-Index-2 animated wow fadeInDown delay-0-2s">
-                                            <div className="input-group-prepend z-Index-2">
+                                onSubmit= {handleChangePassword}
+                                validationSchema={validationSchema}>
+                            <Form>
+                                <center>
+                                    <ErrorMessage name={"oldPassword"}/>
+                                    <div className="form-group input-group w-75 animated wow fadeInDown delay-0-1s">
+                                        <Field type="text" name={"oldPassword"}
+                                               className="form-control textfield-rounded shadow-sm p-3 mb-3 zIndex-1"
+                                               id="oldPassword" placeholder="Mật khẩu cũ..."/>
+                                        <div className="input-group-append z-Index-2">
                                         <span>
-                                            <img src="/images/left-icon.png" alt={""}/>
-                                            <i className="fa fa-key ml-n4-2 text-white"></i>
+                                            <img src="/images/right-icon.png" className="ml-n6" alt={""}/>
+                                            <i className="fa fa-key ml-n4-1 text-white"></i>
                                         </span>
-                                            </div>
-                                            <Field type="text" name={"newPassword"}
-                                                   className="form-control textfield-rounded shadow-sm p-3 mb-3 zIndex-1"
-                                                   id="newPassword" placeholder="Mật khẩu mới..."/>
                                         </div>
-                                        <div
-                                            className="form-group input-group w-75 z-Index-2 animated wow fadeInDown delay-0-3s">
-                                            <div className="input-group-prepend z-Index-2">
-                                        <span>
-                                            <img src="/images/left-icon.png" alt={""}/>
-                                            <i className="fa fa-key ml-n4-2 text-white"></i>
-                                        </span>
-                                            </div>
-                                            <Field type="text" name={"confirmPassword"}
-                                                   className="form-control textfield-rounded shadow-sm p-3 mb-4 zIndex-1"
-                                                   id="confirmPassword" placeholder="Xác nhận mật khẩu..."/>
+                                    </div>
+                                    <div
+                                        className="form-group input-group w-75 z-Index-2 animated wow fadeInDown delay-0-2s">
+                                        <div className="input-group-prepend z-Index-2">
+                                    <span>
+                                        <img src="/images/left-icon.png" alt={""}/>
+                                        <i className="fa fa-key ml-n4-2 text-white"></i>
+                                    </span>
                                         </div>
-                                    </center>
-                                    <center>
-                                        <button type="submit"
-                                                className="gradientBtn w-75 animated wow fadeInUp delay-0-4s">
-                                            Lưu
-                                        </button>
-                                    </center>
-                                </Form>
+                                        <ErrorMessage name={"newPassword"}/>
+                                        <Field type="text" name={"newPassword"}
+                                               className="form-control textfield-rounded shadow-sm p-3 mb-3 zIndex-1"
+                                               id="newPassword" placeholder="Mật khẩu mới..."/>
+                                    </div>
+                                    <div
+                                        className="form-group input-group w-75 z-Index-2 animated wow fadeInDown delay-0-3s">
+                                        <div className="input-group-prepend z-Index-2">
+                                    <span>
+                                        <img src="/images/left-icon.png" alt={""}/>
+                                        <i className="fa fa-key ml-n4-2 text-white"></i>
+                                    </span>
+                                        </div>
+                                        <ErrorMessage name={"confirmPassword"}/>
+                                        <Field type="text" name={"confirmPassword"}
+                                               className="form-control textfield-rounded shadow-sm p-3 mb-4 zIndex-1"
+                                               id="confirmPassword" placeholder="Xác nhận mật khẩu..."/>
+                                    </div>
+                                </center>
+                                <center>
+                                    <button type="submit"
+                                            className="gradientBtn w-75 animated wow fadeInUp delay-0-4s">
+                                        Lưu
+                                    </button>
+                                </center>
+                            </Form>
                         </Formik>
                     </div>
                 </div>
@@ -120,5 +115,14 @@ export default function ChangePassword() {
         </div>
     )
 
-
+    function handleChangePassword(values) {
+        console.log(values)
+        axios.put("http://localhost:8080/puzzling/users/changePassword/"+JSON.parse(localStorage.getItem("id")),values)
+            .then((response) => {
+                alert("Đổi mật khẩu thành công!")
+            })
+            .catch(() => {
+                alert("Không  thành công!")
+            })
+    }
 }

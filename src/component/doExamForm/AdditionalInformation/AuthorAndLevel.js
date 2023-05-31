@@ -12,9 +12,11 @@ function AuthorAndLevel(props) {
     } else if (level === "HARD") {
         str_lv = "Khó";
     }
-    return (<div style={{paddingTop: 20, paddingRight: 20, fontWeight: "bold"}}>
-        <p>Mức độ: {str_lv}</p>
-    </div>);
+    return (
+        <div style={{paddingTop: 20, paddingRight: 20, fontWeight: "bold"}}>
+            <p>Mức độ: {str_lv}</p>
+        </div>
+    );
 }
 
 export default AuthorAndLevel;
