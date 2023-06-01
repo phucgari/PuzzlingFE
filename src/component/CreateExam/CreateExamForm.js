@@ -51,7 +51,7 @@ function CreateExamForm() {
                                     navigate(`/exam/edit/${response.data.id}`);
                                 })
                                 .catch((error) => {
-                                    console.log(error);
+                                    navigate(`/${error.response.status}`)
                                 });
                         }}
                     >
