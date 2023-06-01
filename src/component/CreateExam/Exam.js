@@ -20,26 +20,26 @@ export default function Exam() {
                     setExam(response.data)
                 })
                 .catch((error) => {
-                    console.log(error.message)
+                    navigate(`/${error.response.status}`)
                 })
         }, [id]
     )
     return (
         <div className="modal-dialog modal-lg" role="document">
             <div className="modal-content rounded-modal shadow p-4 border-0"
-                 style={{ backgroundColor: "#bef6fd"}}>
+                 style={{backgroundColor: "#bef6fd"}}>
                 <div
                     className={'row'}
                 >
                     <div className={'col-lg-11'} style={{textAlign: "center"}}>
-                    <h2 style={{fontWeight: "bold",fontSize:45}}>
-                        Danh sách bài thi của bạn
-                        <br/>
-                        <small className="text-muted" style={{fontSize:20}}>Thêm câu hỏi cho bài thi</small>
-                    </h2></div>
-                    <div className=" text-center col-lg-1" style={{float:"right",paddingRight:"50px"}}>
+                        <h2 style={{fontWeight: "bold", fontSize: 45}}>
+                            Danh sách bài thi của bạn
+                            <br/>
+                            <small className="text-muted" style={{fontSize: 20}}>Thêm câu hỏi cho bài thi</small>
+                        </h2></div>
+                    <div className=" text-center col-lg-1" style={{float: "right", paddingRight: "50px"}}>
                         <Link to={"/exam/create"}>
-                            <i className={"fa fa-plus-circle"} style={{fontSize:60}}></i>
+                            <i className={"fa fa-plus-circle"} style={{fontSize: 60}}></i>
                         </Link>
                     </div>
                 </div>
@@ -52,19 +52,20 @@ export default function Exam() {
 
                             {
                                 currentElements.map((item) => (
-                                    <div className={"col col-4 p-3 bg-lightblue"} style={{display:"flex",justifyContent:"center"}}
+                                    <div className={"col col-4 p-3 bg-lightblue"}
+                                         style={{display: "flex", justifyContent: "center"}}
                                          key={item.id}
                                     >
-                                        <button className={"btn btn-outline-dark"} style={{width:"300px"}}
-                                                onClick={() => navigate("/exam/edit/"+item.id)}>
+                                        <button className={"btn btn-outline-dark"} style={{width: "300px"}}
+                                                onClick={() => navigate("/exam/edit/" + item.id)}>
                                             <h4 style={{fontWeight: "bold"}}> Bài thi số: {item.id}</h4>
                                             <hr/>
                                             <div>
-                                                <h5>Tên bài thi: {item.name}</h5> 
+                                                <h5>Tên bài thi: {item.name}</h5>
                                                 Thời gian làm bài: {item.time} phút
-                                                <br/> 
+                                                <br/>
                                                 Điểm tối thiểu: {item.passScore}%
-                                                <br/> 
+                                                <br/>
                                                 Người tạo: {item.user.name}
                                             </div>
                                         </button>
@@ -75,13 +76,13 @@ export default function Exam() {
                     </div>
                 </div>
                 <br/>
-                <div style={{display:"flex",justifyContent:"center"}}>
-                <Pagination
-                    elementPerPage={ElementPerPage}
-                    totalElements={exam.length}
-                    paginate={paginate}
-                    currentPage={currentPage}
-                />
+                <div style={{display: "flex", justifyContent: "center"}}>
+                    <Pagination
+                        elementPerPage={ElementPerPage}
+                        totalElements={exam.length}
+                        paginate={paginate}
+                        currentPage={currentPage}
+                    />
                 </div>
                 <br/>
             </div>

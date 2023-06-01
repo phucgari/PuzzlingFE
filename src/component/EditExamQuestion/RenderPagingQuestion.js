@@ -5,7 +5,6 @@ import Pagination from "../searchAddQuestion/Pagination";
 import {useNavigate} from "react-router-dom";
 
 function RenderPagingQuestion(props) {
-    const navigate = useNavigate();
     const {values, isValid, setExam} = props
     const [currentPage, setCurrentPage] = React.useState(1);
     const [questionsPerPage] = React.useState(5);
@@ -19,26 +18,31 @@ function RenderPagingQuestion(props) {
         <Form>
             <FieldArray name={`questions`}>
                 <>
-                    {
-                        currentQuestions.map(((question, index) =>
-                                <RenderQuestionForm
-                                    question={question}
-                                    index={index + indexOfFirstQuestion}
-                                    setExam={setExam}
-                                    exam={values}
-                                />
-                        ))
-                    }
-                    <Pagination
-                        elementPerPage={questionsPerPage}
-                        totalElements={values.questions.length}
-                        paginate={paginate}
-                        currentPage={currentPage}
-                    />
+                    <div>
+                        {
+                            currentQuestions.map(((question, index) =>
+                                    <RenderQuestionForm
+                                        question={question}
+                                        index={index + indexOfFirstQuestion}
+                                        setExam={setExam}
+                                        exam={values}
+                                    />
+                            ))
+                        }
+                    </div>
+
+                    <div>
+                        <Pagination
+                            elementPerPage={questionsPerPage}
+                            totalElements={values.questions.length}
+                            paginate={paginate}
+                            currentPage={currentPage}
+                        />
+                    </div>
                 </>
             </FieldArray>
             <div style={{display: "flex", justifyContent: "center"}}>
-                <button onClick={() => navigate("/exam/all")} type="submit"
+                <button type="submit"
                         className="gradientBtn animated wow fadeInUp mt-4 mb-3" disabled={!isValid}>Thêm mới
                 </button>
             </div>

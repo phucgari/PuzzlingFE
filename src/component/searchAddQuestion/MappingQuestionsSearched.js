@@ -12,9 +12,10 @@ const MappingQuestionsSearched = ({elements, startIndex}) => {
             str_lv = "Khó";
         }
         return (
-            <div className={"mt-4"} style={{textAlign:"right"}}>Mức độ: {str_lv}</div>
+            <div className={"mt-4"} style={{textAlign: "right"}}>Mức độ: {str_lv}</div>
         )
     }
+
     return (
         <div className='list-group mb-4'>
             {elements.map((element, index) => (

@@ -2,7 +2,7 @@ import {useNavigate} from "react-router-dom";
 import {Field, Form, Formik} from "formik";
 import axios from "axios";
 import {storage} from "../../firebase";
-import {ref, getDownloadURL, uploadBytesResumable} from "firebase/storage";
+import {getDownloadURL, ref, uploadBytesResumable} from "firebase/storage";
 import React, {useState} from "react";
 import Swal from "sweetalert2";
 
@@ -42,7 +42,7 @@ export default function CreateCategory() {
                                         title: 'Không thành công!',
                                         showConfirmButton: false,
                                         timer: 1500
-                                    }).then(r => r.isConfirmed)
+                                    }).then(r => r.isDenied)
                                 })
                         }}
                         enableReinitialize={true}

@@ -1,19 +1,19 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 export default function Categories() {
     const [categories, setCategories] = useState([]);
-
+    const navigate = useNavigate();
     useEffect(() => {
             axios.get("http://localhost:8080/puzzling/categories/")
                 .then((response) => {
                     setCategories(response.data)
                 })
                 .catch((error) => {
-                    console.log(error.message)
+                    navigate(`/${error.response.status}`)
                 })
-        },[]
+        }, []
     )
     return (
         <div className="container">
@@ -27,16 +27,16 @@ export default function Categories() {
                             key={item.id}
                         >
                             <Link to={`/category/${item.id}`}>
-                            <div className="box-part text-center shadow">
-                                <img
-                                    src={item.picture}
-                                    className="user-profile shadow mx-auto img-fluid rounded-circle mt-n2 animated wow pulse"
-                                    alt="..."
-                                />
-                                <div className="title mt-2">
-                                    <h4>{item.name}</h4>
+                                <div className="box-part text-center shadow">
+                                    <img
+                                        src={item.picture}
+                                        className="img-fluid mx-auto d-block animated wow jello slow infinite"
+                                        alt="..."
+                                    />
+                                    <div className="title mt-4">
+                                        <h4>{item.name}</h4>
+                                    </div>
                                 </div>
-                            </div>
                             </Link>
 
                         </div>
@@ -48,7 +48,8 @@ export default function Categories() {
                     data-target="#subCateModal"
                 >
                     <div className="box-part text-center shadow">
-                        <Link to={"/createCategory"} style={{fontSize:70, fontWeight:"bold", textDecoration:"none"}}>+</Link>
+                        <Link to={"/createCategory"}
+                              style={{fontSize: 70, fontWeight: "bold", textDecoration: "none"}}>+</Link>
                     </div>
                 </div>
             </div>

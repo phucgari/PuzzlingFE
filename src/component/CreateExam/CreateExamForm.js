@@ -2,21 +2,24 @@ import React from 'react';
 import {ErrorMessage, Field, Form, Formik} from "formik";
 import axios from "axios";
 import * as Yup from "yup";
-import {useNavigate, useParams} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 const validationSchema = Yup.object().shape({
-    name: Yup.string().required("Vui lòng nhập tên bài thi!!!"),
+    name: Yup.string().required("Vui lòng nhập tên bài thi!"),
     category: Yup.object().shape({
         id: Yup.string().required()
     }),
-    passScore: Yup.number().required("Vui lòng nhập điểm tối thiểu để qua bài thi!!!").min(1, "Điểm tối thiểu để qua bài thi phải lớn hơn 1%").max(100, "Điểm tối đa để qua bài thi là 100%!!!"),
-    time: Yup.number().required("Vui lòng nhập thời gian làm bài thi!!!").min(1, "Thời gian làm bài phải hợp lệ!!!"),
+    passScore: Yup.number()
+        .required("Vui lòng nhập điểm tối thiểu để qua bài thi!")
+        .min(1, "Điểm tối thiểu để qua bài thi phải lớn hơn 1%")
+        .max(100, "Điểm tối đa để qua bài thi là 100%!"),
+    time: Yup.number().required("Vui lòng nhập thời gian làm bài thi!")
+        .min(1, "Thời gian làm bài phải hợp lệ!"),
     user: Yup.object().required()
 
 })
 
-function CreateExamForm(props) {
-    const id  = useParams();
+function CreateExamForm() {
     const navigate = useNavigate();
     const [exam, setExam] = React.useState({
         name: "",
@@ -48,7 +51,7 @@ function CreateExamForm(props) {
                                     navigate(`/exam/edit/${response.data.id}`);
                                 })
                                 .catch((error) => {
-                                    console.log(error);
+                                    navigate(`/${error.response.status}`)
                                 });
                         }}
                     >
@@ -65,7 +68,7 @@ function CreateExamForm(props) {
                                         <Field name={`name`} className={"form-control textfield-rounded"}
                                                id={`name`} placeholder="Tên Bài thi"
                                         />
-                                        <span style={{color: "red", fontSize: 18 + "px"}}>
+                                        <span style={{color: "red", fontSize: 14 + "px"}}>
                                         < ErrorMessage name={'name'}/></span>
                                         <br/>
                                         <label htmlFor={"category"} style={{fontSize: 18}}>Danh mục bài thi</label>
@@ -92,7 +95,7 @@ function CreateExamForm(props) {
                                             <Field type="number" name="passScore"
                                                    className={"form-control textfield-rounded"}
                                                    placeholder="Tối đa 100%"/>
-                                            <span style={{color: "red", fontSize: 18 + "px"}}>
+                                            <span style={{color: "red", fontSize: 14 + "px"}}>
                                                 < ErrorMessage name={'passScore'}/></span>
                                         </div>
                                         <br/>
@@ -103,7 +106,7 @@ function CreateExamForm(props) {
                                             </div>
                                             <Field type="text" name="time" className={"form-control textfield-rounded"}
                                                    placeholder="Nhập thời gian làm bài thi"/>
-                                            <span style={{color: "red", fontSize: 18 + "px"}}>
+                                            <span style={{color: "red", fontSize: 14 + "px"}}>
                                                 < ErrorMessage name={'time'}/></span>
                                         </div>
                                         <div style={{textAlign: "center"}}>
