@@ -16,7 +16,7 @@ const validationSchema = Yup.object().shape({
 })
 
 function CreateExamForm(props) {
-    const id  = useParams();
+    const id = useParams();
     const navigate = useNavigate();
     const [exam, setExam] = React.useState({
         name: "",
@@ -48,21 +48,22 @@ function CreateExamForm(props) {
                                     navigate(`/exam/edit/${response.data.id}`);
                                 })
                                 .catch((error) => {
-                                    console.log(error);
+                                    navigate(`/${error.response.status}`)
                                 });
                         }}
                     >
                         {({isValid}) =>
                             (
                                 <Form>
-                                    <h1 style={{textAlign: "center", fontWeight: "bold"}} className="title,"> Tạo bài
-                                        thi mới </h1>
+                                    <h1 style={{textAlign: "center", fontWeight: "bold"}}
+                                        className="title,">
+                                        Tạo bài thi mới
+                                    </h1>
                                     <hr/>
                                     <div className="container mt-5">
                                         <label htmlFor={"name"} style={{fontSize: 18}}>Tiêu đề bài thi</label>
                                         <Field name={`name`} className={"form-control textfield-rounded"}
-                                               id={`name`}
-                                               placeholder="Tên Bài thi"
+                                               id={`name`} placeholder="Tên Bài thi"
                                         />
                                         <span style={{color: "red", fontSize: 18 + "px"}}>
                                         < ErrorMessage name={'name'}/></span>

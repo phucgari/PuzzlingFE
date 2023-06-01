@@ -2,8 +2,9 @@ import {useNavigate} from "react-router-dom";
 import {Field, Form, Formik} from "formik";
 import axios from "axios";
 import {storage} from "../../firebase";
-import {ref, getDownloadURL, uploadBytesResumable} from "firebase/storage";
+import {getDownloadURL, ref, uploadBytesResumable} from "firebase/storage";
 import React, {useState} from "react";
+import Swal from "sweetalert2";
 
 export default function CreateCategory() {
     const navigate = useNavigate();
@@ -25,11 +26,23 @@ export default function CreateCategory() {
                             axios
                                 .post("http://localhost:8080/puzzling/categories/", values)
                                 .then(() => {
-                                    alert("Tạo mới thành công!")
+                                    Swal.fire({
+                                        position: 'center',
+                                        icon: 'success',
+                                        title: 'Tạo mới thành công!',
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    }).then(r => r.isConfirmed)
                                     navigate("/categories")
                                 })
                                 .catch(() => {
-                                    alert("TKhông thành công!")
+                                    Swal.fire({
+                                        position: 'center',
+                                        icon: 'error',
+                                        title: 'Không thành công!',
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    }).then(r => r.isConfirmed)
                                 })
                         }}
                         enableReinitialize={true}

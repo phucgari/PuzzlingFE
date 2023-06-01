@@ -3,13 +3,13 @@ import QuestionPaging from "./AdditionalInformation/QuestionPaging";
 
 function AdditionalInformation(props) {
     const {formik, currentIndex, setCurrentIndex} = props
-    useEffect(()=>{
-        if(JSON.parse(localStorage.getItem("id"))===null){
+    useEffect(() => {
+        if (JSON.parse(localStorage.getItem("id")) === null) {
             document.getElementById("loginModal").style.display = "block";
         }
-    },[formik])
+    }, [formik])
     return (
-        <div style={{display:"flex", justifyContent:"center"}}>
+        <div style={{display: "flex", justifyContent: "center"}}>
             <QuestionPaging
                 formik={formik}
                 currentIndex={currentIndex}
