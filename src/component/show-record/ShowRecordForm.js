@@ -3,9 +3,11 @@ import {useParams} from "react-router-dom";
 import axios from "axios";
 import Render1RecordDetail from "./Render1Record";
 import RecordSumary from "./RecordSumary";
+import History from "./History";
 
 function ShowRecordForm(props) {
     const [showDetailRecord, setShowDetailRecord] = useState(false);
+    const [showHistory, setShowHistory] = useState(false);
     const {recordId} = useParams();
     const [record, setRecord] = useState({
         time: "",
@@ -35,6 +37,7 @@ function ShowRecordForm(props) {
             <RecordSumary
                 record={record}
                 check={() => checkDemo()}
+                check1={() => checkHistory()}
             />
             {showDetailRecord &&
                 <div className={"modal-content rounded-modal shadow p-4 border-0"} style={{backgroundColor: "#bef6fd"}}>
@@ -47,12 +50,28 @@ function ShowRecordForm(props) {
                         )
                     }
                 </div>
+<<<<<<< HEAD
+=======
+            }
+            {showHistory &&
+                <div className={"modal-content rounded-modal shadow p-4 border-0"} style={{backgroundColor: "#bef6fd"}}>
+                    <h3 style={{display: "flex", justifyContent: "center", fontWeight: "bold"}}>Lịch sử thi</h3>
+
+                    <History/>
+
+                </div>
+
+>>>>>>> ea86d84cfa31de07e1e00ec8dcbf13a4eae7d1e3
             }
         </div>
     );
 
     function checkDemo() {
         setShowDetailRecord(!showDetailRecord)
+    }
+
+    function checkHistory() {
+        setShowHistory(!showHistory)
     }
 }
 
