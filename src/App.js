@@ -14,6 +14,7 @@ import Status400 from "./component/err/Status400";
 import Status500 from "./component/err/Status500";
 import Status401 from "./component/err/Status401";
 import Status403 from "./component/err/Status403";
+import Other from "./component/err/Other";
 
 function App() {
 
@@ -35,6 +36,7 @@ function App() {
                 <Route path="/401" element={<Status401/>}/>
                 <Route path="/403" element={<Status403/>}/>
                 <Route path="/500" element={<Status500/>}/>
+                <Route path="/*" element={<Other/>}/>
             </Routes>
         </div>
     );
