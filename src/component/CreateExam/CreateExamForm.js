@@ -55,14 +55,15 @@ function CreateExamForm(props) {
                         {({isValid}) =>
                             (
                                 <Form>
-                                    <h1 style={{textAlign: "center", fontWeight: "bold"}} className="title,"> Tạo bài
-                                        thi mới </h1>
+                                    <h1 style={{textAlign: "center", fontWeight: "bold"}}
+                                        className="title,">
+                                        Tạo bài thi mới
+                                    </h1>
                                     <hr/>
                                     <div className="container mt-5">
                                         <label htmlFor={"name"} style={{fontSize: 18}}>Tiêu đề bài thi</label>
                                         <Field name={`name`} className={"form-control textfield-rounded"}
-                                               id={`name`}
-                                               placeholder="Tên Bài thi"
+                                               id={`name`} placeholder="Tên Bài thi"
                                         />
                                         <span style={{color: "red", fontSize: 18 + "px"}}>
                                         < ErrorMessage name={'name'}/></span>
