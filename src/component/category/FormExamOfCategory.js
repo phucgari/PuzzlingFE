@@ -3,7 +3,8 @@ import axios from "axios";
 import {Link, useNavigate} from "react-router-dom";
 import Pagination from "../searchAddQuestion/Pagination";
 
-export default function FormExamOfCategory() {
+export default function FormExamOfCategory(props) {
+    const { categoriesId } = props.match.params;
     const id = JSON.parse(localStorage.getItem("id"));
     const [exam, setExam] = useState([]);
     const navigate = useNavigate();
@@ -15,7 +16,7 @@ export default function FormExamOfCategory() {
     const paginate = pageNumber => setCurrentPage(pageNumber);
 
     useEffect(() => {
-            axios.get(`http://localhost:8080/puzzling/exam/list?user=${id}`)
+            axios.get(`http://localhost:8080/puzzling/exam/searchExamsByCategoryAndUser?categoriesId=${categoriesId}&userId=${JSON.parse(localStorage.getItem("id"))}`)
                 .then((response) => {
                     setExam(response.data)
                 })
