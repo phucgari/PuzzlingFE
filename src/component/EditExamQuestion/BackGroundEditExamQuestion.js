@@ -43,19 +43,6 @@ const validationExam = Yup.object().shape({
 function BackGroundEditExamQuestion(props) {
     const navigate = useNavigate();
     const {exam, setExam, id} = props
-    useEffect(
-        () => {
-            axios
-                .get(`http://localhost:8080/puzzling/exam/info?examId=${id}`)
-                .then((response) => {
-                    setExam(response.data);
-                })
-                .catch(() => {
-                    alert("exam not found");
-                });
-        },
-        []
-    )
     return (
 
         <div className="container">
