@@ -2,9 +2,10 @@ import React, {useEffect, useState} from 'react';
 import axios from "axios";
 import {Link, useNavigate} from "react-router-dom";
 import Pagination from "../searchAddQuestion/Pagination";
+import { useParams } from 'react-router-dom';
 
-export default function FormExamOfCategory(props) {
-    const { categoriesId } = props.match.params;
+export default function FormExamOfCategory() {
+    const { categoriesId } =useParams();
     const id = JSON.parse(localStorage.getItem("id"));
     const [exam, setExam] = useState([]);
     const navigate = useNavigate();
