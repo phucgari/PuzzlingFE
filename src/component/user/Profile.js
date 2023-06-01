@@ -6,6 +6,7 @@ import {useEffect, useState} from "react";
 import {getDownloadURL, ref, uploadBytesResumable} from "firebase/storage";
 import {storage} from "../../firebase";
 import * as Yup from "yup";
+import Swal from "sweetalert2";
 
 export default function Profile() {
     const id = JSON.parse(localStorage.getItem("id"));
@@ -22,8 +23,18 @@ export default function Profile() {
 
     const validationSchema = Yup.object().shape({
         name: Yup.string().required("Không được để trống!"),
-        email:Yup.string().required("Không được để trống!"),
+        email:Yup.string().required("Không được để trống!")
+            .test("email", "Không được trùng với email cũ", async function (email) {
+            return axios.get(`http://localhost:8080/puzzling/users/check/${id}?email=` + email)
+                .then(() => true)
+                .catch(() => false)
+        }),
         phone:Yup.string().required("Không được để trống!")
+            .test("phone", "Không được trùng với số điện thoại cũ", async function (phone) {
+                return axios.get(`http://localhost:8080/puzzling/users/check/${id}?email=` + phone)
+                    .then(() => true)
+                    .catch(() => false)
+            }),
     })
 
     useEffect(() => {
@@ -47,10 +58,22 @@ export default function Profile() {
                             values.avatar = imgUrl;
                             axios.put(`http://localhost:8080/puzzling/users/${id}`, values)
                                 .then(() => {
-                                    alert("Sửa thông tin thành công!")
+                                    Swal.fire({
+                                        position: 'center',
+                                        icon: 'success',
+                                        title: 'Đổi thông tin thành công!',
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    }).then(r => r.isConfirmed)
                                 })
                                 .catch(() => {
-                                    alert("Không thành công")
+                                    Swal.fire({
+                                        position: 'center',
+                                        icon: 'error',
+                                        title: 'Không thành công!',
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    }).then(r => r.isConfirmed)
                                 })
                         }}
                         validationSchema={validationSchema}
@@ -69,6 +92,7 @@ export default function Profile() {
                             <div className="modal-body">
                                 <div className="row">
                                     <div className="col-lg-6">
+                                        <span style={{color:"red", fontSize:14}}><ErrorMessage name={"name"}/></span>
                                         <div className="form-group input-group w-100 animated wow fadeInDown delay-0-1s">
                                             <div className="input-group-prepend">
                                                 <span><img src="/images/left-icon.png" alt={""}/></span>
@@ -76,10 +100,10 @@ export default function Profile() {
                                             <Field type="text" id="recipient-user"
                                                    name={"name"}  placeholder="Họ tên..."
                                                    className="form-control textfield-rounded shadow-sm mb-4 ml-n3" />
-                                            <ErrorMessage name={"name"} style={{color:"red"}}/>
                                         </div>
                                     </div>
                                     <div className="col-lg-6">
+                                        <span style={{color:"red", fontSize:14}}><ErrorMessage name={"email"}/></span>
                                         <div className="form-group input-group w-100 animated wow fadeInDown delay-0-2s">
                                             <div className="input-group-prepend">
                                                 <span><img src="/images/right-icon.png" className="rotate-180" alt={""}/></span>
@@ -87,11 +111,11 @@ export default function Profile() {
                                             <Field type="text" id="recipient-mobile"
                                                    name={"email"} placeholder="Email..."
                                                    className="form-control textfield-rounded shadow-sm p-3 mb-4 ml-n3"/>
-                                            <ErrorMessage name={"email"} style={{color:"red"}}/>
                                         </div>
                                     </div>
 
                                     <div className="col-lg-6">
+                                        <span style={{color:"red", fontSize:14}}><ErrorMessage name={"phone"}/></span>
                                         <div className="form-group input-group w-100 animated wow fadeInDown delay-0-3s">
                                             <div className="input-group-prepend">
                                                 <span><img src="/images/right-icon.png" className="rotate-180" alt={""}/></span>
@@ -99,7 +123,6 @@ export default function Profile() {
                                             <Field type="text" id="recipient-adress"
                                                    name={"phone"} placeholder="Số điện thoại..."
                                                    className="form-control textfield-rounded shadow-sm p-3 mb-4 ml-n3"/>
-                                            <ErrorMessage name={"phone"} style={{color:"red"}}/>
                                         </div>
                                     </div>
                                     <div className="col-lg-6">
@@ -148,7 +171,11 @@ export default function Profile() {
         uploadTask.on("state_changed",
             (snapshot) => {
                 const progress =
+<<<<<<< HEAD
                     Math.round((snapshot.bytesTransferred / snapshot.totalBytes));
+=======
+                    Math.round((snapshot.bytesTransferred / snapshot.totalBytes))
+>>>>>>> 0dc91bf436e39f0967d10a8ac9678ce54e595d99
                 setProgressPercent(progress);
                 console.log(progress)
             },
