@@ -43,12 +43,6 @@ const validationExam = Yup.object().shape({
 function BackGroundEditExamQuestion(props) {
     const navigate = useNavigate();
     const {exam, setExam, id} = props
-    useEffect(
-        () => {
-
-        },
-        [exam]
-    )
     return (
 
         <div className="container">
@@ -77,6 +71,7 @@ function BackGroundEditExamQuestion(props) {
                                     values={values}
                                     isValid={isValid}
                                     setExam={setExam}
+
                                 />
                                 }
                             </Formik>
