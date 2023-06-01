@@ -44,9 +44,9 @@ function RenderMultiChoiceQuestion(props) {
                                 </div>
                                 <Field
                                     type="text" className="form-control"
-                                       name={`questions.${index}.options.${optionIndex}.name`}
-                                       id={`questions.${index}.options.${optionIndex}.name`}
-                                       placeholder="Tên lựa chọn"
+                                    name={`questions.${index}.options.${optionIndex}.name`}
+                                    id={`questions.${index}.options.${optionIndex}.name`}
+                                    placeholder="Tên lựa chọn"
                                 />
                             </div>
                         )

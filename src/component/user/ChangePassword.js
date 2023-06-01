@@ -6,7 +6,6 @@ import Swal from "sweetalert2";
 
 export default function ChangePassword() {
     const id = JSON.parse(localStorage.getItem("id"));
-    const [password, setPassword] = useState({});
     const initialValues = {
         oldPassword: "", newPassword: "", confirmPassword: ""
     }
@@ -14,7 +13,11 @@ export default function ChangePassword() {
     const validationSchema = Yup.object().shape({
         oldPassword: Yup.string().required("Không được để trống!")
             .test("oldPassword", "Sai mật khẩu", async function (password) {
-                return axios.get(`http://localhost:8080/puzzling/users/check/${id}?password=` + password)
+                return axios.get(`http://localhost:8080/puzzling/users/check/${id}?password=` + password,
+                    {
+                        auth:JSON.parse(localStorage.getItem('auth'))
+                    }
+                    )
                     .then(() => true)
                     .catch(() => false)
             }),
@@ -27,16 +30,6 @@ export default function ChangePassword() {
             .oneOf([Yup.ref('newPassword'), null], 'Mật khẩu không trùng nhau!'),
     })
 
-    useEffect(() => {
-        axios
-            .get(`http://localhost:8080/puzzling/users/${id}`)
-            .then((response) => {
-                setPassword(response.data.password);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    }, [id]);
     return (<div className="modal fade mt-5" id="passModal" tabIndex="-1" role="dialog"
                  aria-labelledby="exampleModalLabel"
                  aria-hidden="true">
@@ -60,7 +53,7 @@ export default function ChangePassword() {
                             validationSchema={validationSchema}>
                         <Form>
                             <center>
-                                <span style={{color:"red", fontSize:14}}><ErrorMessage name={"oldPassword"}/></span>
+                                <span style={{color: "red", fontSize: 14}}><ErrorMessage name={"oldPassword"}/></span>
                                 <div className="form-group input-group w-75 animated wow fadeInDown delay-0-1s">
                                     <Field type="text" name={"oldPassword"}
                                            className="form-control textfield-rounded shadow-sm p-3 mb-3 zIndex-1"
@@ -73,7 +66,7 @@ export default function ChangePassword() {
                                     </div>
                                 </div>
 
-                                <span style={{color:"red", fontSize:14}}><ErrorMessage name={"newPassword"}/></span>
+                                <span style={{color: "red", fontSize: 14}}><ErrorMessage name={"newPassword"}/></span>
                                 <div
                                     className="form-group input-group w-75 z-Index-2 animated wow fadeInDown delay-0-2s">
                                     <div className="input-group-prepend z-Index-2">
@@ -87,7 +80,8 @@ export default function ChangePassword() {
                                            id="newPassword" placeholder="Mật khẩu mới..."/>
                                 </div>
 
-                                <span style={{color:"red", fontSize:14}}><ErrorMessage name={"confirmPassword"}/></span>
+                                <span style={{color: "red", fontSize: 14}}><ErrorMessage
+                                    name={"confirmPassword"}/></span>
                                 <div
                                     className="form-group input-group w-75 z-Index-2 animated wow fadeInDown delay-0-3s">
                                     <div className="input-group-prepend z-Index-2">
@@ -116,7 +110,11 @@ export default function ChangePassword() {
 
     function handleChangePassword(values) {
         console.log(values)
-        axios.put("http://localhost:8080/puzzling/users/changePassword/" + JSON.parse(localStorage.getItem("id")), values)
+        axios.put("http://localhost:8080/puzzling/users/changePassword/" + JSON.parse(localStorage.getItem("id")), values,
+            {
+                auth:JSON.parse(localStorage.getItem('auth'))
+            }
+            )
             .then(() => {
                 Swal.fire({
                     position: 'center',

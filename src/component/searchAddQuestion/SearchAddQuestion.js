@@ -3,7 +3,7 @@ import axios from "axios";
 import Pagination from "./Pagination";
 import MappingQuestionsSearched from "./MappingQuestionsSearched";
 import {Field, FieldArray, Form, Formik} from "formik";
-import {Link, useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 
 function SearchAddQuestion(props) {
     const {exam, setExam} = props
@@ -143,13 +143,13 @@ function SearchAddQuestion(props) {
                                             startIndex={indexOfFirstElement}/>
                                 }
                             </FieldArray>
-                            <button type="submit" style={{float:"right", marginRight:30}}
+                            <button type="submit" style={{float: "right", marginRight: 30}}
                                     className="gradientBtn mt-4 animated wow fadeInUp">
                                 Thêm vào
                             </button>
                         </Form>
                     </Formik>
-                    <div className={"mt-4"} style={{display:"flex", justifyContent:"center"}}>
+                    <div className={"mt-4"} style={{display: "flex", justifyContent: "center"}}>
                         <Pagination
                             elementPerPage={ElementPerPage}
                             totalElements={selectQuestionToAdd.elements.length}

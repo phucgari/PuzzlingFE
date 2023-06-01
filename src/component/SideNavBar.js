@@ -323,7 +323,8 @@ function SideNavBar() {
                                                 <span style={{color: "red", fontSize: 14}}>
                                                     <ErrorMessage name={'username'}/>
                                                 </span>
-                                                <div className="form-group input-group w-75 animated wow fadeInDown delay-0-1s">
+                                                <div
+                                                    className="form-group input-group w-75 animated wow fadeInDown delay-0-1s">
                                                     <div className="input-group-prepend z-Index-2">
                                                         <span>
                                                             <img src="/images/left-icon.png" alt={""}/>
@@ -343,10 +344,12 @@ function SideNavBar() {
                                                 <span style={{color: "red", fontSize: 14}}>
                                                     <ErrorMessage name={'user.email'}/>
                                                 </span>
-                                                <div className="form-group input-group w-75 animated wow fadeInDown delay-0-2s">
+                                                <div
+                                                    className="form-group input-group w-75 animated wow fadeInDown delay-0-2s">
                                                     <div className="input-group-prepend z-Index-2">
                                                         <span>
-                                                            <img src="/images/right-icon.png" className="rotate-180" alt={""}/>
+                                                            <img src="/images/right-icon.png" className="rotate-180"
+                                                                 alt={""}/>
                                                             <i className="fa fa-envelope zIndex-2 ml-n4-2 text-white rotate-n0"/>
                                                         </span>
                                                     </div>
@@ -365,10 +368,12 @@ function SideNavBar() {
                                                 <span style={{color: "red", fontSize: 14}}>
                                                     <ErrorMessage name={'password'}/>
                                                 </span>
-                                                <div className="form-group input-group w-75 animated wow fadeInDown delay-0-3s">
+                                                <div
+                                                    className="form-group input-group w-75 animated wow fadeInDown delay-0-3s">
                                                     <div className="input-group-prepend z-Index-2">
                                                         <span>
-                                                            <img src="/images/right-icon.png" className="rotate-180" alt={""}/>
+                                                            <img src="/images/right-icon.png" className="rotate-180"
+                                                                 alt={""}/>
                                                             <i className="fa fa-key rotate-n0 zIndex-2 ml-n4-2 text-white"/>
                                                         </span>
                                                     </div>
@@ -385,7 +390,8 @@ function SideNavBar() {
                                                 <span style={{color: "red", fontSize: 14}}>
                                                     <ErrorMessage name={'confirmPassword'}/>
                                                 </span>
-                                                <div className="form-group input-group w-75 animated wow fadeInDown delay-0-4s">
+                                                <div
+                                                    className="form-group input-group w-75 animated wow fadeInDown delay-0-4s">
                                                     <div className="input-group-prepend z-Index-2">
                                                         <span>
                                                             <img src="/images/left-icon.png" alt={""}/>
@@ -483,7 +489,6 @@ function SideNavBar() {
     function login(values) {
         axios.post('http://localhost:8080/puzzling/login', values)
             .then((response) => {
-
                 setIsLoggedIn(true);
                 Swal.fire({
                     position: 'center',
@@ -493,11 +498,15 @@ function SideNavBar() {
                     timer: 1500
                 }).then(r => r.isConfirmed)
                 localStorage.setItem("id", JSON.stringify(response.data.id));
+                localStorage.setItem("auth", JSON.stringify({
+                    username: values.username,
+                    password: values.password
+                }))
             })
             .then(() => {
                 setTimeout(() => {
                     window.location.reload()
-                },1000);
+                }, 1000);
             })
             .catch(() => {
                 Swal.fire({
@@ -512,6 +521,7 @@ function SideNavBar() {
 
     function logout() {
         localStorage.removeItem('id');
+        localStorage.removeItem('auth')
         setIsLoggedIn(false);
         closeNav();
         Swal.fire({

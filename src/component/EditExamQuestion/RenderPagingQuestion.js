@@ -38,7 +38,7 @@ function RenderPagingQuestion(props) {
                 </>
             </FieldArray>
             <div style={{display: "flex", justifyContent: "center"}}>
-                <button onClick={() => navigate("/exam/all")} type="submit"
+                <button type="submit"
                         className="gradientBtn animated wow fadeInUp mt-4 mb-3" disabled={!isValid}>Thêm mới
                 </button>
             </div>

@@ -16,7 +16,7 @@ const validationSchema = Yup.object().shape({
 })
 
 function CreateExamForm(props) {
-    const id  = useParams();
+    const id = useParams();
     const navigate = useNavigate();
     const [exam, setExam] = React.useState({
         name: "",
@@ -48,7 +48,7 @@ function CreateExamForm(props) {
                                     navigate(`/exam/edit/${response.data.id}`);
                                 })
                                 .catch((error) => {
-                                    console.log(error);
+                                    navigate(`/${error.response.status}`)
                                 });
                         }}
                     >

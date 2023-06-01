@@ -1,6 +1,5 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Link} from "react-router-dom";
-import ShowRecordForm from "./ShowRecordForm";
 
 function RecordSumary(props) {
     const {record} = props
@@ -65,19 +64,21 @@ function RecordSumary(props) {
                 </div>
                 <div className={"row"}>
                     <div className={"col col-6"}>
-                        <button onClick={() => props.check()} style={{marginLeft:150}} type="button" className="gradientBtn animated wow fadeInUpy">
+                        <button onClick={() => props.check()} style={{marginLeft: 150}} type="button"
+                                className="gradientBtn animated wow fadeInUpy">
                             Xem chi tiết
                         </button>
                     </div>
                     <div className={"col col-6"}>
-                        <button style={{marginRight:150}} type="button" className="gradientBtn animated wow fadeInUpy">
-                            <Link style={{ textDecoration: 'none',color:"white" }} to={"/"}> Trang chủ</Link>
+                        <button style={{marginRight: 150}} type="button" className="gradientBtn animated wow fadeInUpy">
+                            <Link style={{textDecoration: 'none', color: "white"}} to={"/"}> Trang chủ</Link>
                         </button>
                     </div>
                 </div>
 
                 <div className={"col col-6 mt-4"}>
-                    <button onClick={() => props.check()} style={{marginLeft:240}} type="button" className="gradientBtn animated wow fadeInUpy">
+                    <button onClick={() => props.check()} style={{marginLeft: 240}} type="button"
+                            className="gradientBtn animated wow fadeInUpy">
                         LeaderBoard
                     </button>
                 </div>

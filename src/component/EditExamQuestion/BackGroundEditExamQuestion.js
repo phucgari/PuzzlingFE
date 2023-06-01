@@ -1,6 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {FieldArray, Form, Formik} from "formik";
-import RenderQuestionForm from "./BackGroundEditExamQuestion/RenderQuestionForm";
+import React from 'react';
+import {Formik} from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
@@ -29,7 +28,7 @@ const validationExam = Yup.object().shape({
                         let countStatus = 0
                         value.forEach((option) => {
                             if (!option.name) checkName = false
-                            if (option.status===true||option.status==='true') countStatus++
+                            if (option.status === true || option.status === 'true') countStatus++
                         })
                         let checkStatus = countStatus >= 2
                         return checkName && checkStatus
@@ -51,17 +50,23 @@ function BackGroundEditExamQuestion(props) {
                      style={{marginTop: 6 + 'rem', backgroundColor: "#d5fdfd"}}>
                     <div className="col-12 ">
                         <div className="container">
-                            <h3 style={{display:"flex",justifyContent:"center",fontWeight: "bold"}}>Thêm nội dung câu hỏi</h3>
+                            <h3 style={{display: "flex", justifyContent: "center", fontWeight: "bold"}}>Thêm nội dung
+                                câu hỏi</h3>
                             <Formik initialValues={exam}
                                     onSubmit={(values) => {
                                         console.log(values)
-                                        axios.put(`http://localhost:8080/puzzling/exam/update?examId=${id}`, values)
+                                        axios.put(`http://localhost:8080/puzzling/exam/update?examId=${id}`, values,
+                                            {
+                                                auth:JSON.parse(localStorage.getItem('auth'))
+                                            }
+                                            )
                                             .then(() => {
                                                 alert("Thành công!")
                                                 navigate('/');
                                             })
                                             .catch((error) => {
-                                                console.log(error);
+                                                console.log(error)
+                                                navigate(`/${error.response.status}`)
                                             });
                                     }}
                                     enableReinitialize={true}
