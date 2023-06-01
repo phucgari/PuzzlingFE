@@ -521,7 +521,6 @@ function SideNavBar() {
             showConfirmButton: false,
             timer: 1500
         }).then(r => r.isConfirmed)
-        window.location.reload();
         navigate("/")
     }
 
