@@ -24,7 +24,7 @@ export default function FormExamOfCategory() {
                 .catch((error) => {
                     navigate(`/${error.response.status}`)
                 })
-        }, [id]
+        }, [categoriesId, id]
     )
     return (
         <div className="modal-dialog modal-lg" role="document">
@@ -52,7 +52,7 @@ export default function FormExamOfCategory() {
                     <div className=" col-12 container">
                         <div className="row gy-5">
 
-                            {
+                            {currentElements&&
                                 currentElements.map((item) => (
                                     <div className={"col col-4 p-3 bg-lightblue"}
                                          style={{display: "flex", justifyContent: "center"}}
