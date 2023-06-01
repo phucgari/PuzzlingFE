@@ -59,7 +59,7 @@ export default function Profile() {
                         <Form>
                             <div className={"imageUpload"} style={{textAlign:"center"}}>
                                 <label htmlFor={"avatar"}>
-                                    <img src={initialValues.avatar} id="profileImage" alt={""}
+                                    <img src={initialValues.avatar} alt={""}
                                          className="user-profile shadow mx-auto img-fluid rounded-circle mt-n5 mb-1 animated wow pulse"/>
                                 </label>
                                 <input type="file" id="avatar" name="avatar"
@@ -109,7 +109,7 @@ export default function Profile() {
                                             </div>
                                             <Field as="select" name={"gender"}
                                                     className="form-control textfield-rounded gender-value shadow-sm mb-4 ml-n3">
-                                                <option value={""}> Chọn </option>
+                                                <option value={""} hidden>Chọn </option>
                                                 <option value={"MALE"}> Nam </option>
                                                 <option value={"FEMALE"}>Nữ</option>
 
@@ -148,7 +148,7 @@ export default function Profile() {
         uploadTask.on("state_changed",
             (snapshot) => {
                 const progress =
-                    Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+                    Math.round((snapshot.bytesTransferred / snapshot.totalBytes));
                 setProgressPercent(progress);
                 console.log(progress)
             },

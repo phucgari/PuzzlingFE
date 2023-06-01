@@ -1,4 +1,4 @@
-import {Field, Form, Formik} from "formik";
+import {ErrorMessage, Field, Form, Formik} from "formik";
 import {useEffect, useState} from "react";
 import axios from "axios";
 import * as Yup from "yup";
@@ -7,14 +7,14 @@ export default function ChangePassword() {
     const id = JSON.parse(localStorage.getItem("id"));
     const [password, setPassword] = useState({});
     const initialValues = {
-        oldPassword: password || "",
+        oldPassword: "",
         newPassword: "",
         confirmPassword:""
     }
 
     const validationSchema = Yup.object().shape({
         oldPassword: Yup.string().required("Không được để trống!")
-            .test("password","Sai mật khẩu",async function (password) {
+            .test("oldPassword","Sai mật khẩu",async function (password) {
                 return axios.get(`http://localhost:8080/puzzling/users/check/${id}?password=` + password)
                     .then(() => true)
                     .catch(() => false)
@@ -62,6 +62,7 @@ export default function ChangePassword() {
                                 validationSchema={validationSchema}>
                             <Form>
                                 <center>
+                                    <ErrorMessage name={"oldPassword"}/>
                                     <div className="form-group input-group w-75 animated wow fadeInDown delay-0-1s">
                                         <Field type="text" name={"oldPassword"}
                                                className="form-control textfield-rounded shadow-sm p-3 mb-3 zIndex-1"
@@ -81,6 +82,7 @@ export default function ChangePassword() {
                                         <i className="fa fa-key ml-n4-2 text-white"></i>
                                     </span>
                                         </div>
+                                        <ErrorMessage name={"newPassword"}/>
                                         <Field type="text" name={"newPassword"}
                                                className="form-control textfield-rounded shadow-sm p-3 mb-3 zIndex-1"
                                                id="newPassword" placeholder="Mật khẩu mới..."/>
@@ -93,6 +95,7 @@ export default function ChangePassword() {
                                         <i className="fa fa-key ml-n4-2 text-white"></i>
                                     </span>
                                         </div>
+                                        <ErrorMessage name={"confirmPassword"}/>
                                         <Field type="text" name={"confirmPassword"}
                                                className="form-control textfield-rounded shadow-sm p-3 mb-4 zIndex-1"
                                                id="confirmPassword" placeholder="Xác nhận mật khẩu..."/>
@@ -113,7 +116,8 @@ export default function ChangePassword() {
     )
 
     function handleChangePassword(values) {
-        axios.put("http://localhost:8080/puzzling/users/changePassword")
+        console.log(values)
+        axios.put("http://localhost:8080/puzzling/users/changePassword/"+JSON.parse(localStorage.getItem("id")),values)
             .then((response) => {
                 alert("Đổi mật khẩu thành công!")
             })

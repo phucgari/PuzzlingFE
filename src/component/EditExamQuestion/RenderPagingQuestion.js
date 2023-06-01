@@ -2,8 +2,10 @@ import React from 'react';
 import {FieldArray, Form} from "formik";
 import RenderQuestionForm from "./BackGroundEditExamQuestion/RenderQuestionForm";
 import Pagination from "../searchAddQuestion/Pagination";
+import {useNavigate} from "react-router-dom";
 
 function RenderPagingQuestion(props) {
+    const navigate = useNavigate();
     const {values,isValid,setExam} =props
     const [currentPage, setCurrentPage] = React.useState(1);
     const [questionsPerPage] = React.useState(5);
@@ -31,10 +33,13 @@ function RenderPagingQuestion(props) {
                         elementPerPage={questionsPerPage}
                         totalElements={values.questions.length}
                         paginate={paginate}
+                        currentPage={currentPage}
                     />
                 </>
             </FieldArray>
-            <button type="submit" className="btn btn-secondary" disabled={!isValid}>submit</button>
+            <div style={{display:"flex",justifyContent:"center"}}>
+                <button onClick={()=> navigate("/exam/all")} type="submit" className="gradientBtn animated wow fadeInUp mt-4 mb-3" disabled={!isValid}>Thêm mới</button>
+            </div>
         </Form>
     )
 }

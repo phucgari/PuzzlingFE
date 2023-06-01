@@ -3,10 +3,11 @@ import axios from "axios";
 import Pagination from "./Pagination";
 import MappingQuestionsSearched from "./MappingQuestionsSearched";
 import {Field, FieldArray, Form, Formik} from "formik";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 
 function SearchAddQuestion(props) {
     const {exam, setExam} = props
+    let {id} = useParams();
     const navigate = useNavigate();
     const [currentPage, setCurrentPage] = useState(1);
     const [ElementPerPage] = useState(5);
@@ -17,31 +18,33 @@ function SearchAddQuestion(props) {
         questionType: "",
         level: ""
     })
-    function addtoExam(values,action){
-        let newQ=[]
-        values.elements.forEach((element)=> {
-            let question=element.question
-            if(element.add)
-            newQ.push({
-                level:question.level,
-                name:question.name,
-                questionType:question.questionType,
-                options:question.options.map((option)=>({
-                    name:option.name,
-                    status:option.status
-                }))
-            })
+
+    function addToExam(values, action) {
+        let newQ = []
+        values.elements.forEach((element) => {
+            let question = element.question
+            if (element.add)
+                newQ.push({
+                    level: question.level,
+                    name: question.name,
+                    questionType: question.questionType,
+                    options: question.options.map((option) => ({
+                        name: option.name,
+                        status: option.status
+                    }))
+                })
         })
-        setExam((exam)=>({
+        setExam((exam) => ({
             ...exam,
-            questions:[
+            questions: [
                 ...exam.questions,
                 ...newQ
             ]
         }))
         action.resetForm()
-        navigate("/exam/edit/")
+        navigate(`/exam/edit/${id}`)
     }
+
     function search(searchForm) {
         axios.post(`http://localhost:8080/puzzling/question/search`, searchForm)
             .then((response) => {
@@ -57,7 +60,7 @@ function SearchAddQuestion(props) {
 
     useEffect(() => {
         search(searchForm)
-    }, []);
+    }, [searchForm]);
 
     // Get current posts
     const indexOfLastElement = currentPage * ElementPerPage;
@@ -68,62 +71,102 @@ function SearchAddQuestion(props) {
     const paginate = pageNumber => setCurrentPage(pageNumber);
 
     return (
-        <div className='container mt-5'>
-            <button type="button" onClick={() => navigate("/exam/edit/")} className="btn btn-primary"> Trở về trình quản
-                lý câu hỏi
-            </button>
-            <h1 className='text-primary mb-3'>Search Questions</h1>
-            <Formik initialValues={searchForm}
-                onSubmit={search}
-            >
-                {({value}) =>
-                    <Form>
-                        <Field name={`name`} className={"form-control"}
-                               id={`name`}
-                               placeholder="Tên câu hỏi"/>
-                        <br/>
-                        <label htmlFor={`level`}>Chọn độ khó</label>
-                        <Field as="select" className={"form-control"} name={`level`}
-                               id={`level`}>
-                            <option value="">Chọn</option>
-                            <option value="EASY"> Dễ</option>
-                            <option value="MEDIUM"> Vừa</option>
-                            <option value="HARD"> Khó</option>
-                        </Field>
-                        <br/>
-                        <label htmlFor={`questionType`}>Chọn loại câu hỏi</label>
-                        <Field as="select" className={"form-control"} name={`questionType`}
-                               id={`questionType`}>
-                            <option value="">Chọn</option>
-                            <option value="ONE_CHOICE"> Lựa chọn một đáp án</option>
-                            <option value="MULTI_CHOICE"> Lựa chọn nhiều đáp án</option>
-                        </Field>
-                        <button type="submit" className="btn btn-secondary">Tìm kiếm</button>
-                    </Form>
-                }
-            </Formik>
-            <Formik
-                initialValues={selectQuestionToAdd}
-                enableReinitialize={true}
-                onSubmit={addtoExam}
-            >
-                <Form>
-                    <FieldArray name={"element"}>
-                        {
-                            (arrayHelper) =>
-                                <MappingQuestionsSearched
-                                    elements={currentElements}
-                                    startIndex={indexOfFirstElement}/>
+        <div className="container mt-5">
+            <div className="modal-dialog modal-xl" role="document">
+                <div className="modal-content rounded-modal shadow p-4 border-0"
+                     style={{backgroundColor: "#bef6fd"}}
+                >
+                    <h2 className='mb-4'
+                        style={{textAlign: "center", fontWeight: "bold"}}
+                    >
+                        Tìm kiếm câu hỏi
+                    </h2>
+                    <Formik initialValues={searchForm}
+                            onSubmit={search}
+                    >
+                        {() =>
+                            <Form>
+                                <div className={"container"}>
+                                    <div className={"row"}>
+                                        <div className={"row col col-12"}>
+                                            <div className={"col col-9"}>
+                                                <Field name={"name"} className={"form-control textfield-rounded mt-4"}
+                                                       id={"name"} placeholder="Tên câu hỏi"/>
+                                            </div>
+                                            <div className={"col col-3"}>
+                                                <button type="submit" style={{width: 100 + "%"}}
+                                                        className="gradientBtn mt-4 animated wow fadeInUp">
+                                                    <i className={"fa fa-search"} style={{fontSize: "20px"}}>&nbsp;</i>
+                                                    Tìm kiếm
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div className={"col col-6"}>
+                                            <label htmlFor={"level"} className={"mt-4"} style={{fontSize: 18}}>Độ
+                                                khó: </label>
+                                            <Field as="select" className={"form-control textfield-rounded mt-2"}
+                                                   name={"level"} id={"level"}>
+                                                <option value="" hidden>Chọn</option>
+                                                <option value="EASY"> Dễ</option>
+                                                <option value="MEDIUM">Vừa</option>
+                                                <option value="HARD"> Khó</option>
+                                            </Field>
+                                        </div>
+                                        <div className={"col col-6"}>
+                                            <label htmlFor={"questionType"} className={"mt-4"} style={{fontSize: 18}}>Loại
+                                                câu hỏi:</label>
+                                            <Field as="select" className={"form-control textfield-rounded mt-2"}
+                                                   name={"questionType"}
+                                                   id={"questionType"}>
+                                                <option value="" hidden>Chọn</option>
+                                                <option value="ONE_CHOICE"> Một đáp án</option>
+                                                <option value="MULTI_CHOICE">Nhiều đáp án</option>
+                                            </Field>
+                                        </div>
+                                    </div>
+                                </div>
+                            </Form>
                         }
-                    </FieldArray>
-                    <button type="submit" className="btn btn-secondary">Thêm vào </button>
-                </Form>
-            </Formik>
-            <Pagination
-                elementPerPage={ElementPerPage}
-                totalElements={selectQuestionToAdd.elements.length}
-                paginate={paginate}
-            />
+                    </Formik>
+                    <br/>
+                    <Formik
+                        initialValues={selectQuestionToAdd}
+                        enableReinitialize={true}
+                        onSubmit={addToExam}
+                    >
+                        <Form className={"mt-4"}>
+                            <FieldArray name={"element"}>
+                                {
+                                    () =>
+                                        <MappingQuestionsSearched
+                                            elements={currentElements}
+                                            startIndex={indexOfFirstElement}/>
+                                }
+                            </FieldArray>
+                            <button type="submit" style={{float:"right", marginRight:30}}
+                                    className="gradientBtn mt-4 animated wow fadeInUp">
+                                Thêm vào
+                            </button>
+                        </Form>
+                    </Formik>
+                    <div className={"mt-4"} style={{display:"flex", justifyContent:"center"}}>
+                        <Pagination
+                            elementPerPage={ElementPerPage}
+                            totalElements={selectQuestionToAdd.elements.length}
+                            paginate={paginate}
+                            currentPage={currentPage}
+                        />
+                    </div>
+                    <div className={"col col-4"}>
+                        <button type="button"
+                                onClick={() => navigate(`/exam/edit/${id}`)}
+                                className="gradientBtn mt-4 animated wow fadeInUp"
+                        >
+                            Quay lại
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }

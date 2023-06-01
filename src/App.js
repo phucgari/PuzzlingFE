@@ -7,6 +7,9 @@ import CreateExamForm from "./component/CreateExam/CreateExamForm";
 import CreateCategory from "./component/category/CreateCategory";
 import Exam from "./component/CreateExam/Exam";
 import Profile from "./component/user/Profile";
+import DoExamForm from "./component/doExamForm/DoExamForm";
+import ShowRecordForm from "./component/show-record/ShowRecordForm";
+import FormExamOfCategory from "./component/category/FormExamOfCategory";
 
 function App() {
 
@@ -17,10 +20,13 @@ function App() {
                 <Route path="/" element={<HomePage/>}/>
                 <Route path="/categories" element={<Categories/>}/>
                 <Route path="/createCategory" element={<CreateCategory/>}/>
-                <Route path="/exam/edit/*" element={<EditExamQuestionForm/>}/>
+                <Route path="/exam/edit/:id/*" element={<EditExamQuestionForm/>}/>
                 <Route path="/profile" element={<Profile/>}/>
                 <Route path="/exam/all" element={<Exam/>}/>
                 <Route path="/exam/create" element={<CreateExamForm/>}/>
+                <Route path="/exam/do/:examId" element={<DoExamForm/>}/>
+                <Route path="/record/:recordId" element={<ShowRecordForm/>}/>
+                <Route path="/category/:id" element={<FormExamOfCategory/>}/>
             </Routes>
         </div>
     );

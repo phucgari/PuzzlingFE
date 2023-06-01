@@ -9,7 +9,7 @@ import RenderPagingQuestion from "./RenderPagingQuestion";
 const validationExam = Yup.object().shape({
     questions: Yup.array().of(
         Yup.object().shape({
-            name: Yup.string().required(),
+            name: Yup.string().required("Tên của câu hỏi không được để trống!"),
             level: Yup.string().required(),
             questionsType: Yup.string(),
             options: Yup.array().when('questionType', ([questionType], schema) => {
@@ -26,12 +26,12 @@ const validationExam = Yup.object().shape({
                 } else if (questionType === "MULTI_CHOICE") {
                     return schema.test("test Option Array", (value, context) => {
                         let checkName = true
-                        let countStatus= 0
+                        let countStatus = 0
                         value.forEach((option) => {
                             if (!option.name) checkName = false
-                            if (option.status) countStatus++
+                            if (option.status===true||option.status==='true') countStatus++
                         })
-                        let checkStatus=countStatus >= 2
+                        let checkStatus = countStatus >= 2
                         return checkName && checkStatus
                     })
                 }
@@ -43,37 +43,41 @@ const validationExam = Yup.object().shape({
 function BackGroundEditExamQuestion(props) {
     const navigate = useNavigate();
     const {exam, setExam, id} = props
-    useEffect(
-        () => {
-
-        },
-        [exam]
-    )
     return (
-        <div className="col-8 border ">
-            <div className="container">
-                <Formik initialValues={exam}
-                        onSubmit={(values) => {
-                            console.log(values)
-                            axios.put(`http://localhost:8080/puzzling/exam/update?examId=${id}`, values)
-                                .then(() => {
-                                    alert("Thành công!")
-                                    navigate('/');
-                                })
-                                .catch((error) => {
-                                    console.log(error);
-                                });
-                        }}
-                        enableReinitialize={true}
-                        validationSchema={validationExam}
-                >
-                    {({values, isValid}) => <RenderPagingQuestion
-                        values={values}
-                        isValid={isValid}
-                        setExam={setExam}
-                    />
-                    }
-                </Formik>
+
+        <div className="container">
+            <div className="modal-dialog modal-xl" role="document">
+                <div className="modal-content rounded-modal shadow p-3 border-0"
+                     style={{marginTop: 6 + 'rem', backgroundColor: "#d5fdfd"}}>
+                    <div className="col-12 ">
+                        <div className="container">
+                            <h3 style={{display:"flex",justifyContent:"center",fontWeight: "bold"}}>Thêm nội dung câu hỏi</h3>
+                            <Formik initialValues={exam}
+                                    onSubmit={(values) => {
+                                        console.log(values)
+                                        axios.put(`http://localhost:8080/puzzling/exam/update?examId=${id}`, values)
+                                            .then(() => {
+                                                alert("Thành công!")
+                                                navigate('/');
+                                            })
+                                            .catch((error) => {
+                                                console.log(error);
+                                            });
+                                    }}
+                                    enableReinitialize={true}
+                                    validationSchema={validationExam}
+                            >
+                                {({values, isValid}) => <RenderPagingQuestion
+                                    values={values}
+                                    isValid={isValid}
+                                    setExam={setExam}
+
+                                />
+                                }
+                            </Formik>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     );
