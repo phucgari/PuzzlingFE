@@ -19,7 +19,7 @@ function CreateDeleteOptionsButton(props) {
             }}>Thêm ô lựa chọn
             </button>
             &nbsp;
-            <button className="btn btn-danger"
+            <button className="btn btn-danger" type={"button"}
                     onClick={() => {
                         exam.questions[index].options.pop()
                         setExam({...exam})

@@ -31,7 +31,8 @@ function EditExamQuestionForm() {
             <h3 className="d-flex justify-content-center"> Bộ câu hỏi {exam.name} </h3>
             <h5 className="d-flex justify-content-center"> Tổng số câu hỏi: {exam.questions.length} </h5>
             <div style={{display: "flex", justifyContent: "center"}} className="container">
-                <input class=" textfield-rounded" readOnly={"http://localhost:3000/exam/do/" + exam.id} type="text"
+                <input className=" textfield-rounded"
+                       readOnly={"http://localhost:3000/exam/do/" + exam.id} type="text"
                        value={"http://localhost:3000/exam/do/" + exam.id}></input>
                 <button className={"gradientBtn animated wow fadeInUp"} type={'button'}
                         onClick={() => navigator.clipboard.writeText("http://localhost:3000/exam/do/" + exam.id)}>Copy &#10004;</button>
