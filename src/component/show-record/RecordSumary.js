@@ -77,8 +77,8 @@ function RecordSumary(props) {
                 </div>
 
                 <div className={"col col-6 mt-4"}>
-                    <button onClick={() => props.check()} style={{marginLeft:240}} type="button" className="gradientBtn animated wow fadeInUpy">
-                        LeaderBoard
+                    <button onClick={() => props.check1()} style={{marginLeft:280}} type="button" className="gradientBtn animated wow fadeInUpy">
+                        Lịch sử
                     </button>
                 </div>
             </div>
