@@ -531,8 +531,6 @@ function SideNavBar() {
             showConfirmButton: false,
             timer: 1500
         }).then(r => r.isConfirmed)
-        // openSignUp()
-        // window.location.reload()
         navigate("/")
     }
 
