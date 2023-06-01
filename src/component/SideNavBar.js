@@ -478,7 +478,7 @@ function SideNavBar() {
         setIsLoggedIn(false);
         alert('Đăng xuất thành công.');
         // openSignUp()
-        window.location.reload()
+        window.location.reload();
     }
 
     function openSignUp(){
