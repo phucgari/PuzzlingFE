@@ -11,7 +11,7 @@ function Render1RecordDetail(props) {
                             </div>
                             <div className="row">
                                 <div className="col-6 mt-4" style={{fontWeight:"bold"}}>
-                                    Đáp Án:
+                                    Đáp án:
                                 </div>
                                 <div className="col-6 mt-4" style={{fontWeight:"bold"}}>
                                     Câu trả lời của bạn:
@@ -38,7 +38,7 @@ function Render1RecordDetail(props) {
                                                 </tbody>
                                             </div>
                                             <div
-                                                className={answer.option.status === answer.answerStatus ? "col-6" : "col-6 border border-danger"}>
+                                                className={answer.option.status === answer.answerStatus ? "col-6" : "col-6"}>
                                                 <tbody>
                                                 <tr>
                                                     <td style={{textAlign: "left"}}>
