@@ -31,7 +31,7 @@ function App() {
                 <Route path="/exam/create" element={<CreateExamForm/>}/>
                 <Route path="/exam/do/:examId" element={<DoExamForm/>}/>
                 <Route path="/record/:recordId" element={<ShowRecordForm/>}/>
-                <Route path="/category/:id" element={<FormExamOfCategory/>}/>
+                <Route path="/category/:categoriesId" element={<FormExamOfCategory/>}/>
                 <Route path="/400" element={<Status400/>}/>
                 <Route path="/401" element={<Status401/>}/>
                 <Route path="/403" element={<Status403/>}/>

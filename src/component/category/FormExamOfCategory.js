@@ -2,8 +2,10 @@ import React, {useEffect, useState} from 'react';
 import axios from "axios";
 import {Link, useNavigate} from "react-router-dom";
 import Pagination from "../searchAddQuestion/Pagination";
+import { useParams } from 'react-router-dom';
 
 export default function FormExamOfCategory() {
+    const { categoriesId } =useParams();
     const id = JSON.parse(localStorage.getItem("id"));
     const [exam, setExam] = useState([]);
     const navigate = useNavigate();
@@ -15,14 +17,14 @@ export default function FormExamOfCategory() {
     const paginate = pageNumber => setCurrentPage(pageNumber);
 
     useEffect(() => {
-            axios.get(`http://localhost:8080/puzzling/exam/list?user=${id}`)
+            axios.get(`http://localhost:8080/puzzling/exam/searchExamsByCategoryAndUser?categoriesId=${categoriesId}&userId=${JSON.parse(localStorage.getItem("id"))}`)
                 .then((response) => {
                     setExam(response.data)
                 })
                 .catch((error) => {
                     navigate(`/${error.response.status}`)
                 })
-        }, [id]
+        }, [categoriesId, id]
     )
     return (
         <div className="modal-dialog modal-lg" role="document">
@@ -50,7 +52,7 @@ export default function FormExamOfCategory() {
                     <div className=" col-12 container">
                         <div className="row gy-5">
 
-                            {
+                            {currentElements&&
                                 currentElements.map((item) => (
                                     <div className={"col col-4 p-3 bg-lightblue"}
                                          style={{display: "flex", justifyContent: "center"}}
