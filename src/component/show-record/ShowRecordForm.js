@@ -50,8 +50,6 @@ function ShowRecordForm(props) {
                         )
                     }
                 </div>
-<<<<<<< HEAD
-=======
             }
             {showHistory &&
                 <div className={"modal-content rounded-modal shadow p-4 border-0"} style={{backgroundColor: "#bef6fd"}}>
@@ -61,7 +59,6 @@ function ShowRecordForm(props) {
 
                 </div>
 
->>>>>>> ea86d84cfa31de07e1e00ec8dcbf13a4eae7d1e3
             }
         </div>
     );
