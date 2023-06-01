@@ -10,6 +10,10 @@ import Profile from "./component/user/Profile";
 import DoExamForm from "./component/doExamForm/DoExamForm";
 import ShowRecordForm from "./component/show-record/ShowRecordForm";
 import FormExamOfCategory from "./component/category/FormExamOfCategory";
+import Status400 from "./component/err/Status400";
+import Status500 from "./component/err/Status500";
+import Status401 from "./component/err/Status401";
+import Status403 from "./component/err/Status403";
 
 function App() {
 
@@ -27,6 +31,10 @@ function App() {
                 <Route path="/exam/do/:examId" element={<DoExamForm/>}/>
                 <Route path="/record/:recordId" element={<ShowRecordForm/>}/>
                 <Route path="/category/:id" element={<FormExamOfCategory/>}/>
+                <Route path="/400" element={<Status400/>}/>
+                <Route path="/401" element={<Status401/>}/>
+                <Route path="/403" element={<Status403/>}/>
+                <Route path="/500" element={<Status500/>}/>
             </Routes>
         </div>
     );
