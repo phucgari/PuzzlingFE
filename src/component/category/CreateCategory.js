@@ -42,7 +42,7 @@ export default function CreateCategory() {
                                         title: 'Không thành công!',
                                         showConfirmButton: false,
                                         timer: 1500
-                                    }).then(r => r.isConfirmed)
+                                    }).then(r => r.isDenied)
                                 })
                         }}
                         enableReinitialize={true}
