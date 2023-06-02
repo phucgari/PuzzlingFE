@@ -9,7 +9,6 @@ import * as Yup from 'yup'
 function closeNav() {
     document.getElementById("mySidenav").style.cssText = "width:0; border:none; box-shadow: none;";
 }
-
 function openNav() {
     document.getElementById("mySidenav").style.cssText = "width:270px; border-right: 10px solid #fff; box-shadow: 1px 8px 8px 8px rgba(73,21,155,0.3); -webkit-box-shadow: 1px 8px 8px 8px rgba(73,21,155,0.3);  -moz-box-shadow: 1px 8px 8px 8px rgba(73,21,155,0.3);";
 }
@@ -63,19 +62,19 @@ function SideNavBar() {
                     <i className="fa fa-th-large text-white mr-3"/>
                     Quản lý bài thi
                 </Link>
-                {
+              {/*  {
                     id != null && (
                         <Link to={"/exam/all"}>
                             <i className="fa fa-question text-white mr-3"/>
                             Xem bài Quiz
                         </Link>
                     )
-                }
+                }*/}
                 <Link to="/category.html" onClick={closeNav}>
                     <i className="fa fa-question text-white mr-3"/>
                     Giải câu đố
                 </Link>
-                <Link to="/quiz.html" onClick={closeNav}>
+                <Link to="/exam/randomExam" >
                     <i className="fa fa-random text-white mr-3"/>
                     Giải đố ngẫu nhiên
                 </Link>
