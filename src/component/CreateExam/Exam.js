@@ -1,17 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
 import {Link, useNavigate} from "react-router-dom";
-// import Pagination from "../searchAddQuestion/Pagination";
 
 export default function Exam() {
     const [exam, setExam] = useState({});
     const navigate = useNavigate();
-    // const [currentPage, setCurrentPage] = useState(1);
-    // const [ElementPerPage] = useState(6)
-    // const indexOfLastElement = currentPage * ElementPerPage;
-    // const indexOfFirstElement = indexOfLastElement - ElementPerPage;
-    // const currentElements = exam.slice(indexOfFirstElement, indexOfLastElement);
-    // const paginate = pageNumber => setCurrentPage(pageNumber);
 
     useEffect(() => {
             axios.get(`http://localhost:8080/puzzling/exam/randomExam`)
@@ -32,21 +25,15 @@ export default function Exam() {
                 >
                     <div className={'col-lg-11'} style={{textAlign: "center"}}>
                         <h2 style={{fontWeight: "bold", fontSize: 45}}>
-                              Giải đấu ngẫu nhiên
+                              Giải đố ngẫu nhiên
                             <br/>
-                            {/*<small className="text-muted" style={{fontSize: 20}}>Thêm câu hỏi cho bài thi</small>*/}
                         </h2></div>
-                    {/*<div className=" text-center col-lg-1" style={{float: "right", paddingRight: "50px"}}>*/}
-                    {/*    <Link to={"/exam/create"}>*/}
-                    {/*        <i className={"fa fa-plus-circle"} style={{fontSize: 60}}></i>*/}
-                    {/*    </Link>*/}
-                    {/*</div>*/}
                 </div>
                 <div>
                 </div>
                 <br/>
                 <div className="container table-light rounded-modal">
-                    <div className=" col-12 container">
+                    <div className="col-12 container">
                         <div className="row gy-5">
 
                             {
@@ -62,8 +49,16 @@ export default function Exam() {
                                                 <h5>Tên bài thi: {exam.name}</h5>
                                                 Thời gian làm bài: {exam.time} phút
                                                 <br/>
+                                                {
+                                                    exam.questions && (
+                                                        <div>
+                                                            Số lượng câu hỏi:{exam.questions.length} câu
+                                                        </div>
+                                                    )
+                                                }
+                                                <br/>
                                                 Điểm tối thiểu: {exam.passScore}%
-                                                {/*Người tạo: {item.user.name}*/}
+                                                <br/>
                                             </div>
                                         </button>
                                     </div>
@@ -75,14 +70,6 @@ export default function Exam() {
                     </div>
                 </div>
                 <br/>
-                {/*<div style={{display: "flex", justifyContent: "center"}}>*/}
-                {/*    <Pagination*/}
-                {/*        elementPerPage={ElementPerPage}*/}
-                {/*        totalElements={exam.length}*/}
-                {/*        paginate={paginate}*/}
-                {/*        currentPage={currentPage}*/}
-                {/*    />*/}
-                {/*</div>*/}
                 <br/>
             </div>
         </div>
