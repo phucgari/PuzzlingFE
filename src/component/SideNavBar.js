@@ -70,7 +70,7 @@ function SideNavBar() {
                         </Link>
                     )
                 }*/}
-                <Link to="/category.html" onClick={closeNav}>
+                <Link to="/doAQuiz">
                     <i className="fa fa-question text-white mr-3"/>
                     Giải câu đố
                 </Link>
@@ -520,7 +520,8 @@ function SideNavBar() {
 
     function logout() {
         localStorage.removeItem('id');
-        localStorage.removeItem('auth')
+        localStorage.removeItem('auth');
+        localStorage.removeItem("isQuizPage");
         setIsLoggedIn(false);
         closeNav();
         Swal.fire({

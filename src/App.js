@@ -23,7 +23,8 @@ function App() {
             <SideNavBar/>
             <Routes>
                 <Route path="/" element={<HomePage/>}/>
-                <Route path="/categories" element={<Categories/>}/>
+                <Route path="/categories" element={<Categories isQuizPage={false}/>}/>
+                <Route path="/doAQuiz" element={<Categories isQuizPage={true} />} />
                 <Route path="/createCategory" element={<CreateCategory/>}/>
                 <Route path="/exam/edit/:id/*" element={<EditExamQuestionForm/>}/>
                 <Route path="/profile" element={<Profile/>}/>
@@ -31,7 +32,7 @@ function App() {
                 <Route path="/exam/create" element={<CreateExamForm/>}/>
                 <Route path="/exam/do/:examId" element={<DoExamForm/>}/>
                 <Route path="/record/:recordId" element={<ShowRecordForm/>}/>
-                <Route path="/category/:categoriesId" element={<FormExamOfCategory/>}/>
+                <Route path="/category/:categoriesId" element={<FormExamOfCategory />}/>
                 <Route path="/400" element={<Status400/>}/>
                 <Route path="/401" element={<Status401/>}/>
                 <Route path="/403" element={<Status403/>}/>
