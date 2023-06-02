@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import Pagination from "../searchAddQuestion/Pagination";
  function History() {
     const [record, setRecord] = useState([]);
@@ -21,6 +21,17 @@ import Pagination from "../searchAddQuestion/Pagination";
         <div className="modal-dialog modal-lg" role="document">
             <div className="modal-content rounded-modal shadow p-4 border-0"
                  style={{ backgroundColor: "#bef6fd"}}>
+                <div className={'col-lg-12'} style={{textAlign: "center"}}>
+                    <h2 style={{fontWeight: "bold",fontSize:45}}>
+                       Lịch sử thi
+                        <br/>
+                        <small className="text-muted" style={{fontSize:20}}>Án vào bài để xem chi tiết</small>
+                    </h2></div>
+                <div className={"col col-6"} style={{marginLeft:470}}>
+                    <button style={{marginRight:150}} type="button" className="gradientBtn animated wow fadeInUpy">
+                        <Link style={{ textDecoration: 'none',color:"white" }} to={"/"}> Trang chủ</Link>
+                    </button>
+                </div>
                 <div
                     className={'row'}
                 >

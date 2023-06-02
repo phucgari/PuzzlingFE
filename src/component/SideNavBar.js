@@ -80,7 +80,7 @@ function SideNavBar() {
                     <i className="fa fa-users text-white mr-3"/>
                     Bảng xếp hạng
                 </Link>
-                <Link to="/score-history.html" onClick={closeNav}>
+                <Link to="/history" onClick={closeNav}>
                     <i className="fa fa-history text-white mr-3"/>
                     Lịch sử thi
                 </Link>
