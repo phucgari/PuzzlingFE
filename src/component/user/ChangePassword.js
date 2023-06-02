@@ -3,8 +3,10 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 import * as Yup from "yup";
 import Swal from "sweetalert2";
+import {useNavigate} from "react-router-dom";
 
 export default function ChangePassword() {
+    const navigate = useNavigate();
     const id = JSON.parse(localStorage.getItem("id"));
     const initialValues = {
         oldPassword: "", newPassword: "", confirmPassword: ""
@@ -18,8 +20,12 @@ export default function ChangePassword() {
                         auth:JSON.parse(localStorage.getItem('auth'))
                     }
                     )
-                    .then(() => true)
-                    .catch(() => false)
+                    .then((response) => {
+                        return response.data === "OK";
+                    })
+                    .catch((response) => {
+                        navigate(`/${response.response.status}`)
+                    });
             }),
         newPassword: Yup.string().required("Không được để trống!")
             .min(6, "Tối thiểu là 6 ký tự!")
@@ -75,7 +81,7 @@ export default function ChangePassword() {
                                             <i className="fa fa-key ml-n4-2 text-white"></i>
                                         </span>
                                     </div>
-                                    <Field type="text" name={"newPassword"}
+                                    <Field type="password" name={"newPassword"}
                                            className="form-control textfield-rounded shadow-sm p-3 mb-3 zIndex-1"
                                            id="newPassword" placeholder="Mật khẩu mới..."/>
                                 </div>
@@ -90,7 +96,7 @@ export default function ChangePassword() {
                                             <i className="fa fa-key ml-n4-2 text-white"></i>
                                         </span>
                                     </div>
-                                    <Field type="text" name={"confirmPassword"}
+                                    <Field type="password" name={"confirmPassword"}
                                            className="form-control textfield-rounded shadow-sm p-3 mb-4 zIndex-1"
                                            id="confirmPassword" placeholder="Xác nhận mật khẩu..."/>
                                 </div>
@@ -122,7 +128,7 @@ export default function ChangePassword() {
                     title: 'Đổi mật khẩu thành công!',
                     showConfirmButton: false,
                     timer: 1500
-                }).then(r => r.isConfirmed)
+                }).then(r => r.isConfirmed).then(()=>logout())
             })
             .catch(() => {
                 Swal.fire({
@@ -133,5 +139,12 @@ export default function ChangePassword() {
                     timer: 1500
                 }).then(r => r.isDenied)
             })
+    }
+    function logout() {
+        localStorage.removeItem('id');
+        localStorage.removeItem('auth')
+        document.getElementById("mySidenav").style.cssText = "width:0; border:none; box-shadow: none;";
+        navigate("/")
+        window.location.reload()
     }
 }

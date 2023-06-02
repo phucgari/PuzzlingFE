@@ -15,6 +15,7 @@ export default function Profile() {
     const [imgUrl, setImgUrl] = useState(null);
     const [progressPercent, setProgressPercent] = useState(0);
     const initialValues = {
+        id : JSON.parse(localStorage.getItem("id")),
         avatar: imgUrl || user.avatar,
         name: user.name || "",
         email: user.email || "",
@@ -34,12 +35,23 @@ export default function Profile() {
                     .then((response) => {
                         return response.data === "OK";
                     })
+                    .catch((response) => {
+                        navigate(`/${response.response.status}`)
+                    });
             }),
         phone: Yup.string()
-            .test("phone", "Không được trùng với số điện thoại cũ", async function (phone) {
-                return axios.get(`http://localhost:8080/puzzling/users/check/${id}?email=` + phone)
-                    .then(() => true)
-                    .catch(() => false)
+            .test("phone", "Không được trùng với số điện thoại của người khác", async function (phone) {
+                return axios.get(`http://localhost:8080/puzzling/users/checkPhone/${id}?phone=` + phone,
+                    {
+                        auth:JSON.parse(localStorage.getItem('auth'))
+                    }
+                    )
+                    .then((response) => {
+                        return response.data === "OK";
+                    })
+                    .catch((response) => {
+                        navigate(`/${response.response.status}`)
+                    });
             }),
     })
 

@@ -17,7 +17,6 @@ function openNav() {
 function SideNavBar() {
     const id = JSON.parse(localStorage.getItem("id"))
     const navigate = useNavigate();
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const validation = Yup.object().shape({
         username: Yup.string().required("Không được để trống!")
             .min(6, "Tối thiểu là 6 ký tự!!")
@@ -497,7 +496,6 @@ function SideNavBar() {
     function login(values) {
         axios.post('http://localhost:8080/puzzling/login', values)
             .then((response) => {
-                setIsLoggedIn(true);
                 Swal.fire({
                     position: 'center',
                     icon: 'success',
@@ -530,7 +528,6 @@ function SideNavBar() {
     function logout() {
         localStorage.removeItem('id');
         localStorage.removeItem('auth')
-        setIsLoggedIn(false);
         closeNav();
         Swal.fire({
             position: 'center',
