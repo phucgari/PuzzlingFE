@@ -23,14 +23,19 @@ export default function Profile() {
     }
 
     const validationSchema = Yup.object().shape({
-        name: Yup.string().required("Không được để trống!"),
+        name: Yup.string(),
         email: Yup.string().required("Không được để trống!")
-            .test("email", "Không được trùng với email cũ", async function (email) {
-                return axios.get(`http://localhost:8080/puzzling/users/check/${id}?email=` + email)
-                    .then(() => true)
-                    .catch(() => false)
+            .test("email", "Không được trùng với email của người khác", async function (email) {
+                return axios.get(`http://localhost:8080/puzzling/users/checkEmail/${id}?email=` + email,
+                    {
+                        auth:JSON.parse(localStorage.getItem('auth'))
+                    }
+                    )
+                    .then((response) => {
+                        return response.data === "OK";
+                    })
             }),
-        phone: Yup.string().required("Không được để trống!")
+        phone: Yup.string()
             .test("phone", "Không được trùng với số điện thoại cũ", async function (phone) {
                 return axios.get(`http://localhost:8080/puzzling/users/check/${id}?email=` + phone)
                     .then(() => true)
