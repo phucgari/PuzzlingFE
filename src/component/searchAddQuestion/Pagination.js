@@ -9,7 +9,7 @@ const Pagination = ({elementPerPage, totalElements, paginate, currentPage}) => {
     }
 
     return (
-        <nav>
+        <nav style={{display:"flex", justifyContent:"center"}}>
             <ul className='pagination'>
                 <nav aria-label="Page navigation example">
                     <ul className="pagination">

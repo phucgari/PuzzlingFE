@@ -61,7 +61,7 @@ function SideNavBar() {
                 }
                 <Link to="/categories" onClick={closeNav}>
                     <i className="fa fa-th-large text-white mr-3"/>
-                    Danh mục
+                    Quản lý bài thi
                 </Link>
                 {
                     id != null && (
@@ -108,12 +108,14 @@ function SideNavBar() {
             <nav className="navbar navbar-expand-lg">
                 <div className="container">
                     <span className="menu" onClick={openNav}>
-                        <img src="/images/menu.png" alt={""}/>
+                        <i className="fa fa-list"
+                        style={{fontSize:30, color: "#001fb2"}}/>
+                        <span style={{color: "#001fb2", fontWeight: "bold"}}>&nbsp;&nbsp;Menu</span>
                     </span>
-                    <Link className="zIndex-1 ml-n5 mr-5" to="#">
+                    <Link className="zIndex-1 ml-n5 mr-5" to="/">
                         <img
-                            src="/images/logo.png" alt={""}
-                            className="d-none d-sm-none d-md-block ml-n5 mr-5"
+                            src="/images/logo-puzzling.png" alt={""}
+                            className="logo-picture d-none d-sm-none d-md-block ml-n5 mr-5"
                         />
                     </Link>
                     {id === null && <ul className="nav">
@@ -143,7 +145,11 @@ function SideNavBar() {
                             </div>
                         </li>
                     </ul>}
-                    {id !== null}
+                    {id !== null &&
+                        <Link className="mt-4" to="/">
+                        <p style={{color: "#001fb2", fontWeight: "bold"}}>Trang chủ</p>
+                    </Link>
+                    }
                 </div>
             </nav>
             {/*Login Modal*/}

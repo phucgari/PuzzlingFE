@@ -597,3 +597,8 @@ input {
 .bg-color-blue {
     background-color: darkblue;
 }
+
+.logo-picture {
+    width:100px;
+    height:80px;
+}
