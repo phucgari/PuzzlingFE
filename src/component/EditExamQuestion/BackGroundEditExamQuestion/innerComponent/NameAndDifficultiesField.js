@@ -1,11 +1,16 @@
 import React from 'react';
 import {Field} from "formik";
-
+function handleKeyDown(e) {
+    e.target.style.height = 'inherit';
+    e.target.style.height = `${e.target.scrollHeight}px`;
+}
 function NameAndDifficultiesField(props) {
     const {index} = props
     return (
         <div>
-            <Field name={`questions[${index}].name`} className={"form-control textfield-rounded"}
+            <Field as="textarea"
+                   onKeyUp={handleKeyDown}
+                name={`questions[${index}].name`} className={"form-control textfield-rounded"}
                    id={`questions.${index}.name`}
                    placeholder="Tên câu hỏi"/>
             <br/>

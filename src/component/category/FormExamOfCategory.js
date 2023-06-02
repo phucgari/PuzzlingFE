@@ -8,6 +8,10 @@ export default function FormExamOfCategory() {
     const { categoriesId } =useParams();
     const id = JSON.parse(localStorage.getItem("id"));
     const [exam, setExam] = useState([]);
+    const [category,setCategory] = useState({
+        name:"",
+        picture:""
+    })
     const navigate = useNavigate();
     const [currentPage, setCurrentPage] = useState(1);
     const [ElementPerPage] = useState(6)
@@ -24,6 +28,13 @@ export default function FormExamOfCategory() {
                 .catch((error) => {
                     navigate(`/${error.response.status}`)
                 })
+            axios.get(`http://localhost:8080/puzzling/categories/${categoriesId}`)
+                .then((response) => {
+                    setCategory(response.data)
+                })
+                .catch((error) => {
+                    navigate(`/${error.response.status}`)
+                })
         }, [categoriesId, id]
     )
     return (
@@ -35,9 +46,8 @@ export default function FormExamOfCategory() {
                 >
                     <div className={'col-lg-11'} style={{textAlign: "center"}}>
                         <h2 style={{fontWeight: "bold", fontSize: 45}}>
-                            Danh sách bài thi của bạn
+                            Bài thi chủ đề {category.name} của bạn
                             <br/>
-                            <small className="text-muted" style={{fontSize: 20}}>Thêm câu hỏi cho bài thi</small>
                         </h2></div>
                     <div className=" text-center col-lg-1" style={{float: "right", paddingRight: "50px"}}>
                         <Link to={"/exam/create"}>

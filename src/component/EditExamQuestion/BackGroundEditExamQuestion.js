@@ -4,6 +4,7 @@ import * as Yup from "yup";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import RenderPagingQuestion from "./RenderPagingQuestion";
+import Swal from "sweetalert2";
 
 const validationExam = Yup.object().shape({
     questions: Yup.array().of(
@@ -61,7 +62,13 @@ function BackGroundEditExamQuestion(props) {
                                             }
                                             )
                                             .then(() => {
-                                                alert("Thành công!")
+                                                Swal.fire({
+                                                    position: 'center',
+                                                    icon: 'success',
+                                                    title: 'Lưu bài thi thành công!',
+                                                    showConfirmButton: false,
+                                                    timer: 1500
+                                                }).then(r => r.isConfirmed)
                                                 navigate('/');
                                             })
                                             .catch((error) => {

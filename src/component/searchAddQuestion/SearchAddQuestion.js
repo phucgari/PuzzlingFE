@@ -12,13 +12,13 @@ function SearchAddQuestion(props) {
     const [currentPage, setCurrentPage] = useState(1);
     const [ElementPerPage] = useState(5);
     const [selectQuestionToAdd, setSelectQuestionToAdd] = useState({elements: []})
-    const [searchForm] = useState({
+    const [searchForm,setSearchForm] = useState({
         name: "",
         category: exam.category.name,
         questionType: "",
         level: ""
     })
-
+    console.log(searchForm)
     function addToExam(values, action) {
         let newQ = []
         values.elements.forEach((element) => {
@@ -54,6 +54,7 @@ function SearchAddQuestion(props) {
                         add: false
                     })
                 )
+                setCurrentPage(1)
                 setSelectQuestionToAdd({elements: mapper})
             })
     }
@@ -62,6 +63,14 @@ function SearchAddQuestion(props) {
         search(searchForm)
     }, [searchForm]);
 
+    useEffect(() => {
+        setSearchForm({
+            name: "",
+            category: exam.category.name,
+            questionType: "",
+            level: ""
+        })
+    }, [exam]);
     // Get current posts
     const indexOfLastElement = currentPage * ElementPerPage;
     const indexOfFirstElement = indexOfLastElement - ElementPerPage;
@@ -76,6 +85,14 @@ function SearchAddQuestion(props) {
                 <div className="modal-content rounded-modal shadow p-4 border-0"
                      style={{backgroundColor: "#bef6fd"}}
                 >
+                    <div className={"col col-4"}>
+                        <button type="button"
+                                onClick={() => navigate(`/exam/edit/${id}`)}
+                                className="gradientBtn mt-4 animated wow fadeInUp"
+                        >
+                            Quay lại
+                        </button>
+                    </div>
                     <h2 className='mb-4'
                         style={{textAlign: "center", fontWeight: "bold"}}
                     >
@@ -83,6 +100,7 @@ function SearchAddQuestion(props) {
                     </h2>
                     <Formik initialValues={searchForm}
                             onSubmit={search}
+                            enableReinitialize={true}
                     >
                         {() =>
                             <Form>
@@ -106,9 +124,9 @@ function SearchAddQuestion(props) {
                                                 khó: </label>
                                             <Field as="select" className={"form-control textfield-rounded mt-2"}
                                                    name={"level"} id={"level"}>
-                                                <option value="" hidden>Chọn</option>
+                                                <option value="">Chọn tất cả</option>
                                                 <option value="EASY"> Dễ</option>
-                                                <option value="MEDIUM">Vừa</option>
+                                                <option value="MEDIUM">Trung bình</option>
                                                 <option value="HARD"> Khó</option>
                                             </Field>
                                         </div>
@@ -118,7 +136,7 @@ function SearchAddQuestion(props) {
                                             <Field as="select" className={"form-control textfield-rounded mt-2"}
                                                    name={"questionType"}
                                                    id={"questionType"}>
-                                                <option value="" hidden>Chọn</option>
+                                                <option value="">Chọn tất cả</option>
                                                 <option value="ONE_CHOICE"> Một đáp án</option>
                                                 <option value="MULTI_CHOICE">Nhiều đáp án</option>
                                             </Field>
@@ -156,14 +174,6 @@ function SearchAddQuestion(props) {
                             paginate={paginate}
                             currentPage={currentPage}
                         />
-                    </div>
-                    <div className={"col col-4"}>
-                        <button type="button"
-                                onClick={() => navigate(`/exam/edit/${id}`)}
-                                className="gradientBtn mt-4 animated wow fadeInUp"
-                        >
-                            Quay lại
-                        </button>
                     </div>
                 </div>
             </div>
