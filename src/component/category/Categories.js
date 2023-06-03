@@ -30,10 +30,10 @@ export default function Categories() {
                                 <div className="box-part text-center shadow">
                                     <img
                                         src={item.picture}
-                                        className="img-fluid mx-auto d-block animated wow jello slow infinite"
+                                        className="user-profile shadow mx-auto img-fluid rounded-circle mt-n2 animated wow pulse"
                                         alt="..."
                                     />
-                                    <div className="title mt-4">
+                                    <div className="title mt-2">
                                         <h4>{item.name}</h4>
                                     </div>
                                 </div>
