@@ -55,7 +55,7 @@ function SideNavBar() {
         axios.get("http://localhost:8080/puzzling/"+id).then(
             (response)=>setAccount(response.data)
         ).catch((err)=>navigate(`/${err.response.status}`))
-    },)
+    },[])
     return (
         <div>
             {/*Side Bar*/}
@@ -83,7 +83,7 @@ function SideNavBar() {
                     <i className="fa fa-th-large text-white mr-3"/>
                     Quản lý bài thi
                 </Link>
-                <Link to="/category.html" onClick={closeNav}>
+                <Link to="/doAQuiz">
                     <i className="fa fa-question text-white mr-3"/>
                     Giải câu đố
                 </Link>
@@ -534,7 +534,8 @@ function SideNavBar() {
 
     function logout() {
         localStorage.removeItem('id');
-        localStorage.removeItem('auth')
+        localStorage.removeItem('auth');
+        localStorage.removeItem("isQuizPage");
         closeNav();
         Swal.fire({
             position: 'center',

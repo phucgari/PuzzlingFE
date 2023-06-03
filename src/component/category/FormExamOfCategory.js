@@ -5,6 +5,7 @@ import Pagination from "../searchAddQuestion/Pagination";
 import { useParams } from 'react-router-dom';
 
 export default function FormExamOfCategory() {
+    const isQuizPage = JSON.parse(localStorage.getItem("isQuizPage"));
     const { categoriesId } =useParams();
     const id = JSON.parse(localStorage.getItem("id"));
     const [exam, setExam] = useState([]);
@@ -49,11 +50,13 @@ export default function FormExamOfCategory() {
                             Bài thi chủ đề {category.name} của bạn
                             <br/>
                         </h2></div>
-                    <div className=" text-center col-lg-1" style={{float: "right", paddingRight: "50px"}}>
-                        <Link to={"/exam/create"}>
-                            <i className={"fa fa-plus-circle"} style={{fontSize: 60}}></i>
-                        </Link>
-                    </div>
+                    {!isQuizPage && (
+                        <div className=" text-center col-lg-1" style={{float: "right", paddingRight: "50px"}}>
+                            <Link to={"/exam/create"}>
+                                <i className={"fa fa-plus-circle"} style={{fontSize: 60}}></i>
+                            </Link>
+                        </div>
+                    )}
                 </div>
                 <div>
                 </div>
@@ -68,19 +71,37 @@ export default function FormExamOfCategory() {
                                          style={{display: "flex", justifyContent: "center"}}
                                          key={item.id}
                                     >
-                                        <button className={"btn btn-outline-dark"} style={{width: "300px"}}
-                                                onClick={() => navigate("/exam/edit/" + item.id)}>
-                                            <h4 style={{fontWeight: "bold"}}> Bài thi số: {item.id}</h4>
-                                            <hr/>
-                                            <div>
-                                                <h5>Tên bài thi: {item.name}</h5>
-                                                Thời gian làm bài: {item.time} phút
-                                                <br/>
-                                                Điểm tối thiểu: {item.passScore}%
-                                                <br/>
-                                                Người tạo: {item.user.name}
-                                            </div>
-                                        </button>
+                                        {!isQuizPage ? (
+                                            <button className={"btn btn-outline-dark"} style={{width: "300px"}}
+                                                    onClick={() => navigate("/exam/edit/" + item.id)}>
+                                                <h4 style={{fontWeight: "bold"}}> Bài thi số: {item.id}</h4>
+                                                <hr/>
+                                                <div>
+                                                    <h5>Tên bài thi: {item.name}</h5>
+                                                    Thời gian làm bài: {item.time} phút
+                                                    <br/>
+                                                    Điểm tối thiểu: {item.passScore}%
+                                                    <br/>
+                                                    Người tạo: {item.user.name}
+
+                                                </div>
+                                            </button>
+                                        ):
+                                            (
+                                                <button className={"btn btn-outline-dark"} style={{width: "300px"}}
+                                                        onClick={() => navigate("/exam/do/" + item.id)}>
+                                                    <h4 style={{fontWeight: "bold"}}> Bài thi số: {item.id}</h4>
+                                                    <hr/>
+                                                    <div>
+                                                        <h5>Tên bài thi: {item.name}</h5>
+                                                        Thời gian làm bài: {item.time} phút
+                                                        <br/>
+                                                        Điểm tối thiểu: {item.passScore}%
+                                                        <br/>
+                                                    </div>
+                                                </button>
+                                            )}
+
                                     </div>
                                 ))
                             }
@@ -88,14 +109,17 @@ export default function FormExamOfCategory() {
                     </div>
                 </div>
                 <br/>
-                <div style={{display: "flex", justifyContent: "center"}}>
+                {!isQuizPage && (
+                    <div style={{display: "flex", justifyContent: "center"}}>
                     <Pagination
                         elementPerPage={ElementPerPage}
                         totalElements={exam.length}
                         paginate={paginate}
                         currentPage={currentPage}
                     />
-                </div>
+                    </div>
+                    )
+                }
                 <br/>
             </div>
         </div>

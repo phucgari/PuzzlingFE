@@ -2,7 +2,8 @@ import React, {useEffect, useState} from 'react';
 import axios from "axios";
 import {Link, useNavigate} from "react-router-dom";
 
-export default function Categories() {
+export default function Categories({ isQuizPage }) {
+    localStorage.setItem("isQuizPage", JSON.stringify(isQuizPage));
     const [categories, setCategories] = useState([]);
     const navigate = useNavigate();
     useEffect(() => {
@@ -26,7 +27,7 @@ export default function Categories() {
                             data-target="#subCateModal"
                             key={item.id}
                         >
-                            <Link to={`/category/${item.id}`}>
+                            <Link to={`/category/${item.id}`} >
                                 <div className="box-part text-center shadow">
                                     <img
                                         src={item.picture}
@@ -42,16 +43,18 @@ export default function Categories() {
                         </div>
                     ))
                 }
-                <div
-                    className="col-auto col-centered animated wow jackInTheBox slow"
-                    data-toggle="modal"
-                    data-target="#subCateModal"
-                >
-                    <div className="box-part text-center shadow">
-                        <Link to={"/createCategory"}
-                              style={{fontSize: 70, fontWeight: "bold", textDecoration: "none"}}>+</Link>
+                {!isQuizPage && (
+                    <div
+                        className="col-auto col-centered animated wow jackInTheBox slow"
+                        data-toggle="modal"
+                        data-target="#subCateModal"
+                    >
+                        <div className="box-part text-center shadow">
+                            <Link to={"/createCategory"}
+                                  style={{fontSize: 70, fontWeight: "bold", textDecoration: "none"}}>+</Link>
+                        </div>
                     </div>
-                </div>
+                )}
             </div>
         </div>
     );
