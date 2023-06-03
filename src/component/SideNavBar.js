@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {ErrorMessage, Field, Form, Formik} from "formik";
 import axios from "axios";
 import {Link, useNavigate} from "react-router-dom";
@@ -17,6 +17,12 @@ function openNav() {
 function SideNavBar() {
     const id = JSON.parse(localStorage.getItem("id"))
     const navigate = useNavigate();
+    const [account,setAccount]=React.useState({
+        username:"",
+        user:{
+            avatar:""
+        }
+    })
     const validation = Yup.object().shape({
         username: Yup.string().required("Không được để trống!")
             .min(6, "Tối thiểu là 6 ký tự!!")
@@ -45,6 +51,11 @@ function SideNavBar() {
         })
 
     })
+    useEffect(()=>{
+        axios.get("http://localhost:8080/puzzling/"+id).then(
+            (response)=>setAccount(response.data)
+        ).catch((err)=>navigate(`/${err.response.status}`))
+    },)
     return (
         <div>
             {/*Side Bar*/}
@@ -55,7 +66,7 @@ function SideNavBar() {
                 {id != null &&
                     <Link to="/profile" className="" onClick={closeNav}>
                         <img
-                            src={id.avatar}
+                            src={account.user.avatar}
                             className="user-profile shadow img-fluid rounded-circle ml-3"
                             alt={""}/>
                     </Link>
@@ -64,7 +75,7 @@ function SideNavBar() {
                     id != null &&
                     (
                         <Link to="" className="text-white text-left">
-                            <small><p>{id.username}</p></small>
+                            <small><p>{account.username}</p></small>
                         </Link>
                     )
                 }
