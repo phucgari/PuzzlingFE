@@ -17,12 +17,11 @@ function RenderQuestionOptions(props) {
     switch (formik.values.exam.questions[currentIndex].questionType) {
         case "MULTI_CHOICE":
             return (
-                <>
+                <div className="row options">
                     {
                         formik.values.exam.questions[currentIndex].options.map((option, index) =>
-                            <li className="animated wow fadeInUp">
-                                <label htmlFor={`recordDetail.${currentIndex}.answers.${index}.answerStatus`}
-                                       className="align-middle element-animation">
+                            <div className="col-6 option">
+                                <label htmlFor={`recordDetail.${currentIndex}.answers.${index}.answerStatus`}>
                                     <Field type="checkbox"
                                            id={`recordDetail.${currentIndex}.answers.${index}.answerStatus`}
                                            name={`recordDetail.${currentIndex}.answers.${index}.answerStatus`}
@@ -30,19 +29,18 @@ function RenderQuestionOptions(props) {
                                     <br/>
                                     {option.name}
                                 </label>
-                            </li>
+                            </div>
                         )
                     }
-                </>
+                </div>
             );
         case "ONE_CHOICE":
             return (
-                <>
+                <div className={"row options"}>
                     {
                         formik.values.exam.questions[currentIndex].options.map((option, index) =>
-                            <li className="animated wow fadeInUp delay-0-1s">
+                            <div className={"col-6 option"}>
                                 <label htmlFor={`recordDetail.${currentIndex}.answers.${index}.answerStatus`}
-                                       className="align-middle element-animation"
                                        onClick={() => changeAnswerStatusRadio(index)}
                                 >
                                     <Field type="radio"
@@ -53,10 +51,10 @@ function RenderQuestionOptions(props) {
                                     <br/>
                                     {option.name}
                                 </label>
-                            </li>
+                            </div>
                         )
                     }
-                </>
+                </div>
             );
     }
 

@@ -39,7 +39,7 @@ function SideNavBar() {
         password: Yup.string().required("Không được để trống!").min(6, "Tối thiểu là 6 ký tự!"),
         confirmPassword: Yup.string().required("Không được để trống!").min(6, "Tối thiểu là 6 ký tự!").max(32, "Tối đa 32 ký tự!").oneOf([Yup.ref('password'), null], 'Mật khẩu không trùng nhau!'),
         user: Yup.object().shape({
-            email: Yup.string().required("Không được để trống!")
+            email: Yup.string().required("Không được để trống!").email("Định dạng email chưa đúng")
                 .test("username", "Trùng email", async function (email) {
                     return axios.get("http://localhost:8080/puzzling/checkEmail?email=" + email)
                         .then(
@@ -83,7 +83,7 @@ function SideNavBar() {
                     <i className="fa fa-th-large text-white mr-3"/>
                     Quản lý bài thi
                 </Link>
-                <Link to="/doAQuiz">
+                <Link to="/doAQuiz" onClick={closeNav}>
                     <i className="fa fa-question text-white mr-3"/>
                     Giải câu đố
                 </Link>
