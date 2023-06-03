@@ -52,9 +52,11 @@ function SideNavBar() {
 
     })
     useEffect(()=>{
-        axios.get("http://localhost:8080/puzzling/"+id).then(
-            (response)=>setAccount(response.data)
-        ).catch((err)=>navigate(`/${err.response.status}`))
+        if(id) {
+            axios.get("http://localhost:8080/puzzling/" + id).then(
+                (response) => setAccount(response.data)
+            ).catch((err) => navigate(`/${err.response.status}`))
+        }
     },[])
     return (
         <div>

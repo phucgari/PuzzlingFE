@@ -58,11 +58,27 @@ function DoExamForm(props) {
     useEffect(() => {
         axios.get(`http://localhost:8080/puzzling/exam/info?examId=${examId}`)
             .then((response) => {
+                let Sexam= response.data
                 setRecord({
                     user: {
                         id: ""
                     },
-                    exam: response.data,
+                    exam: {
+                        name:Sexam.name,
+                        time:Sexam.time,
+                        passScore:Sexam.passScore,
+                        category:Sexam.category,
+                        user:Sexam.user,
+                        questions:Sexam.questions.map((question)=>({
+                            level:question.level,
+                            name:question.name,
+                            questionType: question.questionType,
+                            options:question.options.map((option)=>({
+                                name:option.name,
+                                status:option.status
+                            }))
+                        }))
+                    },
                     recordDetail: response.data.questions.map((question) => ({
                         question: question,
                         answers: question.options.map((option) => ({
