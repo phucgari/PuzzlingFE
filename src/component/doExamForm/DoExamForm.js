@@ -10,21 +10,22 @@ import AuthorAndLevel from "./AdditionalInformation/AuthorAndLevel";
 function DoExamForm(props) {
     const {examId} = useParams();
     const navigate = useNavigate();
+
     function submitRecord(values) {
-        values.user.id=JSON.parse(localStorage.getItem("id"))
+        values.user.id = JSON.parse(localStorage.getItem("id"))
         axios.post(`http://localhost:8080/puzzling/record/createExamResult`, values)
             .then((response) => {
-                navigate(`/record/`+response.data.id)
+                navigate(`/record/` + response.data.id)
             })
             .catch((error) => {
-                console.log(error);
+                navigate(`/${error.response.status}`)
             });
     }
 
     const [record, setRecord] = React.useState(
         {
-            user:{
-                id:""
+            user: {
+                id: ""
             },
             exam: {
                 id: "",
@@ -58,8 +59,8 @@ function DoExamForm(props) {
         axios.get(`http://localhost:8080/puzzling/exam/info?examId=${examId}`)
             .then((response) => {
                 setRecord({
-                    user:{
-                        id:""
+                    user: {
+                        id: ""
                     },
                     exam: response.data,
                     recordDetail: response.data.questions.map((question) => ({
@@ -72,7 +73,7 @@ function DoExamForm(props) {
                 })
             })
             .catch((error) => {
-                console.log(error);
+                navigate(`/${error.response.status}`)
             })
     }, [examId])
     return (

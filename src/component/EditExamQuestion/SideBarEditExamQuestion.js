@@ -1,9 +1,9 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {useNavigate, useParams} from "react-router-dom";
 
 function SideBarEditExamQuestion(props) {
     const {setExam, exam} = props
-    let { id } = useParams();
+    let {id} = useParams();
     const navigate = useNavigate();
 
     function addOneChoiceQuestion() {
@@ -36,7 +36,7 @@ function SideBarEditExamQuestion(props) {
 
     return (
         <div className="container">
-            <div className="modal-dialog modal-xl" role="document" >
+            <div className="modal-dialog modal-xl" role="document">
                 <div className="modal-content rounded-modal shadow p-3 border-0"
                      style={{marginTop: 6 + 'rem', backgroundColor: "#d5fdfd"}}>
                     <h4>Vui lòng chọn loại câu hỏi bạn muốn:</h4>
@@ -53,7 +53,7 @@ function SideBarEditExamQuestion(props) {
                             </button>
                         </div>
                         <div className={"col col-16"}
-                            style={{display:"flex",justifyContent:"right"}} >
+                             style={{display: "flex", justifyContent: "right"}}>
                             <button type="button" className="gradientBtn animated wow fadeInUpy"
                                     onClick={() => navigate(`/exam/edit/${exam.id}/search-add`)}>
                                 Thêm câu hỏi từ bộ có sẵn

@@ -16,14 +16,16 @@ function CreateDeleteOptionsButton(props) {
                     ]
                 }
                 setExam({...exam})
-            }}>Thêm ô lựa chọn</button>
+            }}>Thêm ô lựa chọn
+            </button>
             &nbsp;
-            <button className="btn btn-danger"
-               onClick={() => {
-                   exam.questions[index].options.pop()
-                   setExam({...exam})
-               }}
-            >Xoá ô lựa chọn</button>
+            <button className="btn btn-danger" type={"button"}
+                    onClick={() => {
+                        exam.questions[index].options.pop()
+                        setExam({...exam})
+                    }}
+            >Xoá ô lựa chọn
+            </button>
         </div>
     );
 }

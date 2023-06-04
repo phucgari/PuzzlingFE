@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {Link, useNavigate, useParams} from "react-router-dom";
-
 function RecordSumary(props) {
     const navigate = useNavigate();
     const {examId} = useParams();
@@ -66,13 +65,14 @@ function RecordSumary(props) {
                 </div>
                 <div className={"row"}>
                     <div className={"col col-6"}>
-                        <button onClick={() => props.check()} style={{marginLeft:150}} type="button" className="gradientBtn animated wow fadeInUpy">
+                        <button onClick={() => props.check()} style={{marginLeft: 150}} type="button"
+                                className="gradientBtn animated wow fadeInUpy">
                             Xem chi tiết
                         </button>
                     </div>
                     <div className={"col col-6"}>
-                        <button style={{marginRight:150}} type="button" className="gradientBtn animated wow fadeInUpy">
-                            <Link style={{ textDecoration: 'none',color:"white" }} to={"/"}> Trang chủ</Link>
+                        <button style={{marginRight: 150}} type="button" className="gradientBtn animated wow fadeInUpy">
+                            <Link style={{textDecoration: 'none', color: "white"}} to={"/"}> Trang chủ</Link>
                         </button>
                     </div>
                 </div>

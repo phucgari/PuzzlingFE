@@ -1,13 +1,15 @@
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import ChangePassword from "./ChangePassword";
-import {Formik, Form, Field, ErrorMessage} from "formik";
+import {ErrorMessage, Field, Form, Formik} from "formik";
 import axios from "axios";
 import {useEffect, useState} from "react";
 import {getDownloadURL, ref, uploadBytesResumable} from "firebase/storage";
 import {storage} from "../../firebase";
 import * as Yup from "yup";
+import Swal from "sweetalert2";
 
 export default function Profile() {
+    const navigate = useNavigate();
     const id = JSON.parse(localStorage.getItem("id"));
     const [user, setUser] = useState({})
     const [imgUrl, setImgUrl] = useState(null);
@@ -22,20 +24,34 @@ export default function Profile() {
 
     const validationSchema = Yup.object().shape({
         name: Yup.string().required("Không được để trống!"),
-        email:Yup.string().required("Không được để trống!"),
-        phone:Yup.string().required("Không được để trống!")
+        email: Yup.string().required("Không được để trống!")
+            .test("email", "Không được trùng với email cũ", async function (email) {
+                return axios.get(`http://localhost:8080/puzzling/users/check/${id}?email=` + email)
+                    .then(() => true)
+                    .catch(() => false)
+            }),
+        phone: Yup.string().required("Không được để trống!")
+            .test("phone", "Không được trùng với số điện thoại cũ", async function (phone) {
+                return axios.get(`http://localhost:8080/puzzling/users/check/${id}?email=` + phone)
+                    .then(() => true)
+                    .catch(() => false)
+            }),
     })
 
     useEffect(() => {
         axios
-            .get(`http://localhost:8080/puzzling/users/${id}`)
+            .get(`http://localhost:8080/puzzling/users/${id}`,
+                {
+                    auth:JSON.parse(localStorage.getItem('auth'))
+                }
+                )
             .then((response) => {
                 setUser(response.data);
             })
-            .catch((error) => {
-                console.log(error);
+            .catch((response) => {
+                navigate(`/${response.response.status}`)
             });
-    },[id]);
+    }, [id]);
 
     return (
         <div className="container">
@@ -45,19 +61,36 @@ export default function Profile() {
                         initialValues={initialValues}
                         onSubmit={(values) => {
                             values.avatar = imgUrl;
-                            axios.put(`http://localhost:8080/puzzling/users/${id}`, values)
+                            axios.put(`http://localhost:8080/puzzling/users/${id}`, values,
+                                {
+                                    auth:JSON.parse(localStorage.getItem('auth'))
+                                }
+                                )
                                 .then(() => {
-                                    alert("Sửa thông tin thành công!")
+                                    Swal.fire({
+                                        position: 'center',
+                                        icon: 'success',
+                                        title: 'Đổi thông tin thành công!',
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    }).then(r => r.isConfirmed)
                                 })
-                                .catch(() => {
-                                    alert("Không thành công")
+                                .catch((response) => {
+                                    Swal.fire({
+                                        position: 'center',
+                                        icon: 'error',
+                                        title: 'Không thành công!',
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    }).then(r => r.isConfirmed)
+                                        .then(()=>navigate(`/${response.response.status}`))
                                 })
                         }}
                         validationSchema={validationSchema}
                         enableReinitialize={true}
                     >
                         <Form>
-                            <div className={"imageUpload"} style={{textAlign:"center"}}>
+                            <div className={"imageUpload"} style={{textAlign: "center"}}>
                                 <label htmlFor={"avatar"}>
                                     <img src={initialValues.avatar} alt={""}
                                          className="user-profile shadow mx-auto img-fluid rounded-circle mt-n5 mb-1 animated wow pulse"/>
@@ -69,48 +102,54 @@ export default function Profile() {
                             <div className="modal-body">
                                 <div className="row">
                                     <div className="col-lg-6">
-                                        <div className="form-group input-group w-100 animated wow fadeInDown delay-0-1s">
+                                        <span style={{color: "red", fontSize: 14}}><ErrorMessage name={"name"}/></span>
+                                        <div
+                                            className="form-group input-group w-100 animated wow fadeInDown delay-0-1s">
                                             <div className="input-group-prepend">
                                                 <span><img src="/images/left-icon.png" alt={""}/></span>
                                             </div>
                                             <Field type="text" id="recipient-user"
-                                                   name={"name"}  placeholder="Họ tên..."
-                                                   className="form-control textfield-rounded shadow-sm mb-4 ml-n3" />
-                                            <ErrorMessage name={"name"} style={{color:"red"}}/>
+                                                   name={"name"} placeholder="Họ tên..."
+                                                   className="form-control textfield-rounded shadow-sm mb-4 ml-n3"/>
                                         </div>
                                     </div>
                                     <div className="col-lg-6">
-                                        <div className="form-group input-group w-100 animated wow fadeInDown delay-0-2s">
+                                        <span style={{color: "red", fontSize: 14}}><ErrorMessage name={"email"}/></span>
+                                        <div
+                                            className="form-group input-group w-100 animated wow fadeInDown delay-0-2s">
                                             <div className="input-group-prepend">
-                                                <span><img src="/images/right-icon.png" className="rotate-180" alt={""}/></span>
+                                                <span><img src="/images/right-icon.png" className="rotate-180"
+                                                           alt={""}/></span>
                                             </div>
                                             <Field type="text" id="recipient-mobile"
                                                    name={"email"} placeholder="Email..."
                                                    className="form-control textfield-rounded shadow-sm p-3 mb-4 ml-n3"/>
-                                            <ErrorMessage name={"email"} style={{color:"red"}}/>
                                         </div>
                                     </div>
 
                                     <div className="col-lg-6">
-                                        <div className="form-group input-group w-100 animated wow fadeInDown delay-0-3s">
+                                        <span style={{color: "red", fontSize: 14}}><ErrorMessage name={"phone"}/></span>
+                                        <div
+                                            className="form-group input-group w-100 animated wow fadeInDown delay-0-3s">
                                             <div className="input-group-prepend">
-                                                <span><img src="/images/right-icon.png" className="rotate-180" alt={""}/></span>
+                                                <span><img src="/images/right-icon.png" className="rotate-180"
+                                                           alt={""}/></span>
                                             </div>
                                             <Field type="text" id="recipient-adress"
                                                    name={"phone"} placeholder="Số điện thoại..."
                                                    className="form-control textfield-rounded shadow-sm p-3 mb-4 ml-n3"/>
-                                            <ErrorMessage name={"phone"} style={{color:"red"}}/>
                                         </div>
                                     </div>
                                     <div className="col-lg-6">
-                                        <div className="form-group input-group w-100 animated wow fadeInDown delay-0-4s">
+                                        <div
+                                            className="form-group input-group w-100 animated wow fadeInDown delay-0-4s">
                                             <div className="input-group-prepend">
                                                 <span><img src="/images/left-icon.png" alt={""}/></span>
                                             </div>
                                             <Field as="select" name={"gender"}
-                                                    className="form-control textfield-rounded gender-value shadow-sm mb-4 ml-n3">
-                                                <option value={""} hidden>Chọn </option>
-                                                <option value={"MALE"}> Nam </option>
+                                                   className="form-control textfield-rounded gender-value shadow-sm mb-4 ml-n3">
+                                                <option value={""} hidden>Chọn</option>
+                                                <option value={"MALE"}> Nam</option>
                                                 <option value={"FEMALE"}>Nữ</option>
 
                                             </Field>
@@ -118,7 +157,9 @@ export default function Profile() {
                                     </div>
                                 </div>
                                 <center>
-                                    <button type="submit" className="gradientBtn w-50 animated wow fadeInUp">Lưu thông tin</button>
+                                    <button type="submit" className="gradientBtn w-50 animated wow fadeInUp">Lưu thông
+                                        tin
+                                    </button>
                                 </center>
                             </div>
                             <div className="modal-footer border-0 mt-n4">
