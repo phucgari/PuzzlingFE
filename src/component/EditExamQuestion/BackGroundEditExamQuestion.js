@@ -69,7 +69,7 @@ function BackGroundEditExamQuestion(props) {
                                                     showConfirmButton: false,
                                                     timer: 1500
                                                 }).then(r => r.isConfirmed)
-                                                navigate('/');
+                                                navigate('/categories');
                                             })
                                             .catch((error) => {
                                                 console.log(error)

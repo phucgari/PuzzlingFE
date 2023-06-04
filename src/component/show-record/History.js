@@ -3,7 +3,17 @@ import axios from "axios";
 import {Link, useNavigate} from "react-router-dom";
 import Pagination from "../searchAddQuestion/Pagination";
  function History() {
-    const [record, setRecord] = useState([]);
+    const [record, setRecord] = useState([{
+        exam:{
+            id:0,
+            name:""
+        },
+        time:"",
+        userPoint:0,
+        user:{
+            name:""
+        }
+    }]);
     const id = JSON.parse(localStorage.getItem("id"));
     const navigate = useNavigate();
 
@@ -43,22 +53,22 @@ import Pagination from "../searchAddQuestion/Pagination";
                     <div className=" col-12 container">
                         <div className="row gy-5">
 
-                            {
-                                record.map((item) => (
+                            {record&&
+                                record.map((record) => (
                                     <div className={"col col-4 p-3 bg-lightblue"} style={{display:"flex",justifyContent:"center"}}
-                                         key={item.id}
+                                         key={record.id}
                                     >
                                         <button className={"btn btn-outline-dark"} style={{width:"300px"}}
-                                                onClick={() => navigate("/record/"+item.id)}>
-                                            <h4 style={{fontWeight: "bold"}}> Bài thi số: {item.exam.id}</h4>
+                                                onClick={() => navigate("/record/"+record.id)}>
+                                            <h4 style={{fontWeight: "bold"}}> Bài thi số: {record.exam.id}</h4>
                                             <hr/>
                                             <div>
-                                                <h5>Tên bài thi: {item.exam.name}</h5>
-                                                Thời gian ghi nhận: {item.time}
+                                                <h5>Tên bài thi: {record.exam.name}</h5>
+                                                Thời gian ghi nhận: {record.time}
                                                 <br/>
-                                                Điểm của bạn: {item.userPoint}%
+                                                Điểm của bạn: {record.userPoint}%
                                                 <br/>
-                                                Người tạo: {item.user.name}
+                                                Người tạo: {record.user.name}
                                                 <br/>
                                             </div>
                                         </button>

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {ErrorMessage, Field, Form, Formik} from "formik";
 import axios from "axios";
 import {Link, useNavigate} from "react-router-dom";
@@ -9,6 +9,7 @@ import * as Yup from 'yup'
 function closeNav() {
     document.getElementById("mySidenav").style.cssText = "width:0; border:none; box-shadow: none;";
 }
+
 function openNav() {
     document.getElementById("mySidenav").style.cssText = "width:270px; border-right: 10px solid #fff; box-shadow: 1px 8px 8px 8px rgba(73,21,155,0.3); -webkit-box-shadow: 1px 8px 8px 8px rgba(73,21,155,0.3);  -moz-box-shadow: 1px 8px 8px 8px rgba(73,21,155,0.3);";
 }
@@ -16,6 +17,12 @@ function openNav() {
 function SideNavBar() {
     const id = JSON.parse(localStorage.getItem("id"))
     const navigate = useNavigate();
+    const [account,setAccount]=React.useState({
+        username:"",
+        user:{
+            avatar:""
+        }
+    })
     const validation = Yup.object().shape({
         username: Yup.string().required("Không được để trống!")
             .min(6, "Tối thiểu là 6 ký tự!!")
@@ -32,7 +39,7 @@ function SideNavBar() {
         password: Yup.string().required("Không được để trống!").min(6, "Tối thiểu là 6 ký tự!"),
         confirmPassword: Yup.string().required("Không được để trống!").min(6, "Tối thiểu là 6 ký tự!").max(32, "Tối đa 32 ký tự!").oneOf([Yup.ref('password'), null], 'Mật khẩu không trùng nhau!'),
         user: Yup.object().shape({
-            email: Yup.string().required("Không được để trống!")
+            email: Yup.string().required("Không được để trống!").email("Định dạng email chưa đúng")
                 .test("username", "Trùng email", async function (email) {
                     return axios.get("http://localhost:8080/puzzling/checkEmail?email=" + email)
                         .then(
@@ -44,6 +51,13 @@ function SideNavBar() {
         })
 
     })
+    useEffect(()=>{
+        if(id) {
+            axios.get("http://localhost:8080/puzzling/" + id).then(
+                (response) => setAccount(response.data)
+            ).catch((err) => navigate(`/${err.response.status}`))
+        }
+    },[])
     return (
         <div>
             {/*Side Bar*/}
@@ -51,43 +65,33 @@ function SideNavBar() {
                 <Link to={"#"} className="closebtn " onClick={closeNav}>
                     <i className="fa fa-arrow-left" style={{marginRight: 10, fontSize: 25}}/>
                 </Link>
-                <Link to="/profile" className="" onClick={closeNav}>
-                    <img
-                        src="/images/user.png"
-                        className="user-profile shadow img-fluid rounded-circle ml-3"
-                        alt={""}/>
-                </Link>
+                {id != null &&
+                    <Link to="/profile" className="" onClick={closeNav}>
+                        <img
+                            src={account.user.avatar}
+                            className="user-profile shadow img-fluid rounded-circle ml-3"
+                            alt={""}/>
+                    </Link>
+                }
                 {
                     id != null &&
                     (
                         <Link to="" className="text-white text-left">
-                            <small><p>{id.username}</p></small>
+                            <small><p>{account.username}</p></small>
                         </Link>
                     )
                 }
                 <Link to="/categories" onClick={closeNav}>
                     <i className="fa fa-th-large text-white mr-3"/>
-                    Danh mục
+                    Quản lý bài thi
                 </Link>
-              {/*  {
-                    id != null && (
-                        <Link to={"/exam/all"}>
-                            <i className="fa fa-question text-white mr-3"/>
-                            Xem bài Quiz
-                        </Link>
-                    )
-                }*/}
-                <Link to="/doAQuiz">
+                <Link to="/doAQuiz" onClick={closeNav}>
                     <i className="fa fa-question text-white mr-3"/>
                     Giải câu đố
                 </Link>
-                <Link to="/exam/randomExam" >
+                <Link to="/exam/randomExam" onClick={closeNav}>
                     <i className="fa fa-random text-white mr-3"/>
                     Giải đố ngẫu nhiên
-                </Link>
-                <Link to="/leaderboard.html" onClick={closeNav}>
-                    <i className="fa fa-users text-white mr-3"/>
-                    Bảng xếp hạng
                 </Link>
                 <Link to="/history" onClick={closeNav}>
                     <i className="fa fa-history text-white mr-3"/>
@@ -112,14 +116,16 @@ function SideNavBar() {
             </div>
             {/*Nav Bar*/}
             <nav className="navbar navbar-expand-lg">
-                <div className="container">
+                <div className="container" style={{textAlign:"center"}}>
                     <span className="menu" onClick={openNav}>
-                        <img src="/images/menu.png" alt={""}/>
+                        <i className="fa fa-list"
+                           style={{fontSize: 30, color: "#001fb2"}}/>
+                        <span style={{fontSize: 18, marginBottom: 50, color: "#001fb2", fontWeight: "bold"}}>&nbsp;&nbsp;Menu</span>
                     </span>
-                    <Link className="zIndex-1 ml-n5 mr-5" to="#">
+                    <Link className="zIndex-1 ml-n5 mr-5" to="/">
                         <img
-                            src="/images/logo.png" alt={""}
-                            className="d-none d-sm-none d-md-block ml-n5 mr-5"
+                            src="/images/logo-puzzling.png" alt={""}
+                            className="logo-picture d-none d-sm-none d-md-block ml-n5 mr-5"
                         />
                     </Link>
                     {id === null && <ul className="nav">
@@ -149,7 +155,11 @@ function SideNavBar() {
                             </div>
                         </li>
                     </ul>}
-                    {id !== null}
+                    {id !== null &&
+                        <Link className="mt-4" to="/" onClick={closeNav}>
+                            <p style={{color: "#001fb2", fontWeight: "bold"}}>Trang chủ</p>
+                        </Link>
+                    }
                 </div>
             </nav>
             {/*Login Modal*/}

@@ -31,12 +31,16 @@ function RenderPagingQuestion(props) {
                     </div>
 
                     <div>
+                        <br/>
+                        <br/>
+                        <br/>
                         <Pagination
                             elementPerPage={questionsPerPage}
                             totalElements={values.questions.length}
                             paginate={paginate}
                             currentPage={currentPage}
                         />
+                        <br/>
                     </div>
                 </>
             </FieldArray>

@@ -20,7 +20,7 @@ export default function FormExamOfCategory() {
     const indexOfFirstElement = indexOfLastElement - ElementPerPage;
     const currentElements = exam.slice(indexOfFirstElement, indexOfLastElement);
     const paginate = pageNumber => setCurrentPage(pageNumber);
-
+    console.log(categoriesId)
     useEffect(() => {
             axios.get(`http://localhost:8080/puzzling/exam/searchExamsByCategoryAndUser?categoriesId=${categoriesId}&userId=${JSON.parse(localStorage.getItem("id"))}`)
                 .then((response) => {
