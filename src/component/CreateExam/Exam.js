@@ -27,7 +27,8 @@ export default function Exam() {
                         <h2 style={{fontWeight: "bold", fontSize: 45}}>
                               Giải đố ngẫu nhiên
                             <br/>
-                        </h2></div>
+                        </h2>
+                    </div>
                 </div>
                 <div>
                 </div>
