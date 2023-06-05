@@ -478,7 +478,8 @@ function SideNavBar() {
         </div>
     );
 
-    function signup(values) {
+    function signup(values,action) {
+        console.log(values)
         // alert("ok")
         axios.post('http://localhost:8080/puzzling/register', values).then(() => {
             closeSignUp()
@@ -500,6 +501,7 @@ function SideNavBar() {
                     timer: 1500
                 }).then(r => r.isDenied)
             })
+        action.resetForm()
     }
 
     function login(values) {

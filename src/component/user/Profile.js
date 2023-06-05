@@ -203,7 +203,7 @@ export default function Profile() {
                         timer: 1500
                     }).then(r => r.isConfirmed).then(
                         () => navigate("/")
-                    )
+                    ).then (() => window.location.reload())
                 }).catch((err)=>navigate(`/${err.response.status}`))
             } else if (result.isDenied) {
                 Swal.fire({
