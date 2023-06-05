@@ -24,7 +24,7 @@ export default function Exam() {
                 >
                     <div className={'col-lg-11'} style={{textAlign: "center"}}>
                         <h2 style={{fontWeight: "bold", fontSize: 45}}>
-                              Giải đố ngẫu nhiên
+                            Giải đố ngẫu nhiên
                             <br/>
                         </h2>
                     </div>
@@ -37,35 +37,35 @@ export default function Exam() {
                         <div className="row gy-5">
 
                             {
-                                    <div className={"col col-4 p-3 bg-lightblue"}
-                                         style={{display: "flex", justifyContent: "center"}}
-                                         key={exam.id}
-                                    >
-                                        <button className={"btn btn-outline-dark"} style={{width: "300px"}}
-                                                onClick={() => navigate("/exam/do/" + exam.id)}>
-                                            <h4 style={{fontWeight: "bold"}}> Bài thi số: {exam.id}</h4>
-                                            <hr/>
-                                            <div>
-                                                <h5>Tên bài thi: {exam.name}</h5>
-                                                Thời gian làm bài: {exam.time} phút
-                                                <br/>
-                                                {
-                                                    exam.questions && (
-                                                        <div>
-                                                            Số lượng câu hỏi:{exam.questions.length} câu
-                                                        </div>
-                                                    )
-                                                }
-                                                <br/>
-                                                Điểm tối thiểu: {exam.passScore}%
-                                                <br/>
-                                            </div>
-                                        </button>
-                                    </div>
+                                <div className={"col col-4 p-3 bg-lightblue"}
+                                     style={{display: "flex", justifyContent: "center"}}
+                                     key={exam.id}
+                                >
+                                    <button className={"btn btn-outline-dark"} style={{width: "300px"}}
+                                            onClick={() => navigate("/exam/do/" + exam.id)}>
+                                        <h4 style={{fontWeight: "bold"}}> Bài thi số: {exam.id}</h4>
+                                        <hr/>
+                                        <div>
+                                            <h5>Tên bài thi: {exam.name}</h5>
+                                            Thời gian làm bài: {exam.time} phút
+                                            <br/>
+                                            {
+                                                exam.questions && (
+                                                    <div>
+                                                        Số lượng câu hỏi:{exam.questions.length} câu
+                                                    </div>
+                                                )
+                                            }
+                                            <br/>
+                                            Điểm tối thiểu: {exam.passScore}%
+                                            <br/>
+                                        </div>
+                                    </button>
+                                </div>
                             }
                         </div>
                         <button type="button" onClick={examRandom} className="gradientBtn w-50 animated wow fadeInUp">
-                              Tạo ngẫu nhiên
+                            Tạo ngẫu nhiên
                         </button>
                     </div>
                 </div>
