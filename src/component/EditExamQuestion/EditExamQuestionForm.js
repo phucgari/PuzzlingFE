@@ -1,8 +1,9 @@
 import React from 'react';
 import SideBarEditExamQuestion from "./SideBarEditExamQuestion";
 import BackGroundEditExamQuestion from "./BackGroundEditExamQuestion";
-import {Route, Routes} from "react-router-dom";
+import {Route, Routes, useNavigate, useParams} from "react-router-dom";
 import SearchAddQuestion from "../searchAddQuestion/SearchAddQuestion";
+import axios from "axios";
 
 function EditExamQuestionForm() {
     const [exam, setExam] = React.useState({
@@ -11,6 +12,21 @@ function EditExamQuestionForm() {
         },
         questions: []
     })
+    let {id} = useParams();
+    const navigate = useNavigate();
+
+    React.useEffect(
+        () => {
+            axios.get(`http://localhost:8080/puzzling/exam/info?examId=${id}`)
+                .then((response) => {
+                    setExam(response.data)
+                })
+                .catch((error) => {
+                    navigate(`/${error.response.status}`)
+                })
+        }
+        , [])
+
     return (
         <div className="container mt-4">
             <h3 className="d-flex justify-content-center"> Bộ câu hỏi {exam.name} </h3>

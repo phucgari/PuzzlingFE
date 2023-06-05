@@ -75,18 +75,6 @@ function SideBarEditExamQuestion(props) {
             }
         })
     }
-    React.useEffect(
-        () => {
-            axios.get(`http://localhost:8080/puzzling/exam/info?examId=${id}`)
-                .then((response) => {
-                    setExam(response.data)
-                })
-                .catch((error) => {
-                    navigate(`/${error.response.status}`)
-                })
-        }
-        , [])
-
     return (
         <div className="container">
             <div className="modal-dialog modal-xl" role="document">
