@@ -77,7 +77,7 @@ function SideNavBar() {
                     id != null &&
                     (
                         <Link to="" className="text-white text-left">
-                            <small><p>{account.username}</p></small>
+                            <small><p>Hello {account.user.name}</p></small>
                         </Link>
                     )
                 }

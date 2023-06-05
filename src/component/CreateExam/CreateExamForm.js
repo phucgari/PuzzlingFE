@@ -4,20 +4,6 @@ import axios from "axios";
 import * as Yup from "yup";
 import {useNavigate} from "react-router-dom";
 
-const validationSchema = Yup.object().shape({
-    name: Yup.string().required("Vui lòng nhập tên bài thi!"),
-    category: Yup.object().shape({
-        id: Yup.string().required()
-    }),
-    passScore: Yup.number()
-        .required("Vui lòng nhập điểm tối thiểu để qua bài thi!")
-        .min(1, "Điểm tối thiểu để qua bài thi phải lớn hơn 1%")
-        .max(100, "Điểm tối đa để qua bài thi là 100%!"),
-    time: Yup.number().required("Vui lòng nhập thời gian làm bài thi!")
-        .min(1, "Thời gian làm bài phải hợp lệ!"),
-    user: Yup.object().required()
-
-})
 
 function CreateExamForm() {
     const navigate = useNavigate();
@@ -30,6 +16,31 @@ function CreateExamForm() {
         user: {
             id: JSON.parse(localStorage.getItem('id'))
         }
+    })
+
+    const validationSchema = Yup.object().shape({
+        name: Yup.string().required("Vui lòng nhập tên bài thi!")
+            .test("name", "Bạn đã có bài thi này", async function (examName) {
+                return axios.get(`http://localhost:8080/puzzling/exam/check/${examName}?user=${JSON.parse(localStorage.getItem('id'))}`)
+                    .then((response) => {
+                        return response.data === "OK";
+                    })
+                    .catch((response) => {
+                        navigate(`/${response.response.status}`)
+                    })
+            })
+        ,
+        category: Yup.object().shape({
+            id: Yup.string().required()
+        }),
+        passScore: Yup.number()
+            .required("Vui lòng nhập điểm tối thiểu để qua bài thi!")
+            .min(1, "Điểm tối thiểu để qua bài thi phải lớn hơn 1%")
+            .max(100, "Điểm tối đa để qua bài thi là 100%!"),
+        time: Yup.number().required("Vui lòng nhập thời gian làm bài thi!")
+            .min(1, "Thời gian làm bài phải hợp lệ!"),
+        user: Yup.object().required()
+
     })
     const [categories, setCategories] = React.useState([])
     React.useEffect(() => {
