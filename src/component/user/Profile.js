@@ -63,6 +63,7 @@ export default function Profile() {
                 }
                 )
             .then((response) => {
+                setImgUrl(response.data.avatar)
                 setUser(response.data);
             })
             .catch((response) => {
@@ -76,33 +77,7 @@ export default function Profile() {
                 <div className="modal-content rounded-modal shadow p-3 border-0" style={{marginTop: 6 + 'rem'}}>
                     <Formik
                         initialValues={initialValues}
-                        onSubmit={(values) => {
-                            values.avatar = imgUrl;
-                            axios.put(`http://localhost:8080/puzzling/users/${id}`, values,
-                                {
-                                    auth:JSON.parse(localStorage.getItem('auth'))
-                                }
-                                )
-                                .then(() => {
-                                    Swal.fire({
-                                        position: 'center',
-                                        icon: 'success',
-                                        title: 'Đổi thông tin thành công!',
-                                        showConfirmButton: false,
-                                        timer: 1500
-                                    }).then(r => r.isConfirmed)
-                                })
-                                .catch((response) => {
-                                    Swal.fire({
-                                        position: 'center',
-                                        icon: 'error',
-                                        title: 'Không thành công!',
-                                        showConfirmButton: false,
-                                        timer: 1500
-                                    }).then(r => r.isConfirmed)
-                                        .then(()=>navigate(`/${response.response.status}`))
-                                })
-                        }}
+                        onSubmit={(values) => handleChangeProfile(values)}
                         validationSchema={validationSchema}
                         enableReinitialize={true}
                     >
@@ -197,6 +172,50 @@ export default function Profile() {
             <ChangePassword/>
         </div>
     )
+
+    function handleChangeProfile(values){
+        Swal.fire({
+            title: 'Bạn muốn thay đổi thông tin?',
+            showDenyButton: true,
+            confirmButtonText: 'Đồng ý',
+            icon: "warning",
+            denyButtonText: 'Thoát',
+            customClass: {
+                actions: 'my-actions',
+                cancelButton: 'order-1 right-gap',
+                confirmButton: 'order-2',
+                denyButton: 'order-3',
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                if (values.avatar)
+                    values.avatar = imgUrl;
+                axios.put(`http://localhost:8080/puzzling/users/${id}`, values,
+                    {
+                        auth:JSON.parse(localStorage.getItem('auth'))
+                    }
+                ).then((response)=>{
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Đổi thông tin thành công!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(r => r.isConfirmed).then(
+                        () => navigate("/")
+                    )
+                }).catch((err)=>navigate(`/${err.response.status}`))
+            } else if (result.isDenied) {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'info',
+                    title: 'Không thành công!',
+                    showConfirmButton: false,
+                    timer: 1500
+                }).then(r => r.isConfirmed)
+            }
+        })
+    }
 
     function uploadAvatar(event) {
         const file = event.target.files[0]

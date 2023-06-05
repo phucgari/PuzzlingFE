@@ -39,22 +39,9 @@ export default function Categories({ isQuizPage }) {
                                     </div>
                                 </div>
                             </Link>
-
                         </div>
                     ))
                 }
-                {!isQuizPage && (
-                    <div
-                        className="col-auto col-centered animated wow jackInTheBox slow"
-                        data-toggle="modal"
-                        data-target="#subCateModal"
-                    >
-                        <div className="box-part text-center shadow">
-                            <Link to={"/createCategory"}
-                                  style={{fontSize: 70, fontWeight: "bold", textDecoration: "none"}}>+</Link>
-                        </div>
-                    </div>
-                )}
             </div>
         </div>
     );
