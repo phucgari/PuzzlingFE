@@ -13,6 +13,7 @@ function DoExamForm(props) {
 
     function submitRecord(values) {
         values.user.id = JSON.parse(localStorage.getItem("id"))
+        console.log(values)
         axios.post(`http://localhost:8080/puzzling/record/createExamResult`, values)
             .then((response) => {
                 navigate(`/record/` + response.data.id)
@@ -58,28 +59,30 @@ function DoExamForm(props) {
     useEffect(() => {
         axios.get(`http://localhost:8080/puzzling/exam/info?examId=${examId}`)
             .then((response) => {
-                let Sexam = response.data
+                console.log(response.data)
+                let Sexam = {
+                    name: response.data.name,
+                    time: response.data.time,
+                    passScore: response.data.passScore,
+                    category: response.data.category,
+                    user: response.data.user,
+                    questions: response.data.questions.map((question) => ({
+                        level: question.level,
+                        name: question.name,
+                        questionType: question.questionType,
+                        options: question.options.map((option) => ({
+                            name: option.name,
+                            status: option.status
+                        }))
+                    }))
+                }
+                console.log(Sexam)
                 setRecord({
                     user: {
                         id: ""
                     },
-                    exam: {
-                        name: Sexam.name,
-                        time: Sexam.time,
-                        passScore: Sexam.passScore,
-                        category: Sexam.category,
-                        user: Sexam.user,
-                        questions: Sexam.questions.map((question) => ({
-                            level: question.level,
-                            name: question.name,
-                            questionType: question.questionType,
-                            options: question.options.map((option) => ({
-                                name: option.name,
-                                status: option.status
-                            }))
-                        }))
-                    },
-                    recordDetail: response.data.questions.map((question) => ({
+                    exam: Sexam,
+                    recordDetail: Sexam.questions.map((question) => ({
                         question: question,
                         answers: question.options.map((option) => ({
                             option: option,
@@ -87,11 +90,12 @@ function DoExamForm(props) {
                         }))
                     }))
                 })
+                console.log(record)
             })
             .catch((error) => {
                 navigate(`/${error.response.status}`)
             })
-    }, [examId])
+    }, [])
     return (
         <div className="container mt-5">
             <div className="modal-dialog modal-xl" role="document">
