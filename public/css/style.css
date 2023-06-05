@@ -625,3 +625,20 @@ input {
     width:90px;
     height:70px;
 }
+
+.bg-img {
+    margin-top: 6rem;
+    background: url("../images/bg-img-04.png") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+}
+
+.bg-img-form {
+    background: url("../images/bg-img-04.png") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+}

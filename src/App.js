@@ -4,7 +4,6 @@ import HomePage from "./component/HomePage";
 import Categories from "./component/category/Categories";
 import EditExamQuestionForm from "./component/EditExamQuestion/EditExamQuestionForm";
 import CreateExamForm from "./component/CreateExam/CreateExamForm";
-import CreateCategory from "./component/category/CreateCategory";
 import Exam from "./component/CreateExam/Exam";
 import Profile from "./component/user/Profile";
 import DoExamForm from "./component/doExamForm/DoExamForm";
@@ -27,7 +26,6 @@ function App() {
                 <Route path="/" element={<HomePage/>}/>
                 <Route path="/categories" element={<Categories isQuizPage={false}/>}/>
                 <Route path="/doAQuiz" element={<Categories isQuizPage={true} />} />
-                <Route path="/createCategory" element={<CreateCategory/>}/>
                 <Route path="/exam/edit/:id/*" element={<EditExamQuestionForm/>}/>
                 <Route path="/profile" element={<Profile/>}/>
                 <Route path="/history" element={<History/>}/>

@@ -7,8 +7,7 @@ function RecordSumary(props) {
     let pass = percentPoint >= record.exam.passScore
     return (
         <div className="modal-dialog modal-lg" role="document" style={{fontSize: 18}}>
-            <div className="modal-content rounded-modal shadow p-4 border-0"
-                 style={{backgroundColor: "#bef6fd"}}>
+            <div className="modal-content rounded-modal shadow p-4 border-0 bg-img">
                 <h2 style={{display: "flex", justifyContent: "center", fontWeight: "bold"}}>Kết quả bài thi</h2>
                 <br/>
                 <div style={{marginLeft: 40}}>

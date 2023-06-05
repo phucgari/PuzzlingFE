@@ -23,19 +23,19 @@
     color: #333333;
 }
 
-.options div:nth-child(1n) {
+.options label:nth-child(1n) {
     background-color: #2379af;
 }
 
-.options div:nth-child(2n) {
+.options label:nth-child(2n) {
     background-color: #f7ad37;
 }
 
-.options div:nth-child(3n) {
+.options label:nth-child(3n) {
     background-color: #689b59;
 }
 
-.options div:nth-child(4n) {
+.options label:nth-child(4n) {
     background-color: #3ea8cc;
 }
 .option {

@@ -50,8 +50,7 @@ export default function FormExamOfCategory() {
     )
     return (
         <div className="modal-dialog modal-lg" role="document">
-            <div className="modal-content rounded-modal shadow p-4 border-0"
-                 style={{backgroundColor: "#bef6fd"}}>
+            <div className="modal-content rounded-modal shadow p-4 border-0 bg-img">
                 <div
                     className={'row'}
                 >

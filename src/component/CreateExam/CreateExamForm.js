@@ -51,8 +51,7 @@ function CreateExamForm() {
     return (
         <div className="container">
             <div className="modal-dialog modal-lg" role="document">
-                <div className="modal-content rounded-modal shadow p-3 border-0"
-                     style={{marginTop: 6 + 'rem', backgroundColor: "#bef6fd"}}>
+                <div className="modal-content rounded-modal shadow p-3 border-0 bg-img">
                     <Formik
                         initialValues={exam}
                         validationSchema={validationSchema}

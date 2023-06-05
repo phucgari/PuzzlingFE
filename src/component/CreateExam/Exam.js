@@ -18,8 +18,7 @@ export default function Exam() {
     )
     return (
         <div className="modal-dialog modal-lg" role="document">
-            <div className="modal-content rounded-modal shadow p-4 border-0"
-                 style={{backgroundColor: "#bef6fd"}}>
+            <div className="modal-content rounded-modal shadow p-4 border-0 bg-img">
                 <div
                     className={'row'}
                 >
@@ -27,7 +26,8 @@ export default function Exam() {
                         <h2 style={{fontWeight: "bold", fontSize: 45}}>
                               Giải đố ngẫu nhiên
                             <br/>
-                        </h2></div>
+                        </h2>
+                    </div>
                 </div>
                 <div>
                 </div>
