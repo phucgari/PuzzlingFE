@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {useNavigate, useParams} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
 import Render1Question from "./Render1Question";
 import {Form, Formik} from "formik";
@@ -58,24 +58,24 @@ function DoExamForm(props) {
     useEffect(() => {
         axios.get(`http://localhost:8080/puzzling/exam/info?examId=${examId}`)
             .then((response) => {
-                let Sexam= response.data
+                let Sexam = response.data
                 setRecord({
                     user: {
                         id: ""
                     },
                     exam: {
-                        name:Sexam.name,
-                        time:Sexam.time,
-                        passScore:Sexam.passScore,
-                        category:Sexam.category,
-                        user:Sexam.user,
-                        questions:Sexam.questions.map((question)=>({
-                            level:question.level,
-                            name:question.name,
+                        name: Sexam.name,
+                        time: Sexam.time,
+                        passScore: Sexam.passScore,
+                        category: Sexam.category,
+                        user: Sexam.user,
+                        questions: Sexam.questions.map((question) => ({
+                            level: question.level,
+                            name: question.name,
                             questionType: question.questionType,
-                            options:question.options.map((option)=>({
-                                name:option.name,
-                                status:option.status
+                            options: question.options.map((option) => ({
+                                name: option.name,
+                                status: option.status
                             }))
                         }))
                     },
@@ -102,58 +102,71 @@ function DoExamForm(props) {
                     >
                         {
                             (formik) => {
-                                return (
-                                    <Form>
-                                        <div className={"row"}>
-                                            <div className={"col col-6"}>
-                                                <Clock
-                                                    formik={formik}
-                                                />
+                                if (formik.values.exam.questions[currentIndex])
+                                    return (
+                                        <Form>
+                                            <div className={"row"}>
+                                                <div className={"col col-6"}>
+                                                    <Clock
+                                                        formik={formik}
+                                                    />
+                                                </div>
+                                                <div className={"col col-6"} style={{textAlign: "right"}}>
+                                                    <AuthorAndLevel
+                                                        formik={formik}
+                                                        currentIndex={currentIndex}
+                                                    />
+                                                </div>
                                             </div>
-                                            <div className={"col col-6"} style={{textAlign: "right"}}>
-                                                <AuthorAndLevel
-                                                    formik={formik}
+                                            <div>
+                                                <Render1Question
                                                     currentIndex={currentIndex}
+                                                    formik={formik}
                                                 />
                                             </div>
-                                        </div>
-                                        <div>
-                                            <Render1Question
-                                                currentIndex={currentIndex}
+                                            <AdditionalInformation
                                                 formik={formik}
+                                                currentIndex={currentIndex}
+                                                setCurrentIndex={setCurrentIndex}
                                             />
-                                        </div>
-                                        <AdditionalInformation
-                                            formik={formik}
-                                            currentIndex={currentIndex}
-                                            setCurrentIndex={setCurrentIndex}
-                                        />
-                                        <div>
-                                            {currentIndex !== 0 &&
-                                                <button type="button"
-                                                        onClick={() => setCurrentIndex((cur) => --cur)}
-                                                        className="gradientBtn mt-4 animated wow fadeInUp">
-                                                    Câu hỏi trước
+                                            <div>
+                                                {currentIndex !== 0 &&
+                                                    <button type="button"
+                                                            onClick={() => setCurrentIndex((cur) => --cur)}
+                                                            className="gradientBtn mt-4 animated wow fadeInUp">
+                                                        Câu hỏi trước
+                                                    </button>
+                                                }
+                                                {
+                                                    currentIndex !== record.exam.questions.length - 1 &&
+                                                    <button type="button"
+                                                            onClick={() => setCurrentIndex((cur) => ++cur)}
+                                                            className="gradientBtn mt-4 animated wow fadeInUp">
+                                                        Câu hỏi tiếp theo
+                                                    </button>
+                                                }
+                                                {
+                                                    currentIndex === record.exam.questions.length - 1 &&
+                                                    <button type="submit"
+                                                            className="gradientBtn mt-4 animated wow fadeInUp">
+                                                        Nộp bài thi
+                                                    </button>
+                                                }
+                                            </div>
+                                        </Form>
+                                    )
+                                else
+                                    return (
+                                        <>
+                                            Bài thi này không có câu hỏi
+                                            <Link to="/doAQuiz">
+                                                <button type={"button"}
+                                                        className={"gradientBtn animated wow fadeInUp mt-4 mb-3"}>
+                                                    Trở lại
                                                 </button>
-                                            }
-                                            {
-                                                currentIndex !== record.exam.questions.length - 1 &&
-                                                <button type="button"
-                                                        onClick={() => setCurrentIndex((cur) => ++cur)}
-                                                        className="gradientBtn mt-4 animated wow fadeInUp">
-                                                    Câu hỏi tiếp theo
-                                                </button>
-                                            }
-                                            {
-                                                currentIndex === record.exam.questions.length - 1 &&
-                                                <button type="submit"
-                                                        className="gradientBtn mt-4 animated wow fadeInUp">
-                                                    Nộp bài thi
-                                                </button>
-                                            }
-                                        </div>
-                                    </Form>
-                                )
+                                            </Link>
+                                        </>
+                                    )
                             }
                         }
                     </Formik>
