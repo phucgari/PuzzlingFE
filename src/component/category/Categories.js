@@ -39,7 +39,6 @@ export default function Categories({ isQuizPage }) {
                                     </div>
                                 </div>
                             </Link>
-
                         </div>
                     ))
                 }

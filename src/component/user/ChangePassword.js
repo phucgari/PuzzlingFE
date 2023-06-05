@@ -54,7 +54,7 @@ export default function ChangePassword() {
                 </div>
                 <div className="modal-body">
                     <Formik initialValues={initialValues}
-                            onSubmit={handleChangePassword}
+                            onSubmit={(values) => handleChangePassword(values)}
                             validationSchema={validationSchema}>
                         <Form>
                             <center>
@@ -114,30 +114,45 @@ export default function ChangePassword() {
     </div>)
 
     function handleChangePassword(values) {
-        console.log(values)
-        axios.put("http://localhost:8080/puzzling/users/changePassword/" + JSON.parse(localStorage.getItem("id")), values,
-            {
-                auth:JSON.parse(localStorage.getItem('auth'))
+        Swal.fire({
+            title: 'Bạn có chắc chắn muốn đổi mật khẩu?',
+            showDenyButton: true,
+            confirmButtonText: 'Đồng ý',
+            icon: "warning",
+            denyButtonText: 'Thoát',
+            customClass: {
+                actions: 'my-actions',
+                cancelButton: 'order-1 right-gap',
+                confirmButton: 'order-2',
+                denyButton: 'order-3',
             }
-            )
-            .then(() => {
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axios.put("http://localhost:8080/puzzling/users/changePassword/" + JSON.parse(localStorage.getItem("id")), values,
+                    {
+                        auth:JSON.parse(localStorage.getItem('auth'))
+                    }
+                ).then((response)=>{
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Đổi mật khẩu thành công!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                        .then(r => r.isConfirmed)
+                        .then(()=>logout())
+                }).catch((err)=>navigate(`/${err.response.status}`))
+            } else if (result.isDenied) {
                 Swal.fire({
                     position: 'center',
-                    icon: 'success',
-                    title: 'Đổi mật khẩu thành công!',
-                    showConfirmButton: false,
-                    timer: 1500
-                }).then(r => r.isConfirmed).then(()=>logout())
-            })
-            .catch(() => {
-                Swal.fire({
-                    position: 'center',
-                    icon: 'error',
+                    icon: 'info',
                     title: 'Không thành công!',
                     showConfirmButton: false,
                     timer: 1500
-                }).then(r => r.isDenied)
-            })
+                }).then(r => r.isConfirmed)
+            }
+        })
     }
     function logout() {
         localStorage.removeItem('id');

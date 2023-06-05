@@ -82,9 +82,7 @@ function SearchAddQuestion(props) {
     return (
         <div className="container mt-5">
             <div className="modal-dialog modal-xl" role="document">
-                <div className="modal-content rounded-modal shadow p-4 border-0"
-                     style={{backgroundColor: "#bef6fd"}}
-                >
+                <div className="modal-content rounded-modal shadow p-4 border-0 bg-img">
                     <div className={"col col-4"}>
                         <button type="button"
                                 onClick={() => navigate(`/exam/edit/${id}`)}

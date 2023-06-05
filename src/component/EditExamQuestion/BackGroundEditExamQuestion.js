@@ -47,47 +47,45 @@ function BackGroundEditExamQuestion(props) {
 
         <div className="container">
             <div className="modal-dialog modal-xl" role="document">
-                <div className="modal-content rounded-modal shadow p-3 border-0"
-                     style={{marginTop: 6 + 'rem', backgroundColor: "#d5fdfd"}}>
-                    <div className="col-12 ">
-                        <div className="container">
-                            <h3 style={{display: "flex", justifyContent: "center", fontWeight: "bold"}}>Thêm nội dung
-                                câu hỏi</h3>
-                            <Formik initialValues={exam}
-                                    onSubmit={(values) => {
-                                        console.log(values)
-                                        axios.put(`http://localhost:8080/puzzling/exam/update?examId=${id}`, values,
-                                            {
-                                                auth:JSON.parse(localStorage.getItem('auth'))
-                                            }
-                                            )
-                                            .then(() => {
-                                                Swal.fire({
-                                                    position: 'center',
-                                                    icon: 'success',
-                                                    title: 'Lưu bài thi thành công!',
-                                                    showConfirmButton: false,
-                                                    timer: 1500
-                                                }).then(r => r.isConfirmed)
-                                                navigate('/categories');
-                                            })
-                                            .catch((error) => {
-                                                console.log(error)
-                                                navigate(`/${error.response.status}`)
-                                            });
-                                    }}
-                                    enableReinitialize={true}
-                                    validationSchema={validationExam}
-                            >
-                                {({values, isValid}) => <RenderPagingQuestion
-                                    values={values}
-                                    isValid={isValid}
-                                    setExam={setExam}
+                <div className="modal-content rounded-modal shadow p-3 border-0 bg-img">
+                    <div className="col-12">
+                        <h3 style={{display: "flex", justifyContent: "center", fontWeight: "bold"}}>
+                            Thêm nội dung câu hỏi
+                        </h3>
+                        <Formik initialValues={exam}
+                                onSubmit={(values) => {
+                                    console.log(values)
+                                    axios.put(`http://localhost:8080/puzzling/exam/update?examId=${id}`, values,
+                                        {
+                                            auth: JSON.parse(localStorage.getItem('auth'))
+                                        }
+                                    )
+                                        .then(() => {
+                                            Swal.fire({
+                                                position: 'center',
+                                                icon: 'success',
+                                                title: 'Lưu bài thi thành công!',
+                                                showConfirmButton: false,
+                                                timer: 1500
+                                            }).then(r => r.isConfirmed)
+                                            navigate(`/category/${values.category.id}`);
+                                        })
+                                        .catch((error) => {
+                                            console.log(error)
+                                            navigate(`/${error.response.status}`)
+                                        });
+                                }}
+                                enableReinitialize={true}
+                                validationSchema={validationExam}
+                        >
+                            {({values, isValid}) => <RenderPagingQuestion
+                                values={values}
+                                isValid={isValid}
+                                setExam={setExam}
 
-                                />
-                                }
-                            </Formik>
-                        </div>
+                            />
+                            }
+                        </Formik>
                     </div>
                 </div>
             </div>

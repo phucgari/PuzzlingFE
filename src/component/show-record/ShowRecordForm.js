@@ -40,7 +40,7 @@ function ShowRecordForm(props) {
                 check1={() => checkHistory()}
             />
             {showDetailRecord &&
-                <div className={"modal-content rounded-modal shadow p-4 border-0"} style={{backgroundColor: "#bef6fd"}}>
+                <div className={"modal-content rounded-modal shadow p-4 border-0 bg-img"}>
                     <h3 style={{display: "flex", justifyContent: "center", fontWeight: "bold"}}>Chi tiết đáp án</h3>
                     {
                         record.recordDetail.map((recordDetailElement) =>
