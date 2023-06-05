@@ -20,8 +20,17 @@ export default function FormExamOfCategory() {
     const indexOfFirstElement = indexOfLastElement - ElementPerPage;
     const currentElements = exam.slice(indexOfFirstElement, indexOfLastElement);
     const paginate = pageNumber => setCurrentPage(pageNumber);
-
+    console.log(categoriesId)
     useEffect(() => {
+        if(isQuizPage) {
+            axios.get(`http://localhost:8080/puzzling/exam/searchExamsByCategory?categoriesId=${categoriesId}`)
+                .then((response)=>{
+                    setExam(response.data)
+                })
+                .catch((error) => {
+                    navigate(`/${error.response.status}`)
+                })
+        }else{
             axios.get(`http://localhost:8080/puzzling/exam/searchExamsByCategoryAndUser?categoriesId=${categoriesId}&userId=${JSON.parse(localStorage.getItem("id"))}`)
                 .then((response) => {
                     setExam(response.data)
@@ -29,6 +38,7 @@ export default function FormExamOfCategory() {
                 .catch((error) => {
                     navigate(`/${error.response.status}`)
                 })
+        }
             axios.get(`http://localhost:8080/puzzling/categories/${categoriesId}`)
                 .then((response) => {
                     setCategory(response.data)

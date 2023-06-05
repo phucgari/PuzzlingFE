@@ -1,7 +1,7 @@
-import React from 'react';
-import {Link} from "react-router-dom";
-
+import React, {useState} from 'react';
+import {Link, useNavigate, useParams} from "react-router-dom";
 function RecordSumary(props) {
+    const navigate = useNavigate();
     const {record} = props
     let percentPoint = Math.round(record.userPoint / record.examPoint * 100)
     let pass = percentPoint >= record.exam.passScore
@@ -76,8 +76,8 @@ function RecordSumary(props) {
                 </div>
 
                 <div className={"col col-6 mt-4"}>
-                    <button onClick={() => props.check1()} style={{marginLeft:280}} type="button" className="gradientBtn animated wow fadeInUpy">
-                        Lịch sử
+                    <button onClick={()=> navigate("/exam/leaderBoard/"+record.exam.id)} style={{marginLeft:240}} type="button" className="gradientBtn animated wow fadeInUpy">
+                        LeaderBoard
                     </button>
                 </div>
             </div>

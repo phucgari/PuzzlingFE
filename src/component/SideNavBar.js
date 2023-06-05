@@ -65,7 +65,7 @@ function SideNavBar() {
                 <Link to={"#"} className="closebtn " onClick={closeNav}>
                     <i className="fa fa-arrow-left" style={{marginRight: 10, fontSize: 25}}/>
                 </Link>
-                {id != null &&
+                {id &&
                     <Link to="/profile" className="" onClick={closeNav}>
                         <img
                             src={account.user.avatar}
@@ -74,17 +74,17 @@ function SideNavBar() {
                     </Link>
                 }
                 {
-                    id != null &&
+                    id &&
                     (
                         <Link to="" className="text-white text-left">
-                            <small><p>{account.username}</p></small>
+                            <small><p>Hello {account.user.name}</p></small>
                         </Link>
                     )
                 }
-                <Link to="/categories" onClick={closeNav}>
+                {id &&(<Link to="/categories" onClick={closeNav}>
                     <i className="fa fa-th-large text-white mr-3"/>
                     Quản lý bài thi
-                </Link>
+                </Link>)}
                 <Link to="/doAQuiz" onClick={closeNav}>
                     <i className="fa fa-question text-white mr-3"/>
                     Giải câu đố
@@ -93,10 +93,10 @@ function SideNavBar() {
                     <i className="fa fa-random text-white mr-3"/>
                     Giải đố ngẫu nhiên
                 </Link>
-                <Link to="/score-history" onClick={closeNav}>
+                {id&&(<Link to="/history" onClick={closeNav}>
                     <i className="fa fa-history text-white mr-3"/>
                     Lịch sử thi
-                </Link>
+                </Link>)}
                 {
                     id != null && (
                         <Link to={"/profile"} onClick={closeNav}>
@@ -478,7 +478,8 @@ function SideNavBar() {
         </div>
     );
 
-    function signup(values) {
+    function signup(values,action) {
+        console.log(values)
         // alert("ok")
         axios.post('http://localhost:8080/puzzling/register', values).then(() => {
             closeSignUp()
@@ -500,6 +501,7 @@ function SideNavBar() {
                     timer: 1500
                 }).then(r => r.isDenied)
             })
+        action.resetForm()
     }
 
     function login(values) {

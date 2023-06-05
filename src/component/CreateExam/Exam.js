@@ -5,7 +5,7 @@ import {Link, useNavigate} from "react-router-dom";
 export default function Exam() {
     const [exam, setExam] = useState({});
     const navigate = useNavigate();
-
+    const[change,setChange]=useState(true)
     useEffect(() => {
             axios.get(`http://localhost:8080/puzzling/exam/randomExam`)
                 .then((response) => {
@@ -14,7 +14,7 @@ export default function Exam() {
                 .catch((error) => {
                     console.log("error");
                 })
-        }, []
+        }, [change]
     )
     return (
         <div className="modal-dialog modal-lg" role="document">
@@ -64,8 +64,13 @@ export default function Exam() {
                                 </div>
                             }
                         </div>
+<<<<<<< HEAD
                         <button type="button" onClick={examRandom} className="gradientBtn w-50 animated wow fadeInUp">
                             Tạo ngẫu nhiên
+=======
+                        <button type="button" onClick={()=>setChange((prevState)=>!prevState)} className="gradientBtn w-50 animated wow fadeInUp">
+                              Tạo ngẫu nhiên
+>>>>>>> b56b3aadccbe29d50fd23cfdd6ae847764e9275f
                         </button>
                     </div>
                 </div>
@@ -74,8 +79,12 @@ export default function Exam() {
             </div>
         </div>
     );
+<<<<<<< HEAD
 }
 function examRandom()
 {
     window.location.reload();
 }
+=======
+}
+>>>>>>> b56b3aadccbe29d50fd23cfdd6ae847764e9275f
