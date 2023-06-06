@@ -3,13 +3,14 @@ import axios from "axios";
 import {Link, useNavigate, useParams} from "react-router-dom";
 
 function LeaderBoard(props) {
-    const{name,user,id}=props
+    const{name,account,id}=props
     const {examId} = useParams();
     const [leaderBoard, setLeaderBoard] = useState([])
     const navigate = useNavigate();
+    console.log(leaderBoard)
     useEffect(() => {
-        if(name&&user){
-            axios.get(`http://localhost:8080/puzzling/record/leaderboard/owner?name=${name}&user=${user}`)
+        if(name&&account){
+            axios.get(`http://localhost:8080/puzzling/record/leaderboard/owner?name=${name}&account=${account}`)
                 .then((response) => {
                     setLeaderBoard(response.data)
                 })
@@ -29,10 +30,8 @@ function LeaderBoard(props) {
     return (
         <div className={"container"}>
             <div className="modal-dialog modal-xl" role="document">
-                <div className="modal-content rounded-modal shadow p-4 border-0"
-                     style={{backgroundColor: "#bef6fd"}}
-                >
-                    {name&&user&&
+                <div className="modal-content rounded-modal shadow p-4 border-0 bg-img">
+                    {name&&account&&
                         <div style={{display: "flex", justifyContent: "right"}} className="container">
                             <button className={"gradientBtn animated wow fadeInUp"} type={'button'}
                                     onClick={() => navigate(`/exam/edit/${id}`)}>Trở lại</button>
@@ -57,7 +56,7 @@ function LeaderBoard(props) {
                                                     <h6 className="text-dark">{item.username}</h6>
                                                 </td>
                                                 <td className={"col-3"}>
-                                                    <h5 className="color-purple"><b>{item.score}</b></h5>
+                                                    <h5 className="color-purple"><b>{Math.floor(item.score)}</b></h5>
                                                 </td>
                                                 <td className={"col-3"}>
                                                     <h5><Link to={`/record/+${item.recordId}`}><img src="/images/leaderboard/trophy.png"/></Link>

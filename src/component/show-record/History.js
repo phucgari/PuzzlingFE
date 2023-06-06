@@ -25,7 +25,7 @@ import Pagination from "../searchAddQuestion/Pagination";
                 .catch((error) => {
                     console.log(error.message)
                 })
-        }, [id]
+        }, []
     )
     return (
         <div className="modal-dialog modal-lg" role="document">
@@ -66,7 +66,7 @@ import Pagination from "../searchAddQuestion/Pagination";
                                                 <h5>Tên bài thi: {record.exam.name}</h5>
                                                 Thời gian ghi nhận: {record.time}
                                                 <br/>
-                                                Điểm của bạn: {record.userPoint}%
+                                                Điểm của bạn: {Math.round(record.userPoint / record.examPoint * 100)}%
                                                 <br/>
                                                 Người tạo: {record.user.name}
                                                 <br/>

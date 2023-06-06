@@ -7,7 +7,6 @@ import { useParams } from 'react-router-dom';
 export default function FormExamOfCategory() {
     const isQuizPage = JSON.parse(localStorage.getItem("isQuizPage"));
     const { categoriesId } =useParams();
-    const id = JSON.parse(localStorage.getItem("id"));
     const [exam, setExam] = useState([]);
     const [category,setCategory] = useState({
         name:"",
@@ -31,7 +30,7 @@ export default function FormExamOfCategory() {
                     navigate(`/${error.response.status}`)
                 })
         }else{
-            axios.get(`http://localhost:8080/puzzling/exam/searchExamsByCategoryAndUser?categoriesId=${categoriesId}&userId=${JSON.parse(localStorage.getItem("id"))}`)
+            axios.get(`http://localhost:8080/puzzling/exam/searchExamsByCategoryAndUser?categoriesId=${categoriesId}&account=${JSON.parse(localStorage.getItem("id"))}`)
                 .then((response) => {
                     setExam(response.data)
                 })
@@ -46,7 +45,7 @@ export default function FormExamOfCategory() {
                 .catch((error) => {
                     navigate(`/${error.response.status}`)
                 })
-        }, [categoriesId, id]
+        }, [categoriesId]
     )
     return (
         <div className="modal-dialog modal-lg" role="document">

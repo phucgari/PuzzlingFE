@@ -60,7 +60,7 @@ export default function ChangePassword() {
                             <center>
                                 <span style={{color: "red", fontSize: 14}}><ErrorMessage name={"oldPassword"}/></span>
                                 <div className="form-group input-group w-75 animated wow fadeInDown delay-0-1s">
-                                    <Field type="text" name={"oldPassword"}
+                                    <Field type="password" name={"oldPassword"}
                                            className="form-control textfield-rounded shadow-sm p-3 mb-3 zIndex-1"
                                            id="oldPassword" placeholder="Mật khẩu cũ..."/>
                                     <div className="input-group-append z-Index-2">

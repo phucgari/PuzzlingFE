@@ -10,12 +10,11 @@ import Swal from "sweetalert2";
 
 export default function Profile() {
     const navigate = useNavigate();
-    const id = JSON.parse(localStorage.getItem("id"));
     const [user, setUser] = useState({})
     const [imgUrl, setImgUrl] = useState(null);
+    const id = JSON.parse(localStorage.getItem("id"));
     const [progressPercent, setProgressPercent] = useState(0);
     const initialValues = {
-        id : JSON.parse(localStorage.getItem("id")),
         avatar: imgUrl || user.avatar,
         name: user.name || "",
         email: user.email || "",
@@ -69,7 +68,7 @@ export default function Profile() {
             .catch((response) => {
                 navigate(`/${response.response.status}`)
             });
-    }, [id]);
+    }, []);
 
     return (
         <div className="container">

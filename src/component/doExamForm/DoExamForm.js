@@ -12,9 +12,8 @@ function DoExamForm(props) {
     const navigate = useNavigate();
 
     function submitRecord(values) {
-        values.user.id = JSON.parse(localStorage.getItem("id"))
         console.log(values)
-        axios.post(`http://localhost:8080/puzzling/record/createExamResult`, values)
+        axios.post(`http://localhost:8080/puzzling/record/createExamResult/${JSON.parse(localStorage.getItem("id"))}`, values)
             .then((response) => {
                 navigate(`/record/` + response.data.id)
             })

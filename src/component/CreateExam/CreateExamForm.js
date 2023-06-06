@@ -12,16 +12,12 @@ function CreateExamForm() {
         category: {
             id: ""
         },
-
-        user: {
-            id: JSON.parse(localStorage.getItem('id'))
-        }
     })
 
     const validationSchema = Yup.object().shape({
         name: Yup.string().required("Vui lòng nhập tên bài thi!")
             .test("name", "Bạn đã có bài thi này", async function (examName) {
-                return axios.get(`http://localhost:8080/puzzling/exam/check/${examName}?user=${JSON.parse(localStorage.getItem('id'))}`)
+                return axios.get(`http://localhost:8080/puzzling/exam/check/${examName}?account=${JSON.parse(localStorage.getItem('id'))}`)
                     .then((response) => {
                         return response.data === "OK";
                     })
@@ -39,8 +35,6 @@ function CreateExamForm() {
             .max(100, "Điểm tối đa để qua bài thi là 100%!"),
         time: Yup.number().required("Vui lòng nhập thời gian làm bài thi!")
             .min(1, "Thời gian làm bài phải hợp lệ!"),
-        user: Yup.object().required()
-
     })
     const [categories, setCategories] = React.useState([])
     React.useEffect(() => {
@@ -56,7 +50,7 @@ function CreateExamForm() {
                         initialValues={exam}
                         validationSchema={validationSchema}
                         onSubmit={(values) => {
-                            axios.post(`http://localhost:8080/puzzling/exam/create`, values)
+                            axios.post(`http://localhost:8080/puzzling/exam/create?account=${JSON.parse(localStorage.getItem('id'))}`, values)
                                 .then((response) => {
                                     navigate(`/exam/edit/${response.data.id}`);
                                 })

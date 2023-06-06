@@ -75,7 +75,7 @@ function EditExamQuestionForm() {
                     <Route path={`/leaderboard`} element={
                         <LeaderBoard
                             name={exam.name}
-                            user={localStorage.getItem('id')}
+                            account={localStorage.getItem('id')}
                             id={exam.id}
                         />
                     }/>
