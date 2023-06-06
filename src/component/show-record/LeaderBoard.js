@@ -1,13 +1,23 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
-import {Link, useParams} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 
-function LeaderBoard() {
+function LeaderBoard(props) {
+    const{name,user,id}=props
     const {examId} = useParams();
     const [leaderBoard, setLeaderBoard] = useState([])
-    console.log(leaderBoard)
+    const navigate = useNavigate();
     useEffect(() => {
-            axios.get("http://localhost:8080/puzzling/record/leaderboard/" + examId)
+        if(name&&user){
+            axios.get(`http://localhost:8080/puzzling/record/leaderboard/owner?name=${name}&user=${user}`)
+                .then((response) => {
+                    setLeaderBoard(response.data)
+                })
+                .catch((error) => {
+                    console.log(error.message)
+                })
+        }
+        else axios.get("http://localhost:8080/puzzling/record/leaderboard/" + examId)
                 .then((response) => {
                     setLeaderBoard(response.data)
                 })
@@ -22,6 +32,12 @@ function LeaderBoard() {
                 <div className="modal-content rounded-modal shadow p-4 border-0"
                      style={{backgroundColor: "#bef6fd"}}
                 >
+                    {name&&user&&
+                        <div style={{display: "flex", justifyContent: "right"}} className="container">
+                            <button className={"gradientBtn animated wow fadeInUp"} type={'button'}
+                                    onClick={() => navigate(`/exam/edit/${id}`)}>Trở lại</button>
+                        </div>
+                    }
                     <div className={"mt-4 mb-3"} style={{textAlign:"center",fontWeight: "bold"}}>
                     <h1>Bảng Xếp Hạng</h1>
                     </div>

@@ -4,9 +4,12 @@ import BackGroundEditExamQuestion from "./BackGroundEditExamQuestion";
 import {Route, Routes, useNavigate, useParams} from "react-router-dom";
 import SearchAddQuestion from "../searchAddQuestion/SearchAddQuestion";
 import axios from "axios";
+import LeaderBoard from "../show-record/LeaderBoard";
 
 function EditExamQuestionForm() {
     const [exam, setExam] = React.useState({
+        id:"",
+        name:"",
         category: {
             name: ""
         },
@@ -38,6 +41,11 @@ function EditExamQuestionForm() {
                 <button className={"gradientBtn animated wow fadeInUp"} type={'button'}
                         onClick={() => navigator.clipboard.writeText("http://localhost:3000/exam/do/" + exam.id)}>Copy &#10004;</button>
             </div>
+            <br/>
+            <div style={{display: "flex", justifyContent: "right"}} className="container">
+                <button className={"gradientBtn animated wow fadeInUp"} type={'button'}
+                        onClick={() => navigate(`/exam/edit/${exam.id}/leaderboard`)}>LeaderBoard</button>
+            </div>
             <div className="modal-dialog modal-xl" role="document">
                 <Routes>
                     <Route path={`/`} element={
@@ -62,6 +70,13 @@ function EditExamQuestionForm() {
                         <SearchAddQuestion
                             exam={exam}
                             setExam={setExam}
+                        />
+                    }/>
+                    <Route path={`/leaderboard`} element={
+                        <LeaderBoard
+                            name={exam.name}
+                            user={localStorage.getItem('id')}
+                            id={exam.id}
                         />
                     }/>
                 </Routes>
