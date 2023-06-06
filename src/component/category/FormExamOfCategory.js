@@ -118,7 +118,6 @@ export default function FormExamOfCategory() {
                     </div>
                 </div>
                 <br/>
-                {!isQuizPage && (
                     <div style={{display: "flex", justifyContent: "center"}}>
                     <Pagination
                         elementPerPage={ElementPerPage}
@@ -128,7 +127,6 @@ export default function FormExamOfCategory() {
                     />
                     </div>
                     )
-                }
                 <br/>
             </div>
         </div>
