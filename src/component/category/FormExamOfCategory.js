@@ -5,9 +5,13 @@ import Pagination from "../searchAddQuestion/Pagination";
 import { useParams } from 'react-router-dom';
 
 export default function FormExamOfCategory() {
+    const isQuizPage = JSON.parse(localStorage.getItem("isQuizPage"));
     const { categoriesId } =useParams();
-    const id = JSON.parse(localStorage.getItem("id"));
     const [exam, setExam] = useState([]);
+    const [category,setCategory] = useState({
+        name:"",
+        picture:""
+    })
     const navigate = useNavigate();
     const [currentPage, setCurrentPage] = useState(1);
     const [ElementPerPage] = useState(6)
@@ -15,35 +19,52 @@ export default function FormExamOfCategory() {
     const indexOfFirstElement = indexOfLastElement - ElementPerPage;
     const currentElements = exam.slice(indexOfFirstElement, indexOfLastElement);
     const paginate = pageNumber => setCurrentPage(pageNumber);
-
+    console.log(categoriesId)
     useEffect(() => {
-            axios.get(`http://localhost:8080/puzzling/exam/searchExamsByCategoryAndUser?categoriesId=${categoriesId}&userId=${JSON.parse(localStorage.getItem("id"))}`)
+        if(isQuizPage) {
+            axios.get(`http://localhost:8080/puzzling/exam/searchExamsByCategory?categoriesId=${categoriesId}`)
+                .then((response)=>{
+                    setExam(response.data)
+                })
+                .catch((error) => {
+                    navigate(`/${error.response.status}`)
+                })
+        }else{
+            axios.get(`http://localhost:8080/puzzling/exam/searchExamsByCategoryAndUser?categoriesId=${categoriesId}&account=${JSON.parse(localStorage.getItem("id"))}`)
                 .then((response) => {
                     setExam(response.data)
                 })
                 .catch((error) => {
                     navigate(`/${error.response.status}`)
                 })
-        }, [categoriesId, id]
+        }
+            axios.get(`http://localhost:8080/puzzling/categories/${categoriesId}`)
+                .then((response) => {
+                    setCategory(response.data)
+                })
+                .catch((error) => {
+                    navigate(`/${error.response.status}`)
+                })
+        }, [categoriesId]
     )
     return (
         <div className="modal-dialog modal-lg" role="document">
-            <div className="modal-content rounded-modal shadow p-4 border-0"
-                 style={{backgroundColor: "#bef6fd"}}>
+            <div className="modal-content rounded-modal shadow p-4 border-0 bg-img">
                 <div
                     className={'row'}
                 >
                     <div className={'col-lg-11'} style={{textAlign: "center"}}>
                         <h2 style={{fontWeight: "bold", fontSize: 45}}>
-                            Danh sách bài thi của bạn
+                            Bài thi chủ đề {category.name} của bạn
                             <br/>
-                            <small className="text-muted" style={{fontSize: 20}}>Thêm câu hỏi cho bài thi</small>
                         </h2></div>
-                    <div className=" text-center col-lg-1" style={{float: "right", paddingRight: "50px"}}>
-                        <Link to={"/exam/create"}>
-                            <i className={"fa fa-plus-circle"} style={{fontSize: 60}}></i>
-                        </Link>
-                    </div>
+                    {!isQuizPage && (
+                        <div className=" text-center col-lg-1" style={{float: "right", paddingRight: "50px"}}>
+                            <Link to={"/exam/create"}>
+                                <i className={"fa fa-plus-circle"} style={{fontSize: 60}}></i>
+                            </Link>
+                        </div>
+                    )}
                 </div>
                 <div>
                 </div>
@@ -58,19 +79,37 @@ export default function FormExamOfCategory() {
                                          style={{display: "flex", justifyContent: "center"}}
                                          key={item.id}
                                     >
-                                        <button className={"btn btn-outline-dark"} style={{width: "300px"}}
-                                                onClick={() => navigate("/exam/edit/" + item.id)}>
-                                            <h4 style={{fontWeight: "bold"}}> Bài thi số: {item.id}</h4>
-                                            <hr/>
-                                            <div>
-                                                <h5>Tên bài thi: {item.name}</h5>
-                                                Thời gian làm bài: {item.time} phút
-                                                <br/>
-                                                Điểm tối thiểu: {item.passScore}%
-                                                <br/>
-                                                Người tạo: {item.user.name}
-                                            </div>
-                                        </button>
+                                        {!isQuizPage ? (
+                                            <button className={"btn btn-outline-dark"} style={{width: "300px"}}
+                                                    onClick={() => navigate("/exam/edit/" + item.id)}>
+                                                <h4 style={{fontWeight: "bold"}}> Bài thi số: {item.id}</h4>
+                                                <hr/>
+                                                <div>
+                                                    <h5>Tên bài thi: {item.name}</h5>
+                                                    Thời gian làm bài: {item.time} phút
+                                                    <br/>
+                                                    Điểm tối thiểu: {item.passScore}%
+                                                    <br/>
+                                                    Người tạo: {item.user.name}
+
+                                                </div>
+                                            </button>
+                                        ):
+                                            (
+                                                <button className={"btn btn-outline-dark"} style={{width: "300px"}}
+                                                        onClick={() => navigate("/exam/do/" + item.id)}>
+                                                    <h4 style={{fontWeight: "bold"}}> Bài thi số: {item.id}</h4>
+                                                    <hr/>
+                                                    <div>
+                                                        <h5>Tên bài thi: {item.name}</h5>
+                                                        Thời gian làm bài: {item.time} phút
+                                                        <br/>
+                                                        Điểm tối thiểu: {item.passScore}%
+                                                        <br/>
+                                                    </div>
+                                                </button>
+                                            )}
+
                                     </div>
                                 ))
                             }
@@ -78,14 +117,15 @@ export default function FormExamOfCategory() {
                     </div>
                 </div>
                 <br/>
-                <div style={{display: "flex", justifyContent: "center"}}>
+                    <div style={{display: "flex", justifyContent: "center"}}>
                     <Pagination
                         elementPerPage={ElementPerPage}
                         totalElements={exam.length}
                         paginate={paginate}
                         currentPage={currentPage}
                     />
-                </div>
+                    </div>
+                    )
                 <br/>
             </div>
         </div>

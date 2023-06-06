@@ -10,9 +10,9 @@ import Swal from "sweetalert2";
 
 export default function Profile() {
     const navigate = useNavigate();
-    const id = JSON.parse(localStorage.getItem("id"));
     const [user, setUser] = useState({})
     const [imgUrl, setImgUrl] = useState(null);
+    const id = JSON.parse(localStorage.getItem("id"));
     const [progressPercent, setProgressPercent] = useState(0);
     const initialValues = {
         avatar: imgUrl || user.avatar,
@@ -23,18 +23,34 @@ export default function Profile() {
     }
 
     const validationSchema = Yup.object().shape({
-        name: Yup.string().required("Không được để trống!"),
+        name: Yup.string(),
         email: Yup.string().required("Không được để trống!")
-            .test("email", "Không được trùng với email cũ", async function (email) {
-                return axios.get(`http://localhost:8080/puzzling/users/check/${id}?email=` + email)
-                    .then(() => true)
-                    .catch(() => false)
+            .test("email", "Không được trùng với email của người khác", async function (email) {
+                return axios.get(`http://localhost:8080/puzzling/users/checkEmail/${id}?email=` + email,
+                    {
+                        auth:JSON.parse(localStorage.getItem('auth'))
+                    }
+                    )
+                    .then((response) => {
+                        return response.data === "OK";
+                    })
+                    .catch((response) => {
+                        navigate(`/${response.response.status}`)
+                    });
             }),
-        phone: Yup.string().required("Không được để trống!")
-            .test("phone", "Không được trùng với số điện thoại cũ", async function (phone) {
-                return axios.get(`http://localhost:8080/puzzling/users/check/${id}?email=` + phone)
-                    .then(() => true)
-                    .catch(() => false)
+        phone: Yup.string()
+            .test("phone", "Không được trùng với số điện thoại của người khác", async function (phone) {
+                return axios.get(`http://localhost:8080/puzzling/users/checkPhone/${id}?phone=` + phone,
+                    {
+                        auth:JSON.parse(localStorage.getItem('auth'))
+                    }
+                    )
+                    .then((response) => {
+                        return response.data === "OK";
+                    })
+                    .catch((response) => {
+                        navigate(`/${response.response.status}`)
+                    });
             }),
     })
 
@@ -46,12 +62,13 @@ export default function Profile() {
                 }
                 )
             .then((response) => {
+                setImgUrl(response.data.avatar)
                 setUser(response.data);
             })
             .catch((response) => {
                 navigate(`/${response.response.status}`)
             });
-    }, [id]);
+    }, []);
 
     return (
         <div className="container">
@@ -59,33 +76,7 @@ export default function Profile() {
                 <div className="modal-content rounded-modal shadow p-3 border-0" style={{marginTop: 6 + 'rem'}}>
                     <Formik
                         initialValues={initialValues}
-                        onSubmit={(values) => {
-                            values.avatar = imgUrl;
-                            axios.put(`http://localhost:8080/puzzling/users/${id}`, values,
-                                {
-                                    auth:JSON.parse(localStorage.getItem('auth'))
-                                }
-                                )
-                                .then(() => {
-                                    Swal.fire({
-                                        position: 'center',
-                                        icon: 'success',
-                                        title: 'Đổi thông tin thành công!',
-                                        showConfirmButton: false,
-                                        timer: 1500
-                                    }).then(r => r.isConfirmed)
-                                })
-                                .catch((response) => {
-                                    Swal.fire({
-                                        position: 'center',
-                                        icon: 'error',
-                                        title: 'Không thành công!',
-                                        showConfirmButton: false,
-                                        timer: 1500
-                                    }).then(r => r.isConfirmed)
-                                        .then(()=>navigate(`/${response.response.status}`))
-                                })
-                        }}
+                        onSubmit={(values) => handleChangeProfile(values)}
                         validationSchema={validationSchema}
                         enableReinitialize={true}
                     >
@@ -180,6 +171,50 @@ export default function Profile() {
             <ChangePassword/>
         </div>
     )
+
+    function handleChangeProfile(values){
+        Swal.fire({
+            title: 'Bạn muốn thay đổi thông tin?',
+            showDenyButton: true,
+            confirmButtonText: 'Đồng ý',
+            icon: "warning",
+            denyButtonText: 'Thoát',
+            customClass: {
+                actions: 'my-actions',
+                cancelButton: 'order-1 right-gap',
+                confirmButton: 'order-2',
+                denyButton: 'order-3',
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                if (values.avatar)
+                    values.avatar = imgUrl;
+                axios.put(`http://localhost:8080/puzzling/users/${id}`, values,
+                    {
+                        auth:JSON.parse(localStorage.getItem('auth'))
+                    }
+                ).then((response)=>{
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Đổi thông tin thành công!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(r => r.isConfirmed).then(
+                        () => navigate("/")
+                    ).then (() => window.location.reload())
+                }).catch((err)=>navigate(`/${err.response.status}`))
+            } else if (result.isDenied) {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'info',
+                    title: 'Không thành công!',
+                    showConfirmButton: false,
+                    timer: 1500
+                }).then(r => r.isConfirmed)
+            }
+        })
+    }
 
     function uploadAvatar(event) {
         const file = event.target.files[0]

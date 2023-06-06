@@ -1,10 +1,11 @@
 import {ErrorMessage, Field, Form, Formik} from "formik";
-import {useEffect, useState} from "react";
 import axios from "axios";
 import * as Yup from "yup";
 import Swal from "sweetalert2";
+import {useNavigate} from "react-router-dom";
 
 export default function ChangePassword() {
+    const navigate = useNavigate();
     const id = JSON.parse(localStorage.getItem("id"));
     const initialValues = {
         oldPassword: "", newPassword: "", confirmPassword: ""
@@ -18,8 +19,12 @@ export default function ChangePassword() {
                         auth:JSON.parse(localStorage.getItem('auth'))
                     }
                     )
-                    .then(() => true)
-                    .catch(() => false)
+                    .then((response) => {
+                        return response.data === "OK";
+                    })
+                    .catch((response) => {
+                        navigate(`/${response.response.status}`)
+                    });
             }),
         newPassword: Yup.string().required("Không được để trống!")
             .min(6, "Tối thiểu là 6 ký tự!")
@@ -49,13 +54,13 @@ export default function ChangePassword() {
                 </div>
                 <div className="modal-body">
                     <Formik initialValues={initialValues}
-                            onSubmit={handleChangePassword}
+                            onSubmit={(values) => handleChangePassword(values)}
                             validationSchema={validationSchema}>
                         <Form>
                             <center>
                                 <span style={{color: "red", fontSize: 14}}><ErrorMessage name={"oldPassword"}/></span>
                                 <div className="form-group input-group w-75 animated wow fadeInDown delay-0-1s">
-                                    <Field type="text" name={"oldPassword"}
+                                    <Field type="password" name={"oldPassword"}
                                            className="form-control textfield-rounded shadow-sm p-3 mb-3 zIndex-1"
                                            id="oldPassword" placeholder="Mật khẩu cũ..."/>
                                     <div className="input-group-append z-Index-2">
@@ -75,7 +80,7 @@ export default function ChangePassword() {
                                             <i className="fa fa-key ml-n4-2 text-white"></i>
                                         </span>
                                     </div>
-                                    <Field type="text" name={"newPassword"}
+                                    <Field type="password" name={"newPassword"}
                                            className="form-control textfield-rounded shadow-sm p-3 mb-3 zIndex-1"
                                            id="newPassword" placeholder="Mật khẩu mới..."/>
                                 </div>
@@ -90,7 +95,7 @@ export default function ChangePassword() {
                                             <i className="fa fa-key ml-n4-2 text-white"></i>
                                         </span>
                                     </div>
-                                    <Field type="text" name={"confirmPassword"}
+                                    <Field type="password" name={"confirmPassword"}
                                            className="form-control textfield-rounded shadow-sm p-3 mb-4 zIndex-1"
                                            id="confirmPassword" placeholder="Xác nhận mật khẩu..."/>
                                 </div>
@@ -109,29 +114,51 @@ export default function ChangePassword() {
     </div>)
 
     function handleChangePassword(values) {
-        console.log(values)
-        axios.put("http://localhost:8080/puzzling/users/changePassword/" + JSON.parse(localStorage.getItem("id")), values,
-            {
-                auth:JSON.parse(localStorage.getItem('auth'))
+        Swal.fire({
+            title: 'Bạn có chắc chắn muốn đổi mật khẩu?',
+            showDenyButton: true,
+            confirmButtonText: 'Đồng ý',
+            icon: "warning",
+            denyButtonText: 'Thoát',
+            customClass: {
+                actions: 'my-actions',
+                cancelButton: 'order-1 right-gap',
+                confirmButton: 'order-2',
+                denyButton: 'order-3',
             }
-            )
-            .then(() => {
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axios.put("http://localhost:8080/puzzling/users/changePassword/" + JSON.parse(localStorage.getItem("id")), values,
+                    {
+                        auth:JSON.parse(localStorage.getItem('auth'))
+                    }
+                ).then((response)=>{
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Đổi mật khẩu thành công!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                        .then(r => r.isConfirmed)
+                        .then(()=>logout())
+                }).catch((err)=>navigate(`/${err.response.status}`))
+            } else if (result.isDenied) {
                 Swal.fire({
                     position: 'center',
-                    icon: 'success',
-                    title: 'Đổi mật khẩu thành công!',
-                    showConfirmButton: false,
-                    timer: 1500
-                }).then(r => r.isConfirmed)
-            })
-            .catch(() => {
-                Swal.fire({
-                    position: 'center',
-                    icon: 'error',
+                    icon: 'info',
                     title: 'Không thành công!',
                     showConfirmButton: false,
                     timer: 1500
-                }).then(r => r.isDenied)
-            })
+                }).then(r => r.isConfirmed)
+            }
+        })
+    }
+    function logout() {
+        localStorage.removeItem('id');
+        localStorage.removeItem('auth')
+        document.getElementById("mySidenav").style.cssText = "width:0; border:none; box-shadow: none;";
+        navigate("/")
+        window.location.reload()
     }
 }

@@ -1,29 +1,24 @@
 import React from 'react';
-import {useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
 
-function HomePage(props) {
-    const navigate = useNavigate();
+function HomePage() {
     return (
         <div>
             <div className="container-fluid mt-5 mb-5">
                 <div className="row">
                     <div className="col-lg-1"/>
-                    <div className="col-lg-5" style={{marginLeft: 45}}>
-                        <h1 className="color-blue mt-5 animated wow fadeInDown delay-0-1s"
+                    <div className="col-lg-5" style={{marginLeft: 45, marginTop: 45}}>
+                        <h1 className="color-purple mt-5 animated wow fadeInDown delay-0-1s"
                         >
-                            Quiz
+                            Puzzling
                         </h1>
-                        <p className="animated wow fadeInDown delay-0-2s">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt
-                            voluptates rerum eveniet sapiente repellat esse, doloremque quod
-                            recusandae deleniti nostrum assumenda vel beatae sed aut modi nesciunt
-                            porro quisquam voluptatem.
+                        <p className="animated wow fadeInDown delay-0-2s"
+                           style={{fontSize: 20}}>
+                            App Puzzling là ứng dụng học tập hỗ trợ người dùng có thể tự học hoặc tham gia vào các câu
+                            đố nhóm, bài tập và bài thuyết trình trực tiếp từ xa. Ứng dụng được thiết kế để giúp bạn
+                            tham gia vào các hoạt động nhóm và tự học bằng cách tạo và tổ chức các câu đố cho người khác
+                            trả lời với đa dạng các chủ đề.
                         </p>
-                        <a onClick={() => navigate("/categories")}>
-                            <button className="gradientBtn animated wow fadeInUp delay-0-3s">
-                                Play Quiz
-                            </button>
-                        </a>
                     </div>
                     <div className="col-lg-5" style={{marginTop: 45}}>
                         <img
