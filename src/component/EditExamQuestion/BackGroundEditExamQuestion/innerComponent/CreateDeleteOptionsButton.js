@@ -4,7 +4,7 @@ function CreateDeleteOptionsButton(props) {
     const {exam, setExam, index, question} = props
     return (
         <div className="btn-group float-right mt-4 mb-2" role="group">
-            <button className="btn btn-success" onClick={() => {
+            <button className="gradientBtn animated wow fadeInUp" onClick={() => {
                 exam.questions[index] = {
                     ...question,
                     options: [
@@ -16,14 +16,16 @@ function CreateDeleteOptionsButton(props) {
                     ]
                 }
                 setExam({...exam})
-            }}>Thêm ô lựa chọn</button>
+            }}>Thêm ô lựa chọn
+            </button>
             &nbsp;
-            <button className="btn btn-danger"
-               onClick={() => {
-                   exam.questions[index].options.pop()
-                   setExam({...exam})
-               }}
-            >Xoá ô lựa chọn</button>
+            <button className="delete-btn animated wow fadeInUp" type={"button"}
+                    onClick={() => {
+                        exam.questions[index].options.pop()
+                        setExam({...exam})
+                    }}
+            >Xoá ô lựa chọn
+            </button>
         </div>
     );
 }

@@ -1,19 +1,23 @@
 import React from 'react';
 import SideBarEditExamQuestion from "./SideBarEditExamQuestion";
 import BackGroundEditExamQuestion from "./BackGroundEditExamQuestion";
-import axios from "axios";
-import {Route, Routes, useParams} from "react-router-dom";
+import {Route, Routes, useNavigate, useParams} from "react-router-dom";
 import SearchAddQuestion from "../searchAddQuestion/SearchAddQuestion";
+import axios from "axios";
+import LeaderBoard from "../show-record/LeaderBoard";
 
 function EditExamQuestionForm() {
-    let {id} = useParams();
     const [exam, setExam] = React.useState({
+        id:"",
+        name:"",
         category: {
             name: ""
         },
         questions: []
     })
-    console.log(exam)
+    let {id} = useParams();
+    const navigate = useNavigate();
+
     React.useEffect(
         () => {
             axios.get(`http://localhost:8080/puzzling/exam/info?examId=${id}`)
@@ -21,20 +25,27 @@ function EditExamQuestionForm() {
                     setExam(response.data)
                 })
                 .catch((error) => {
-                    console.log(error);
+                    navigate(`/${error.response.status}`)
                 })
         }
         , [])
-    return (
-        <div className="container">
 
+    return (
+        <div className="container mt-4">
             <h3 className="d-flex justify-content-center"> Bộ câu hỏi {exam.name} </h3>
             <h5 className="d-flex justify-content-center"> Tổng số câu hỏi: {exam.questions.length} </h5>
-            <div style={{display:"flex",justifyContent:"center"}} className="container" >
-                <input class=" textfield-rounded" readOnly={"http://localhost:3000/exam/do/"+exam.id} type="text" value={"http://localhost:3000/exam/do/"+exam.id}></input>
-                <button className={"gradientBtn animated wow fadeInUp"} type={'button'} onClick={()=> navigator.clipboard.writeText("http://localhost:3000/exam/do/"+exam.id)}>Copy &#10004;</button>
+            <div style={{display: "flex", justifyContent: "right"}} className="container">
+                <input className=" textfield-rounded"
+                       readOnly type="text"
+                       value={"http://localhost:3000/exam/do/" + exam.id}></input>
+                <button className={"gradientBtn animated wow fadeInUp"} type={'button'}
+                        onClick={() => navigator.clipboard.writeText("http://localhost:3000/exam/do/" + exam.id)}>Copy &#10004;</button>
             </div>
-
+            <br/>
+            <div style={{display: "flex", justifyContent: "right"}} className="container">
+                <button className={"gradientBtn animated wow fadeInUp"} type={'button'}
+                        onClick={() => navigate(`/exam/edit/${exam.id}/leaderboard`)}>LeaderBoard</button>
+            </div>
             <div className="modal-dialog modal-xl" role="document">
                 <Routes>
                     <Route path={`/`} element={
@@ -59,6 +70,13 @@ function EditExamQuestionForm() {
                         <SearchAddQuestion
                             exam={exam}
                             setExam={setExam}
+                        />
+                    }/>
+                    <Route path={`/leaderboard`} element={
+                        <LeaderBoard
+                            name={exam.name}
+                            account={localStorage.getItem('id')}
+                            id={exam.id}
                         />
                     }/>
                 </Routes>

@@ -17,7 +17,7 @@ function QuestionPaging(props) {
                         />
                     )) :
                     formik.values.exam.questions.map((number, index) => (
-                        typeof recordDetailTouched[index]==='undefined' ?
+                        typeof recordDetailTouched[index] === 'undefined' ?
                             <RenderPaging
                                 index={index}
                                 setCurrentIndex={setCurrentIndex}
